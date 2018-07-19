@@ -2,7 +2,6 @@ const mongoose = require ('mongoose');
 const Schema = mongoose.Schema;
 
 module.exports = Comments = mongoose.model('Comments', new Schema({
-  id: String,
   blog: {type: Schema.Types.ObjectId, ref: 'Blog'},
   content: String,
   user: {type: Schema.Types.ObjectId, ref: 'User'},
