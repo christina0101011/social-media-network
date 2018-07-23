@@ -10,7 +10,7 @@ interface TokenResponse {
   token: string;
 }
 
-@Injectable({ 
+@Injectable({
   providedIn: 'root'
 })
 
@@ -52,13 +52,14 @@ export class AuthenticationService {
     }
   }
 
-  private request(method: 'post'|'get'|'put'|'delete', type: 'login'|'register'|'profile'|'update'|'delete', user?: TokenPayload): Observable<any> {
+  private request(method: 'post'|'get'|'put'|'delete', type: 'login'|'register'|'profile'|'update'|'delete',
+    user?: TokenPayload): Observable<any> {
     let base;
 
     if (method === 'post') {
       base = this.http.post(`/api/${type}`, user);
     } else if (method === 'put') {
-      base = this.http.post(`/api/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }, body: user });
+      base = this.http.put(`/api/${type}`, user, { headers: { Authorization: `Bearer ${this.getToken()}` } });
     } else {
       base = this.http.get(`/api/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
     }

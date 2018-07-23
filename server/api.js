@@ -13,7 +13,7 @@ const ctrlAuth = require('./controllers/authentication');
 const router = express.Router(); /** Initializing Routes instance **/
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
 router.get('/api/profile', auth, ctrlProfile.profileRead);
 
 // profile update
-router.post('/api/update', auth, ctrlProfile.profileUpdate);
+router.put('/api/update', auth, ctrlProfile.profileUpdate);
 
 // authentication
 router.post('/api/register', ctrlAuth.register);

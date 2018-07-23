@@ -1,13 +1,34 @@
-const mongoose = require ('mongoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 module.exports = Blog = mongoose.model('Blog', new Schema({
-  user: {type: Schema.Types.ObjectId, ref: 'User'},
-  photos: [{type: Schema.Types.ObjectId, ref: 'Photos'}],
-  likes: [{type: Schema.Types.ObjectId, ref: 'Likes'}],
-  comments: [{type: Schema.Types.ObjectId, ref: 'Comments'}],
-  description: {type: Schema.Types.ObjectId, ref: 'Description'},
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  photos: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Photos'
+  }],
+  likes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Likes'
+  }],
+  comments: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Comments'
+  }],
+  description: {
+    type: Schema.Types.ObjectId,
+    ref: 'Description'
+  },
   url: String,
-  theme: {type: Schema.Types.ObjectId, ref: 'Theme'},
-  type: {type: Schema.Types.ObjectId, ref: 'BlogType'}
+  theme: {
+    type: Schema.Types.ObjectId,
+    ref: 'Theme'
+  },
+  type: {
+    type: Schema.Types.ObjectId,
+    ref: 'BlogType'
+  }
 }));

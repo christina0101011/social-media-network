@@ -2,13 +2,13 @@ var passport = require('passport/lib');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
-var sendJSONresponse = function(res, status, content) {
+var sendJSONresponse = function (res, status, content) {
   res.status(status);
   res.json(content);
 };
 
-module.exports.register = function(req, res) {
-  if(!req.body.first_name || !req.body.email || !req.body.password) {
+module.exports.register = function (req, res) {
+  if (!req.body.first_name || !req.body.email || !req.body.password) {
     sendJSONresponse(res, 400, {
       "message": "All fields required"
     });
@@ -23,24 +23,25 @@ module.exports.register = function(req, res) {
 
   user.setPassword(req.body.password);
 
-  console.log(user);
-  user.save(function(err) {
+  user.save(function (err) {
     if (err) {
       res.status(500);
-      res.send({error: err});
+      res.send({
+        error: err
+      });
     } else {
       var token;
       token = user.generateJwt();
       res.status(200);
       res.json({
-        "token" : token
+        "token": token
       });
     }
   });
 };
 
 module.exports.login = (req, res) => {
-  if(!req.body.email || !req.body.password) {
+  if (!req.body.email || !req.body.password) {
     sendJSONresponse(res, 400, {
       "message": "All fields required"
     });
@@ -57,11 +58,11 @@ module.exports.login = (req, res) => {
     }
 
     // If a user is found
-    if(user){
+    if (user) {
       token = user.generateJwt();
       res.status(200);
       res.json({
-        "token" : token
+        "token": token
       });
     } else {
       // If user is not found
