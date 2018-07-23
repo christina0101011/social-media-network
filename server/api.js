@@ -1,7 +1,7 @@
 const express = require('express');
 const Models = require('./models/Models');
 const crypto = require('crypto');
-const jwt = require('express-jwt');
+const jwt = require('express-jwt/lib');
 const auth = jwt({
   secret: 'MY_SECRET',
   userProperty: 'payload'
@@ -18,10 +18,13 @@ router.get('/', function(req, res, next) {
 });
 
 // profile
-router.get('/profile', auth, ctrlProfile.profileRead);
+router.get('/api/profile', auth, ctrlProfile.profileRead);
+
+// profile update
+router.post('/api/update', auth, ctrlProfile.profileUpdate);
 
 // authentication
-router.post('/register', ctrlAuth.register);
-router.post('/login', ctrlAuth.login);
+router.post('/api/register', ctrlAuth.register);
+router.post('/api/login', ctrlAuth.login);
 
 module.exports = router;

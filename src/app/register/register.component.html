@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Registration</h1>
+      <p class="lead">If you already a member, please <a routerLink="/login">log in</a> instead.</p>
+      <form (submit)="register()">
+        <div class="form-group">
+          <label for="name">First name</label>
+          <input type="text" class="form-control" name="first_name" placeholder="Your first name" [(ngModel)]="credentials.first_name">
+        </div>
+        <div class="form-group">
+          <label for="name">Last name</label>
+          <input type="text" class="form-control" name="last_name" placeholder="Your last name" [(ngModel)]="credentials.last_name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control" name="email" placeholder="Enter email" [(ngModel)]="credentials.email">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="credentials.password">
+        </div>
+        <button type="submit" class="btn btn-warning">Register!</button>
+      </form>
+    </div>
+  </div>
+</div>

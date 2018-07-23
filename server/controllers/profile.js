@@ -15,3 +15,19 @@ module.exports.profileRead = (req, res) => {
     });
   }
 };
+
+module.exports.profileUpdate = (req, res) => {
+  console.log(req.body);
+  if (!req.payload._id) {
+    res.status(401).json({
+      "message" : "UnauthorizedError: private profile"
+    });
+  } else {
+    User
+    .findByIdAndUpdate(req.payload._id, 
+      user)
+    .exec((err) => {
+      res.status(200).json(user);
+    });
+  }
+};

@@ -1,0 +1,31 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h1 class="form-signin-heading">Your profile</h1>
+        <h5 class="form-control-static">Hello, {{ details?.first_name }} {{ details?.last_name }}</h5>
+        <p class="form-control-static">{{ details?.email }}</p>
+        <button type="button" >edit</button><br><br>
+        <!-- <form class="editing-details"> -->
+          <div class="form-group">
+            <label>Current first name: {{ details.first_name }}</label>
+            <input type="text" class="form-control" placeholder="New first name" [(ngModel)]="details.first_name">
+          </div>
+          <div class="form-group">
+            <label>Current first name: {{ details.last_name }}</label>
+            <input type="text" class="form-control" placeholder="New last name" [(ngModel)]="details.last_name">
+          </div>
+          <div class="form-group">
+            <label>Email address {{ details.email }}</label>
+            <input type="email" class="form-control" placeholder="New email" [(ngModel)]="details.email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" placeholder="New password" [(ngModel)]="details.password">
+          </div>
+          <button type="submit" class="btn btn-primary" (click)="editDetails()">Submit</button>
+        <!-- </form> -->
+    </div>
+  </div>
+</div>
