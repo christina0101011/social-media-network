@@ -4,17 +4,21 @@ export class User {
   first_name: String;
   last_name: String;
   email: String;
-  password: String;
   avatar: URL;
   exp: number;
   iat: number;
   created_at: { type: Date };
   updated_at: { type: Date };
   deleted_at: { type: Date };
-  blogs: Array<Object>;
+  // blogs: Array<Object>;
   // constructor (_AuthenticationService: AuthenticationService) {
   //   this.blogs = _AuthenticationService.getBlogs();
   // }
+}
+
+export class Passwords {
+  new_password: String;
+  prev_password: String;
 }
 
 export class TokenPayload {

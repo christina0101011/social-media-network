@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { Router } from '@angular/router';
-import { TokenPayload, Photos, Likes, Comments, Description, BlogType, Theme, Blog } from './Models';
+import { TokenPayload, Photos, Likes, Comments, Description, BlogType, Theme, Blog, Passwords } from './Models';
 import { User } from './Models';
 
 interface TokenResponse {
@@ -52,19 +52,8 @@ export class AuthenticationService {
     }
   }
 
-  private request(method: 'post'|'get'|'put'|'delete', type: 'login'|'register'|'profile'|'update'|'delete',
-    user?: TokenPayload): Observable<any> {
-    let base;
-
-    if (method === 'post') {
-      base = this.http.post(`/api/${type}`, user);
-    } else if (method === 'put') {
-      base = this.http.put(`/api/${type}`, user, { headers: { Authorization: `Bearer ${this.getToken()}` } });
-    } else {
-      base = this.http.get(`/api/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
-    }
-
-    const request = base.pipe(
+  public register(user: TokenPayload): Observable<any> {
+    return this.http.post(`/api/register`, user).pipe(
       map((data: TokenResponse) => {
         if (data.token) {
           this.saveToken(data.token);
@@ -72,24 +61,50 @@ export class AuthenticationService {
         return data;
       })
     );
-
-    return request;
-  }
-
-  public register(user: TokenPayload): Observable<any> {
-    return this.request('post', 'register', user);
   }
 
   public login(user: TokenPayload): Observable<any> {
-    return this.request('post', 'login', user);
+    return this.http.post('/api/login', user).pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.saveToken(data.token);
+        }
+        return data;
+      })
+    );
   }
 
   public profile(): Observable<any> {
-    return this.request('get', 'profile');
+    return this.http.get('/api/profile', { headers: { Authorization: `Bearer ${this.getToken()}` }}).pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.saveToken(data.token);
+        }
+        return data;
+      })
+    );
   }
 
-  public update(user: TokenPayload): Observable<any> {
-    return this.request('put', 'update', user);
+  public update(user: User): Observable<any> {
+    return this.http.put('/api/update', user, { headers: { Authorization: `Bearer ${this.getToken()}` } }).pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.saveToken(data.token);
+        }
+        return data;
+      })
+    );
+  }
+
+  public updatePassword(passwords: Passwords): Observable<any> {
+    return this.http.put('/api/password', passwords, { headers: { Authorization: `Bearer ${this.getToken()}` } }).pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.saveToken(data.token);
+        }
+        return data;
+      })
+    );
   }
 
   public logout(): void {

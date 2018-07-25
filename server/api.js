@@ -23,6 +23,9 @@ router.get('/api/profile', auth, ctrlProfile.profileRead);
 // profile update
 router.put('/api/update', auth, ctrlProfile.profileUpdate);
 
+// update Password
+router.put('/api/password', auth, ctrlProfile.updatePassword);
+
 // authentication
 router.post('/api/register', ctrlAuth.register);
 router.post('/api/login', ctrlAuth.login);

@@ -6,20 +6,48 @@
       <form (submit)="register()">
         <div class="form-group">
           <label for="name">First name</label>
-          <input type="text" class="form-control" name="first_name" placeholder="Your first name" [(ngModel)]="credentials.first_name">
+          <input 
+            type="text" 
+            class="form-control" 
+            name="first_name" 
+            placeholder="Your first name" 
+            [(ngModel)]="credentials.first_name"
+            [ngClass]="fieldsInfo">
         </div>
         <div class="form-group">
           <label for="name">Last name</label>
-          <input type="text" class="form-control" name="last_name" placeholder="Your last name" [(ngModel)]="credentials.last_name">
+          <input 
+            type="text" 
+            class="form-control" 
+            name="last_name" 
+            placeholder="Your last name" 
+            [(ngModel)]="credentials.last_name"
+            [ngClass]="fieldsInfo">
         </div>
         <div class="form-group">
           <label for="email">Email address</label>
-          <input type="email" class="form-control" name="email" placeholder="Enter email" [(ngModel)]="credentials.email">
+          <input 
+            type="email" 
+            class="form-control" 
+            name="email" 
+            placeholder="Enter email" 
+            [(ngModel)]="credentials.email"
+            [ngClass]="fieldsInfo">
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="credentials.password">
+          <input 
+            type="password" 
+            class="form-control" 
+            name="password" 
+            placeholder="Password" 
+            [(ngModel)]="credentials.password"
+            [ngClass]="fieldsInfo">
         </div>
+        <small 
+          class="form-text " 
+          [ngClass]="fieldsMessage">{{message}}
+        </small>
         <button type="submit" class="btn btn-warning">Register!</button>
       </form>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { TokenPayload } from '../Models';
 import { Router } from '@angular/router';
@@ -15,6 +15,9 @@ export class LoginComponent {
     first_name: '',
     last_name: ''
   };
+  fieldsInfo: String = '';
+  fieldsMessage: String = 'info'
+  message: String;
 
   constructor(private auth: AuthenticationService, private router: Router) {}
 
@@ -23,6 +26,9 @@ export class LoginComponent {
       this.router.navigateByUrl('/profile');
     }, (err) => {
       console.error(err);
+      this.fieldsMessage = 'error-message';
+      this.fieldsInfo = 'error-input';
+      this.message = 'wrong email or password'
     }); 
   }
 }

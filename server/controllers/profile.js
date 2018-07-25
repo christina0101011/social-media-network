@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var passport = require('passport/lib');
 
 module.exports.profileRead = (req, res) => {
   if (!req.payload._id) {
@@ -16,6 +17,7 @@ module.exports.profileRead = (req, res) => {
 };
 
 module.exports.profileUpdate = (req, res) => {
+  console.log(req.payload);
   if (!req.payload._id) {
     res.status(401).json({
       "message": "UnauthorizedError: private profile"
@@ -30,3 +32,34 @@ module.exports.profileUpdate = (req, res) => {
       });
   }
 };
+
+module.exports.updatePassword = (req, res) => {
+  if (!req.payload._id) {
+    res.status(401).json({
+      "message": "UnauthorizedError: private profile"
+    });
+    } else {
+      User.findById(req.payload._id)
+      .exec((err, user) => {
+        if (user.validPassword(req.body.prev_password)) {
+          user.setPassword(req.body.new_password);
+          user.save(function (err) {
+            if (err) {
+              res.status(500);
+              res.send({
+                error: err
+              });
+            } else {
+              res.status(200).json({
+                "message": "Password changed"
+              });
+            }
+          });
+        } else {
+          res.status(401).json({
+            "message": "Invalid password"
+          });
+        }
+      });
+    }
+  }

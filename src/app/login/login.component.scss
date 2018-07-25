@@ -27,3 +27,29 @@ a {
 .container {
   margin-top: 30px;
 }
+
+.row {
+  justify-content: center;
+}
+
+// ng classes
+.info {
+  visibility: none;
+}
+
+.error-message {
+  display: block;
+  color: red;
+}
+.error-input {
+  box-shadow: 0 0 0 0.2rem rgba(255,0,0,.25);
+}
+
+.success-message {
+  display: block;
+  color: rgb(0, 204, 102);
+}
+
+.success-input {
+  box-shadow: 0 0 0 0.2rem rgba(0,204,102,.25);
+  }
