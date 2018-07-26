@@ -7,6 +7,7 @@ const auth = jwt({
   userProperty: 'payload'
 });
 
+const ctrlBlogs = require('./controllers/blogsCTRL');
 const ctrlProfile = require('./controllers/profile');
 const ctrlAuth = require('./controllers/authentication');
 
@@ -17,17 +18,27 @@ router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
-// profile
+// profile info
 router.get('/api/profile', auth, ctrlProfile.profileRead);
 
 // profile update
 router.put('/api/update', auth, ctrlProfile.profileUpdate);
 
-// update Password
+// profile update Password
 router.put('/api/password', auth, ctrlProfile.updatePassword);
 
-// authentication
+// login-register authentication
 router.post('/api/register', ctrlAuth.register);
 router.post('/api/login', ctrlAuth.login);
+
+// BLOGS
+
+// GET blogs listing
+// router.get('/api/blogs', ctrlBlogs.blogsList);
+
+// Post new blog
+router.post('/api/blog', ctrlBlogs.newBlog);
+
+
 
 module.exports = router;

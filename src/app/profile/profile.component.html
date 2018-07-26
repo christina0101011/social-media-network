@@ -10,7 +10,14 @@
           class="form-control" 
           placeholder="New first name" 
           [(ngModel)]="details.first_name"
-          [ngClass]="fieldsInfo">
+          [ngClass]="fieldsInfo"
+          [ngStyle]="{'box-shadow' : details.first_name === '' ? '0 0 0 0.2rem rgba(255,0,0,.25)' : '0 0 0 0.2rem rgba(0,204,102,.25)'}">
+        <small 
+          class="form-text " 
+          [ngClass]="fieldsMessage"
+          [ngStyle]="{'color' : details.first_name === '' ? 'red' : 'rgb(0, 204, 102)'}"
+          *ngIf="details.first_name === ''">This field shouldn't be blank
+        </small>
       </div>
       <div class="form-group">
         <label>Current first name: {{ details.last_name }}</label>
@@ -19,7 +26,13 @@
           class="form-control" 
           placeholder="New last name" 
           [(ngModel)]="details.last_name"
-          [ngClass]="fieldsInfo">
+          [ngClass]="fieldsInfo"[ngStyle]="{'box-shadow' : details.last_name === '' ? '0 0 0 0.2rem rgba(255,0,0,.25)' : '0 0 0 0.2rem rgba(0,204,102,.25)'}">
+        <small 
+          class="form-text " 
+          [ngClass]="fieldsMessage"
+          [ngStyle]="{'color' : details.last_name === '' ? 'red' : 'rgb(0, 204, 102)'}"
+          *ngIf="details.last_name === ''">This field shouldn't be blank
+        </small>
       </div>
       <div class="form-group">
         <label>Email address {{ details.email }}</label>
@@ -28,16 +41,29 @@
           class="form-control" 
           placeholder="New email" 
           [(ngModel)]="details.email"
-          [ngClass]="fieldsInfo">
-        <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+          [ngClass]="fieldsInfoEmail"
+          [ngStyle]="{'box-shadow' : details.email === '' || validateEmail.test(details.email) === false || fieldsInfoEmail === 'error-input' ? '0 0 0 0.2rem rgba(255,0,0,.25)' : '0 0 0 0.2rem rgba(0,204,102,.25)'}">
         <small 
-          class="form-text " 
-          [ngClass]="fieldsMessage">{{message}}
+          class="form-text"
+          [ngStyle]="{'color' : details.email === '' ? 'red' : 'rgb(0, 204, 102)'}"
+          *ngIf="!details.email">This field shouldn't be blank
+        </small>
+        <small
+          class="form-text" 
+          [ngStyle]="{'color' : 'red'}"
+          *ngIf="validateEmail.test(details.email) === false">incorrect email
+        </small>
+        <small
+          class="form-text"
+          [ngStyle]="{'color' : fieldsMessageEmail === 'success-message' ? 'rgb(0, 204, 102)' : 'red'}"
+          [ngClass]="fieldsMessageEmail">{{message}}
         </small>
       </div>
-      <button type="submit" class="btn btn-primary" (click)="editDetails()">Submit</button>
+      <button type="submit" class="btn btn-primary" (click)="editDetails()">Submit
+      </button>
     </div>
 
+    <!-- password -->
     <div class="password col-md-6">
       <label>Current password</label>
       <input 
@@ -45,22 +71,45 @@
         class="form-control" 
         placeholder="Current password" 
         [(ngModel)]="passwords.prev_password" 
-        [ngClass]="fieldsInfoPassword">
+        [ngClass]="fieldsInfoPrev_password"
+        [ngStyle]="{'box-shadow' : passwords.new_password.length < 6 && passwords.new_password ? '0 0 0 0.2rem rgba(255,0,0,.25)' : ''}">
+      <small 
+        class="form-text" 
+        [ngClass]="fieldsMessagePrev_password">{{messagePrev_password}}
+      </small>
+      <small 
+        class="form-text" 
+        *ngIf="passwords.new_password.length < 6 && passwords.new_password"
+        [ngStyle]="{'color' : 'red'}">Please fill in this field first
+     </small>
       <label>New password</label>
       <input 
         type="password" 
         class="form-control" 
         placeholder="New password" 
         [(ngModel)]="passwords.new_password" 
-        [ngClass]="fieldsInfoPassword">
+        [ngClass]="fieldsInfoNew_password"
+        (focus)="focusFunction()">
+      <small
+        class="form-text"
+        [ngClass]="fieldsMessageNew_password">{{messageNew_password}}
+      </small>
       <small 
-        class="form-text " 
-        [ngClass]="fieldsMessagePassword">{{messagePassword}}
-      </small><br>
+        *ngIf="passwords.new_password === passwords.prev_password && passwords.new_password && passwords.prev_password"
+        class="form-text"
+        [ngStyle]="{'color' : 'red'}">New password shouldn't match previous
+     </small>
+      <small 
+        *ngIf="passwords.new_password.length < 6 && passwords.new_password && passwords.prev_password"
+        class="form-text" 
+        [ngStyle]="{'color' : 'red'}">Password should be no shorter than 6 characters 
+     </small>
+      <br>
       <button 
         type="submit" 
         class="btn btn-primary" 
-        (click)="changePassword()">Save password</button>
+        (click)="changePassword()">Save password
+      </button>
     </div>
 
   </div>

@@ -9,13 +9,22 @@ import { User, Passwords } from '../Models';
 })
 export class ProfileComponent implements OnInit {
   details: User = new User();
-  passwords: Passwords = new Passwords();
-  fieldsInfo: String = '';
-  fieldsMessage: String = 'info'
+  passwords: Passwords = {
+    new_password: '',
+    prev_password: ''
+  };
+
+  fieldsInfoEmail: String;
+  fieldsMessageEmail: String = 'info'
   message: String;
-  fieldsInfoPassword: String = '';
-  fieldsMessagePassword: String = 'info'
-  messagePassword: String;
+  
+  fieldsInfoNew_password: String = '';
+  fieldsInfoPrev_password: String = '';
+  fieldsMessagePrev_password: String = 'info'
+  fieldsMessageNew_password: String = 'info'
+  messagePrev_password: String = '';
+  messageNew_password: String = '';
+
   validateEmail: any = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i
 
   constructor(private auth: AuthenticationService) {}
@@ -23,44 +32,46 @@ export class ProfileComponent implements OnInit {
   editDetails() {
     if(this.validateEmail.test(this.details.email) && this.details.first_name && this.details.last_name) {
     this.auth.update(this.details).subscribe(res => {
-      this.fieldsMessage = 'success-message';
-      this.fieldsInfo = 'success-input';
+      this.fieldsMessageEmail = 'success-message';
+      this.fieldsInfoEmail = 'success-input';
       this.message = 'profile updated!'
     }, (err) => {
       console.error(err);
       if (err.status === 500 || 400) { 
-        this.fieldsMessage = 'error-message';
-        this.fieldsInfo = 'error-input';
+        this.fieldsMessageEmail = 'error-message';
+        this.fieldsInfoEmail = 'error-input';
         this.message = 'this email already exists!'
-       }
-    });
-    } else {
-      this.fieldsMessage = 'error-message';
-      this.fieldsInfo = 'error-input';
-      this.message = 'incorrect data!'
+        }
+      });
     }
   }
 
   changePassword() {
-    if (this.passwords.new_password !== this.passwords.prev_password && this.passwords.new_password.length > 5) {
+    if (this.passwords.new_password !== this.passwords.prev_password && this.passwords.new_password.length > 6) {
       this.auth.updatePassword(this.passwords).subscribe(res => {
         // console.log(`resp: ${res}`);
-        this.fieldsMessagePassword = 'success-message';
-        this.messagePassword = 'password updated!'
-        this.fieldsInfoPassword = 'success-input';
+        this.fieldsMessageNew_password = 'success-message';
+        this.messageNew_password = 'password updated!';
+        this.messagePrev_password = '';
+        this.fieldsInfoPrev_password = '';
       }, (err) => {
         console.error(err);
-        this.fieldsMessagePassword = 'error-message';
-        this.messagePassword = 'incorrect password!'
-        this.fieldsInfoPassword = 'error-input';
+        this.fieldsMessagePrev_password = 'error-message';
+        this.messagePrev_password = 'incorrect password!';
+        this.messageNew_password = ''
+        this.fieldsInfoPrev_password = 'error-input';
       });
-    } else {
-      this.fieldsMessagePassword = 'error-message';
-      this.fieldsInfoPassword = 'error-input';
-      this.messagePassword = 'password has to be different from previous and min length 6 characters'
     }
   }
-  
+
+  focusFunction() {
+    if (this.passwords.new_password === this.passwords.prev_password || this.passwords.new_password.length < 6) {
+      this.fieldsInfoNew_password = 'error-input';
+    } else {
+      this.fieldsInfoNew_password = 'success-message';
+    }
+  }
+
   ngOnInit() {
     this.auth.profile().subscribe(user => {
       this.details = user;
@@ -69,3 +80,4 @@ export class ProfileComponent implements OnInit {
     });
   }
 }
+  

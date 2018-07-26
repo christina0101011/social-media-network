@@ -11,9 +11,16 @@
             class="form-control" 
             name="first_name" 
             placeholder="Your first name" 
+            (change)="focusFunctionFirst_name()"
             [(ngModel)]="credentials.first_name"
-            [ngClass]="fieldsInfo">
-        </div>
+            [ngClass]="first_nameFieldsInfo">
+          <small 
+            class="form-text " 
+            [ngClass]="fieldsMessage"
+            [ngStyle]="{'color' : credentials.first_name === '' ? 'red' : ''}"
+            *ngIf="first_nameFieldsInfo === 'error-input'">This field shouldn't be blank
+          </small>
+          </div>
         <div class="form-group">
           <label for="name">Last name</label>
           <input 
@@ -21,8 +28,15 @@
             class="form-control" 
             name="last_name" 
             placeholder="Your last name" 
+            (change)="focusFunctionLast_name()"
             [(ngModel)]="credentials.last_name"
-            [ngClass]="fieldsInfo">
+            [ngClass]="last_nameFieldsInfo">
+          <small 
+            class="form-text " 
+            [ngClass]="fieldsMessage"
+            [ngStyle]="{'color' : credentials.last_name === '' ? 'red' : ''}"
+            *ngIf="last_nameFieldsInfo === 'error-input'">This field shouldn't be blank
+          </small>
         </div>
         <div class="form-group">
           <label for="email">Email address</label>
@@ -32,8 +46,19 @@
             name="email" 
             placeholder="Enter email" 
             [(ngModel)]="credentials.email"
-            [ngClass]="fieldsInfo">
-        </div>
+            (change)="focusFunctionEmail()"
+            [ngClass]="fieldsInfoEmail">
+          <small
+            class="form-text" 
+            [ngStyle]="{'color' : 'red'}"
+            *ngIf="validateEmail.test(credentials.email) === false">incorrect email
+          </small>
+          <small
+            class="form-text"
+            [ngStyle]="{'color' : fieldsMessageEmail === 'success-message' ? 'rgb(0, 204, 102)' : 'red'}"
+            [ngClass]="fieldsMessageEmail">{{emailFieldsMessage}}
+          </small>
+          </div>
         <div class="form-group">
           <label for="password">Password</label>
           <input 
@@ -42,12 +67,18 @@
             name="password" 
             placeholder="Password" 
             [(ngModel)]="credentials.password"
-            [ngClass]="fieldsInfo">
+            (change)="focusFunctionPassword()"
+            [ngClass]="passwordFieldsInfo">
         </div>
         <small 
           class="form-text " 
           [ngClass]="fieldsMessage">{{message}}
         </small>
+        <small 
+        *ngIf="credentials.password && credentials.password.length < 6"
+        class="form-text" 
+        [ngStyle]="{'color' : 'red'}">Password should be no shorter than 6 characters 
+     </small>
         <button type="submit" class="btn btn-warning">Register!</button>
       </form>
     </div>
