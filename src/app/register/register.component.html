@@ -1,0 +1,86 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Registration</h1>
+      <p class="lead">If you already a member, please <a routerLink="/">log in</a> instead.</p>
+      <form (submit)="register()">
+        <div class="form-group">
+          <label for="name">First name</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            name="first_name" 
+            placeholder="Your first name" 
+            (change)="on_change_first_name()"
+            [(ngModel)]="credentials.first_name"
+            [ngClass]="first_name_fields_info">
+          <small 
+            class="form-text " 
+            [ngClass]="fieldsMessage"
+            [ngStyle]="{'color' : credentials.first_name === '' ? 'red' : ''}"
+            *ngIf="first_name_fields_info === 'error-input'">This field shouldn't be blank
+          </small>
+          </div>
+        <div class="form-group">
+          <label for="name">Last name</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            name="last_name" 
+            placeholder="Your last name" 
+            (change)="on_change_last_name()"
+            [(ngModel)]="credentials.last_name"
+            [ngClass]="last_name_fields_info">
+          <small 
+            class="form-text " 
+            [ngClass]="fields_message"
+            [ngStyle]="{'color' : credentials.last_name === '' ? 'red' : ''}"
+            *ngIf="last_name_fields_info === 'error-input'">This field shouldn't be blank
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input 
+            type="email" 
+            class="form-control" 
+            name="email" 
+            placeholder="Enter email" 
+            [(ngModel)]="credentials.email"
+            (change)="on_change_email()"
+            [ngClass]="email_fields_info">
+          <small
+            class="form-text" 
+            class="error-message"
+            *ngIf="validateEmail.test(credentials.email) === false">incorrect email
+          </small>
+          <small
+            class="form-text"
+            [ngStyle]="{'color' : email_fields_message === 'success-message' ? 'rgb(0, 204, 102)' : 'red'}"
+            [ngClass]="email_fields_message">{{email_fields_message}}
+          </small>
+          </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+            type="password" 
+            class="form-control" 
+            name="password" 
+            placeholder="Password" 
+            [(ngModel)]="credentials.password"
+            (change)="on_change_password()"
+            [ngClass]="password_fields_info">
+        </div>
+        <small 
+          class="form-text" 
+          [ngClass]="fields_message">{{message}}
+        </small>
+        <small 
+          *ngIf="credentials.password && credentials.password.length < 6"
+          class="form-text"
+          class="error-message">Password should be no shorter than 6 characters 
+       </small>
+        <button type="submit" class="btn btn-warning">Register!</button>
+      </form>
+    </div>
+  </div>
+</div>
