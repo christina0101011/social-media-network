@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { User, Passwords } from '../Models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -27,11 +28,11 @@ export class ProfileComponent implements OnInit {
 
   validateEmail: any = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i
 
-  constructor(private auth: AuthenticationService) {}
+  constructor(private auth: AuthenticationService, private router: Router) {}
 
   editDetails() {
     if(this.validateEmail.test(this.details.email) && this.details.first_name && this.details.last_name) {
-    this.auth.update(this.details).subscribe(res => {
+    this.auth.updateUser(this.details).subscribe(res => {
       this.fieldsMessageEmail = 'success-message';
       this.fieldsInfoEmail = 'success-input';
       this.message = 'profile updated!'
@@ -47,9 +48,10 @@ export class ProfileComponent implements OnInit {
   }
 
   changePassword() {
-    if (this.passwords.new_password !== this.passwords.prev_password && this.passwords.new_password.length > 6) {
+    if (this.passwords.new_password !== this.passwords.prev_password && this.passwords.new_password.length > 5) {
       this.auth.updatePassword(this.passwords).subscribe(res => {
         // console.log(`resp: ${res}`);
+        this.fieldsInfoNew_password = 'success-input';
         this.fieldsMessageNew_password = 'success-message';
         this.messageNew_password = 'password updated!';
         this.messagePrev_password = '';
@@ -64,17 +66,32 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  focusFunction() {
-    if (this.passwords.new_password === this.passwords.prev_password || this.passwords.new_password.length < 6) {
+  on_focus_password() {
+    if (this.passwords.new_password === this.passwords.prev_password || this.passwords.new_password.length < 5) {
       this.fieldsInfoNew_password = 'error-input';
     } else {
-      this.fieldsInfoNew_password = 'success-message';
+      this.fieldsInfoNew_password = 'success-input';
     }
+  }
+
+  deleteAccount(){
+    this.auth.deleteAccount(this.details).subscribe(res => {
+      this.auth.logout()
+      // this.router.navigateByUrl('');
+    }, (err) => {
+    if (err.status === 500 || 400) { 
+      console.log(err)
+      }
+    });
   }
 
   ngOnInit() {
     this.auth.profile().subscribe(user => {
-      this.details = user;
+      if (user.deleted) {
+        this.router.navigateByUrl('/register');
+      } else {
+        this.details = user;
+      }
     }, (err) => {
       console.error(err);
     });

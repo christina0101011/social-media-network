@@ -37,6 +37,10 @@ const User = new mongoose.Schema({
   salt: {
     type: String,
     default: null
+  },
+  deleted: {
+    type: Boolean,
+    default: false
   }
 });
 

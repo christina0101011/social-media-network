@@ -47,27 +47,33 @@ module.exports.login = (req, res) => {
     });
     return;
   }
-
-  passport.authenticate('local', (err, user, info) => {
-    var token;
-
-    // If Passport throws/catches an error
-    if (err) {
-      res.status(404).json(err);
-      return;
+  User.findOne({email: req.body.email}).exec((err, result) => {
+    if (result.deleted) {
+      sendJSONresponse(res, 400, {
+        "message": "User deleted"
+      })
+    } else { 
+      passport.authenticate('local', (err, user, info) => {
+        var token;
+    
+        // If Passport throws/catches an error
+        if (err) {
+          res.status(404).json(err);
+          return;
+        }
+    
+        // If a user is found
+        if (user) {
+          token = user.generateJwt();
+          res.status(200);
+          res.json({
+            "token": token
+          });
+        } else {
+          // If user is not found
+          res.status(401).json(info);
+        }
+      })(req, res);
     }
-
-    // If a user is found
-    if (user) {
-      token = user.generateJwt();
-      res.status(200);
-      res.json({
-        "token": token
-      });
-    } else {
-      // If user is not found
-      res.status(401).json(info);
-    }
-  })(req, res);
-
+  });
 };

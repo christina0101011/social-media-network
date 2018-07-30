@@ -85,7 +85,7 @@ export class AuthenticationService {
     );
   }
 
-  public update(user: User): Observable<any> {
+  public updateUser(user: User): Observable<any> {
     return this.http.put('/api/update', user, { headers: { Authorization: `Bearer ${this.getToken()}` } }).pipe(
       map((data: TokenResponse) => {
         if (data.token) {
@@ -98,6 +98,17 @@ export class AuthenticationService {
 
   public updatePassword(passwords: Passwords): Observable<any> {
     return this.http.put('/api/password', passwords, { headers: { Authorization: `Bearer ${this.getToken()}` } }).pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.saveToken(data.token);
+        }
+        return data;
+      })
+    );
+  }
+
+  public deleteAccount(user: User): Observable<any> {
+    return this.http.delete('/api/delete', { headers: { Authorization: `Bearer ${this.getToken()}` } }).pipe(
       map((data: TokenResponse) => {
         if (data.token) {
           this.saveToken(data.token);

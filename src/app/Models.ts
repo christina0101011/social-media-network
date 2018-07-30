@@ -1,6 +1,7 @@
 // import{ AuthenticationService } from '../authentication.service';
 
 export class User {
+  id: String;
   first_name: String;
   last_name: String;
   email: String;
@@ -10,6 +11,7 @@ export class User {
   created_at: { type: Date };
   updated_at: { type: Date };
   deleted_at: { type: Date };
+  deleted: { type: Boolean, default: false};
   // blogs: Array<Object>;
   // constructor (_AuthenticationService: AuthenticationService) {
   //   this.blogs = _AuthenticationService.getBlogs();
@@ -29,6 +31,7 @@ export class TokenPayload {
 }
 
 export class Photos {
+  id: String;
   url: URL;
   created_at: Date;
   updated_at: Date;
@@ -36,6 +39,7 @@ export class Photos {
 }
 
 export class Likes {
+  id: String;
   blog: Blog;
   users: Array<User>;
   created_at: Date;
@@ -43,6 +47,7 @@ export class Likes {
 }
 
 export class Comments {
+  id: String;
   blog: Blog;
   content: String;
   user: User;
@@ -51,6 +56,7 @@ export class Comments {
 }
 
 export class Description {
+  id: String;
   blog: Blog;
   created_at: Date;
   updated_at: Date;
@@ -58,6 +64,7 @@ export class Description {
 }
 
 export class BlogType {
+  id: String;
   class: String;
   title: String;
 }

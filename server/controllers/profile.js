@@ -17,7 +17,7 @@ module.exports.profileRead = (req, res) => {
 };
 
 module.exports.profileUpdate = (req, res) => {
-  console.log(req.payload);
+  console.log('payload: ', req.payload);
   if (!req.payload._id) {
     res.status(401).json({
       "message": "UnauthorizedError: private profile"
@@ -62,4 +62,20 @@ module.exports.updatePassword = (req, res) => {
         }
       });
     }
+};
+
+module.exports.deleteUser = (req, res) => {
+  if (!req.payload._id) {
+    res.status(401).json({
+      "message": "UnauthorizedError: private profile"
+    });
+  } else {
+    User
+    .update({
+        _id: req.payload._id
+      },
+      {deleted: true}).exec((err, user) => {
+      err ? res.status(400).json(err) : res.status(200).json(user);
+    });
   }
+};

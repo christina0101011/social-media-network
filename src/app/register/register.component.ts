@@ -35,21 +35,21 @@ export class RegisterComponent {
 
   constructor(private auth: AuthenticationService, private router: Router) {}
 
-  focusFunctionFirst_name() {
+  on_change_first_name() {
     if (this.credentials.first_name === '') {
       this.first_nameFieldsInfo = 'error-input';
     } else {
       this.first_nameFieldsInfo = 'success-input'
     }       
   }
-  focusFunctionLast_name() {
+  on_change_last_name() {
     if (this.credentials.last_name === '') {
       this.last_nameFieldsInfo = 'error-input';
     } else {
       this.last_nameFieldsInfo = 'success-input'
     }       
   }
-  focusFunctionEmail() {
+  on_change_email() {
     if (this.validateEmail.test(this.credentials.email)) {
       this.fieldsInfoEmail = 'success-input';
     } else {
@@ -57,7 +57,7 @@ export class RegisterComponent {
     }
   }
 
-  focusFunctionPassword() {
+  on_change_password() {
     if (this.credentials.password.length < 6) {
       this.passwordFieldsInfo = 'error-input';
     } else {

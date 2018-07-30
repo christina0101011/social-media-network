@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6">
       <h1>Registration</h1>
-      <p class="lead">If you already a member, please <a routerLink="/login">log in</a> instead.</p>
+      <p class="lead">If you already a member, please <a routerLink="/">log in</a> instead.</p>
       <form (submit)="register()">
         <div class="form-group">
           <label for="name">First name</label>
@@ -11,7 +11,7 @@
             class="form-control" 
             name="first_name" 
             placeholder="Your first name" 
-            (change)="focusFunctionFirst_name()"
+            (change)="on_change_first_name()"
             [(ngModel)]="credentials.first_name"
             [ngClass]="first_nameFieldsInfo">
           <small 
@@ -28,7 +28,7 @@
             class="form-control" 
             name="last_name" 
             placeholder="Your last name" 
-            (change)="focusFunctionLast_name()"
+            (change)="on_change_last_name()"
             [(ngModel)]="credentials.last_name"
             [ngClass]="last_nameFieldsInfo">
           <small 
@@ -46,11 +46,11 @@
             name="email" 
             placeholder="Enter email" 
             [(ngModel)]="credentials.email"
-            (change)="focusFunctionEmail()"
+            (change)="on_change_email()"
             [ngClass]="fieldsInfoEmail">
           <small
             class="form-text" 
-            [ngStyle]="{'color' : 'red'}"
+            class="error-message"
             *ngIf="validateEmail.test(credentials.email) === false">incorrect email
           </small>
           <small
@@ -67,18 +67,18 @@
             name="password" 
             placeholder="Password" 
             [(ngModel)]="credentials.password"
-            (change)="focusFunctionPassword()"
+            (change)="on_change_password()"
             [ngClass]="passwordFieldsInfo">
         </div>
         <small 
-          class="form-text " 
+          class="form-text" 
           [ngClass]="fieldsMessage">{{message}}
         </small>
         <small 
-        *ngIf="credentials.password && credentials.password.length < 6"
-        class="form-text" 
-        [ngStyle]="{'color' : 'red'}">Password should be no shorter than 6 characters 
-     </small>
+          *ngIf="credentials.password && credentials.password.length < 6"
+          class="form-text"
+          class="error-message">Password should be no shorter than 6 characters 
+       </small>
         <button type="submit" class="btn btn-warning">Register!</button>
       </form>
     </div>

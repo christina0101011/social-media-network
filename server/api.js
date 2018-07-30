@@ -27,6 +27,9 @@ router.put('/api/update', auth, ctrlProfile.profileUpdate);
 // profile update Password
 router.put('/api/password', auth, ctrlProfile.updatePassword);
 
+// profile deleteUser
+router.delete('/api/delete', auth, ctrlProfile.deleteUser);
+
 // login-register authentication
 router.post('/api/register', ctrlAuth.register);
 router.post('/api/login', ctrlAuth.login);
