@@ -13,12 +13,12 @@
             placeholder="Your first name" 
             (change)="on_change_first_name()"
             [(ngModel)]="credentials.first_name"
-            [ngClass]="first_nameFieldsInfo">
+            [ngClass]="first_name_fields_info">
           <small 
             class="form-text " 
             [ngClass]="fieldsMessage"
             [ngStyle]="{'color' : credentials.first_name === '' ? 'red' : ''}"
-            *ngIf="first_nameFieldsInfo === 'error-input'">This field shouldn't be blank
+            *ngIf="first_name_fields_info === 'error-input'">This field shouldn't be blank
           </small>
           </div>
         <div class="form-group">
@@ -30,12 +30,12 @@
             placeholder="Your last name" 
             (change)="on_change_last_name()"
             [(ngModel)]="credentials.last_name"
-            [ngClass]="last_nameFieldsInfo">
+            [ngClass]="last_name_fields_info">
           <small 
             class="form-text " 
-            [ngClass]="fieldsMessage"
+            [ngClass]="fields_message"
             [ngStyle]="{'color' : credentials.last_name === '' ? 'red' : ''}"
-            *ngIf="last_nameFieldsInfo === 'error-input'">This field shouldn't be blank
+            *ngIf="last_name_fields_info === 'error-input'">This field shouldn't be blank
           </small>
         </div>
         <div class="form-group">
@@ -47,7 +47,7 @@
             placeholder="Enter email" 
             [(ngModel)]="credentials.email"
             (change)="on_change_email()"
-            [ngClass]="fieldsInfoEmail">
+            [ngClass]="email_fields_info">
           <small
             class="form-text" 
             class="error-message"
@@ -55,8 +55,8 @@
           </small>
           <small
             class="form-text"
-            [ngStyle]="{'color' : fieldsMessageEmail === 'success-message' ? 'rgb(0, 204, 102)' : 'red'}"
-            [ngClass]="fieldsMessageEmail">{{emailFieldsMessage}}
+            [ngStyle]="{'color' : email_fields_message === 'success-message' ? 'rgb(0, 204, 102)' : 'red'}"
+            [ngClass]="email_fields_message">{{email_fields_message}}
           </small>
           </div>
         <div class="form-group">
@@ -68,11 +68,11 @@
             placeholder="Password" 
             [(ngModel)]="credentials.password"
             (change)="on_change_password()"
-            [ngClass]="passwordFieldsInfo">
+            [ngClass]="password_fields_info">
         </div>
         <small 
           class="form-text" 
-          [ngClass]="fieldsMessage">{{message}}
+          [ngClass]="fields_message">{{message}}
         </small>
         <small 
           *ngIf="credentials.password && credentials.password.length < 6"

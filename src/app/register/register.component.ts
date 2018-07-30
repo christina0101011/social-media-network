@@ -16,20 +16,20 @@ export class RegisterComponent {
     first_name: '',
     last_name: ''
   };
-  first_nameFieldsInfo: String = '';
-  first_nameFieldsMessage: String = 'info';
+  first_name_fields_info: String = '';
+  first_name_fields_message: String = 'info';
 
-  last_nameFieldsInfo: String = '';
-  last_nameFieldsMessage: String = 'info';
+  last_name_fields_info: String = '';
+  last_name_fields_message: String = 'info';
 
-  fieldsInfoEmail: String = '';
-  emailFieldsMessage: String;
+  email_fields_info: String = '';
+  email_fields_message: String;
 
-  passwordFieldsInfo: String = '';
+  password_fields_info: String = '';
   message: String;
 
-  fieldsMessage: String;
-  fieldsInfo: String;
+  fields_message: String;
+  fields_info: String;
 
   validateEmail: any = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i
 
@@ -37,31 +37,31 @@ export class RegisterComponent {
 
   on_change_first_name() {
     if (this.credentials.first_name === '') {
-      this.first_nameFieldsInfo = 'error-input';
+      this.first_name_fields_info = 'error-input';
     } else {
-      this.first_nameFieldsInfo = 'success-input'
+      this.first_name_fields_info = 'success-input'
     }       
   }
   on_change_last_name() {
     if (this.credentials.last_name === '') {
-      this.last_nameFieldsInfo = 'error-input';
+      this.last_name_fields_info = 'error-input';
     } else {
-      this.last_nameFieldsInfo = 'success-input'
+      this.last_name_fields_info = 'success-input'
     }       
   }
   on_change_email() {
     if (this.validateEmail.test(this.credentials.email)) {
-      this.fieldsInfoEmail = 'success-input';
+      this.email_fields_info = 'success-input';
     } else {
-      this.fieldsInfoEmail = 'error-input';
+      this.email_fields_info = 'error-input';
     }
   }
 
   on_change_password() {
     if (this.credentials.password.length < 6) {
-      this.passwordFieldsInfo = 'error-input';
+      this.password_fields_info = 'error-input';
     } else {
-      this.passwordFieldsInfo = 'success-input';
+      this.password_fields_info = 'success-input';
     }
   }
 
@@ -72,16 +72,16 @@ export class RegisterComponent {
     }, (err) => {
       console.error(err);
       if (err.status === 500 || 400) { 
-        this.fieldsMessage = 'error-message';
-        this.passwordFieldsInfo = 'error-input';
-        this.emailFieldsMessage = 'this email already exists!'
+        this.fields_message = 'error-message';
+        this.password_fields_info = 'error-input';
+        this.email_fields_message = 'this email already exists!'
        }
       });
     } else {
-    this.fieldsMessage = 'error-message';
-    this.passwordFieldsInfo = 'error-input';
-    this.first_nameFieldsInfo = 'error-input';
-    this.last_nameFieldsInfo = 'error-input';
+    this.fields_message = 'error-message';
+    this.password_fields_info = 'error-input';
+    this.first_name_fields_info = 'error-input';
+    this.last_name_fields_info = 'error-input';
     this.message = 'please fill in all the fields'
     }
   }

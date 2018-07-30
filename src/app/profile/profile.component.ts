@@ -15,16 +15,16 @@ export class ProfileComponent implements OnInit {
     prev_password: ''
   };
 
-  fieldsInfoEmail: String;
-  fieldsMessageEmail: String = 'info'
+  email_fields_info: String;
+  email_fields_message: String = 'info'
   message: String;
   
-  fieldsInfoNew_password: String = '';
-  fieldsInfoPrev_password: String = '';
-  fieldsMessagePrev_password: String = 'info'
-  fieldsMessageNew_password: String = 'info'
-  messagePrev_password: String = '';
-  messageNew_password: String = '';
+  fields_info_new_password: String = '';
+  fields_info_prev_password: String = '';
+  fields_message_prev_password: String = 'info'
+  fields_message_new_password: String = 'info'
+  message_prev_password: String = '';
+  message_new_password: String = '';
 
   validateEmail: any = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i
 
@@ -33,14 +33,14 @@ export class ProfileComponent implements OnInit {
   editDetails() {
     if(this.validateEmail.test(this.details.email) && this.details.first_name && this.details.last_name) {
     this.auth.updateUser(this.details).subscribe(res => {
-      this.fieldsMessageEmail = 'success-message';
-      this.fieldsInfoEmail = 'success-input';
+      this.email_fields_message = 'success-message';
+      this.email_fields_info = 'success-input';
       this.message = 'profile updated!'
     }, (err) => {
       console.error(err);
       if (err.status === 500 || 400) { 
-        this.fieldsMessageEmail = 'error-message';
-        this.fieldsInfoEmail = 'error-input';
+        this.email_fields_message = 'error-message';
+        this.email_fields_info = 'error-input';
         this.message = 'this email already exists!'
         }
       });
@@ -48,31 +48,37 @@ export class ProfileComponent implements OnInit {
   }
 
   changePassword() {
-    if (this.passwords.new_password !== this.passwords.prev_password && this.passwords.new_password.length > 5) {
+    if (this.passwords.new_password.length > 5 && this.passwords.new_password !== this.passwords.prev_password) {
+      this.fields_info_new_password = 'success-input';
+      
       this.auth.updatePassword(this.passwords).subscribe(res => {
         // console.log(`resp: ${res}`);
-        this.fieldsInfoNew_password = 'success-input';
-        this.fieldsMessageNew_password = 'success-message';
-        this.messageNew_password = 'password updated!';
-        this.messagePrev_password = '';
-        this.fieldsInfoPrev_password = '';
+        this.fields_info_prev_password = 'success-input';
+        this.fields_info_new_password = 'success-input';
+        this.fields_message_new_password = 'success-message';
+        this.message_new_password = 'password updated!';
+        this.message_prev_password = '';
+        this.fields_info_prev_password = '';
       }, (err) => {
         console.error(err);
-        this.fieldsMessagePrev_password = 'error-message';
-        this.messagePrev_password = 'incorrect password!';
-        this.messageNew_password = ''
-        this.fieldsInfoPrev_password = 'error-input';
+        this.fields_message_prev_password = 'error-message';
+        this.message_prev_password = 'incorrect password!';
+        this.message_new_password = ''
+        this.fields_info_prev_password = 'error-input';
       });
+    } else {
+      this.fields_info_new_password = 'error-input';
     }
   }
 
   on_focus_password() {
-    if (this.passwords.new_password === this.passwords.prev_password || this.passwords.new_password.length < 5) {
-      this.fieldsInfoNew_password = 'error-input';
+    if (this.passwords.new_password.length < 5 || this.passwords.new_password === this.passwords.prev_password) {
+      this.fields_info_new_password = 'error-input';
     } else {
-      this.fieldsInfoNew_password = 'success-input';
+      this.fields_info_new_password = 'success-input';
     }
   }
+  
 
   deleteAccount(){
     this.auth.deleteAccount(this.details).subscribe(res => {
