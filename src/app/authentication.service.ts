@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { Router } from '@angular/router';
-import { TokenPayload, Photos, Likes, Comments, Description, BlogType, Theme, Blog, Passwords } from './Models';
+// import { TokenPayload, Photos, Likes, Comments, Description, BlogType, Theme, Blog, Passwords } from './Models';
+import { TokenPayload, Blog, Passwords } from './Models';
 import { User } from './Models';
 
 interface TokenResponse {

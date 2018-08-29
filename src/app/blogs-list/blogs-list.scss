@@ -1,0 +1,11 @@
+.blogs-container {
+  margin: 10vh;
+  column-count: 2;
+  column-gap: 40px;
+}
+@media screen and (max-width: 900px){
+  .blogs-container {
+    margin: 5vh 0 0 0;
+    column-count: 1;
+  }
+}

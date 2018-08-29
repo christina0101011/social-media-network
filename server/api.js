@@ -37,10 +37,17 @@ router.post('/api/login', ctrlAuth.login);
 // BLOGS
 
 // GET blogs listing
-// router.get('/api/blogs', ctrlBlogs.blogsList);
+router.get('/api/blogs', ctrlBlogs.blogsList);
 
 // Post new blog
 router.post('/api/blog', ctrlBlogs.newBlog);
+
+// Delete blog
+router.delete('/api/blog/:id', ctrlBlogs.deleteBlog);
+
+//Update Blog
+router.put('/api/blog/:id', ctrlBlogs.updateBlog);
+
 
 
 

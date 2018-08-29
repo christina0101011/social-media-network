@@ -1,0 +1,272 @@
+<div class="blog-wraper">
+  <div class="blog">
+    <div class="main-menu">
+      <ul class="menu-items">
+        <li class="circle-menu">
+          <div class="love-it">
+            <span class="circle-menu-info">Love it</span>
+          </div>
+        </li>
+        <li class="circle-menu">
+          <div class="add-to-fave">
+            <span class="circle-menu-info">Add to favourite</span>
+          </div>
+        </li>
+        <li class="circle-menu">
+          <div class="share">
+            <span class="circle-menu-info">Share</span>
+          </div>
+        </li>
+        <li class="circle-menu">
+          <div class="comment">
+            <span class="circle-menu-info">Comment</span>
+          </div>
+        </li>
+        <li class="circle-menu">
+          <div class="most-popular">
+            <span class="circle-menu-info">Popular</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- header -->
+    <header
+      [ngClass]="headerClass"
+      [ngStyle]="{'background-image': (blog && blog.gallery && blog.gallery !== null && blog.gallery.length < 2) ? 'url(' + blog.gallery[0] + ')' : null}">
+      <div class="avatar">
+        <img src="../../assets/unnamed.jpg" alt="Loading...">
+      </div>
+      <div class="name-action">
+        <div class="blog-info">
+          <div class="blog-details">
+            <div class="user-name">Greg Mills
+              <div class="online-status">
+              </div>
+            </div>
+            <span *ngIf="blog && blog.theme === 'Wish'"> made a
+              <span class="blog-theme">wish
+             </span>
+           </span>
+            <span *ngIf="blog && blog.theme === 'Vibe'"> wrote a
+              <span class="blog-theme">vibe
+             </span>
+           </span>
+            <span *ngIf="blog && blog.theme === 'Wish'"> shared a
+              <span class="blog-theme">link
+             </span>
+           </span>
+            <span *ngIf="blog && blog.theme === 'Contribution'"> made a
+              <span class="blog-theme">contribution
+             </span>
+           </span>
+            <span *ngIf="blog && blog.theme && blog.theme === 'Dream Box'"> updated
+              <span class="blog-theme">dream box
+             </span>
+           </span>
+            <span *ngIf="blog && blog.gallery !== null && blog.gallery.length > 1"> uploaded
+              <span class="gallery-length">{{ blog.gallery.length }}
+             </span>
+              <span class="blog-theme">new photos
+             </span>
+           </span>
+          </div>
+          <p class="date">{{ blog.date | date }}</p>
+        </div>
+      </div>
+      <div class="user-menu">
+        <button type="button" class="close icon user-menu-btn">
+          <div aria-hidden="true" class="user-menu-icon icon" (click)="showMenu = !showMenu"></div>
+        </button>
+        <ul class="user-menu-items" *ngIf="showMenu">
+          <li (click)="closePopUp()">edit</li>
+          <li (click)="deleteBLog(blog._id)">delete</li>
+          <li>save as favourite</li>
+          <li>report</li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- body -->
+    <div class="body">
+      <p
+        *ngIf="blog.description"
+        class="description">{{ blog.description }}
+      </p>
+      <a [href]="blog.url"
+         *ngIf="blog.url != null && !id"
+         class="url">{{ blog.url }}
+      </a>
+      <div *ngIf="blog.gallery !== null && blog.gallery.length > 1">
+        <div class="image-wrapper">
+          <ul class="image-list">
+            <li class="w2-col">
+              <img src="{{blog.gallery[0]}}" alt="...Loading">
+            </li>
+            <li class="w2-col">
+              <img src="{{blog.gallery[1]}}" alt="...Loading">
+            </li>
+            <li  *ngIf="blog.gallery[2]" class="w3-col">
+              <img src="{{blog.gallery[2]}}" alt="...Loading">
+            </li>
+            <li  *ngIf="blog.gallery[3]" class="w3-col">
+              <img src="{{blog.gallery[3]}}" alt="...Loading">
+            </li>
+            <li  *ngIf="blog.gallery[4]" class="w3-col">
+              <img src="{{blog.gallery[4]}}" alt="...Loading">
+              <a
+                href="#"
+                class="cover-link"
+                *ngIf="blog.gallery !== null && blog.gallery.length > 5">+{{blog.gallery.length-5}}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <youtube-player
+        *ngIf="id"
+        [videoId]="id"
+        (ready)="savePlayer($event)">
+      </youtube-player>
+      <button
+        class="full-story-btn"
+        (click)="openLg(fullBlog)"
+        (change)="onStateChange($event)"
+        *ngIf="blog.gallery !== null && blog.gallery.length > 1">FULL STORY
+      </button>
+    </div>
+
+    <div class="border-line"></div>
+
+    <!-- footer -->
+    <footer>
+      <div class="users-likes">
+        <div class="likes">
+          <div class="likes-icon"></div>
+          <span class="users-counter">25</span>
+        </div>
+        <div class="comments">
+          <div class="comments-icon"></div>
+          <span class="users-counter">15</span>
+        </div>
+        <div class="share">
+          <div class="share-icon"></div>
+          <span class="users-counter">5</span>
+        </div>
+        <div class="users-wrapper">
+          <div class="users-who-liked-blog"><img src="" alt=""></div>
+          <div class="users-who-liked-blog"><img src="" alt=""></div>
+          <div class="users-who-liked-blog"><img src="" alt=""></div>
+          <div class="users-who-liked-blog"><img src="" alt=""></div>
+          <div class="users-who-liked-blog"><img src="" alt=""></div>
+          <div class="more-users-who-liked-blog">
+            Kate, Igor and 12 other <br> people liked it
+          </div>
+        </div>
+      </div>
+      <h2
+        *ngIf="blog.theme!='none'"
+        class="theme">{{ blog.theme }}
+      </h2>
+    </footer>
+  </div>
+</div>
+
+<!-- modal window for full stories -->
+<ng-template #fullBlog let-c="close">
+  <!-- modal header -->
+  <div
+    class="modal-header"
+    [ngClass]="headerClass"
+    [ngStyle]="{'background-image': (blog.gallery !== null && blog.gallery.length < 2) ? 'url(' + blog.gallery[0] + ')' : null}">
+    <div class="avatar">
+      <img src="../../assets/unnamed.jpg" alt="Loading...">
+    </div>
+    <div class="name-action">
+      <div class="blog-info">
+        <div class="blog-details">
+          <div class="user-name">Greg Mills
+            <div class="online-status">
+            </div>
+          </div>
+          <span *ngIf="blog.theme === 'Wish'"> made a
+            <span class="blog-theme">wish
+           </span>
+         </span>
+          <span *ngIf="blog.theme === 'Vibe'"> wrote a
+            <span class="blog-theme">vibe
+           </span>
+         </span>
+          <span *ngIf="blog.theme === 'Wish'"> shared a
+            <span class="blog-theme">link
+           </span>
+         </span>
+          <span *ngIf="blog.theme === 'Contribution'"> made a
+            <span class="blog-theme">contribution
+           </span>
+         </span>
+          <span *ngIf="blog.theme === 'Dream Box'"> updated
+            <span class="blog-theme">dream box
+           </span>
+         </span>
+          <span *ngIf="blog.gallery !== null && blog.gallery.length > 1"> uploaded
+            <span class="gallery-length">{{blog.gallery.length}}
+           </span>
+            <span class="blog-theme">new photos
+           </span>
+         </span>
+        </div>
+        <p class="date">{{ blog.date | date }}</p>
+      </div>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="c('Cross click')">
+      <div aria-hidden="true" class="close-icon"></div>
+    </button>
+  </div>
+  <!-- modal body -->
+  <div class="modal-body">
+    <p
+      *ngIf="blog.description"
+      class="description">{{ blog.description }}
+    </p>
+    <p
+      *ngIf="blog.url && !id"
+      class="url">{{ blog.url }}
+    </p>
+    <div *ngIf="blog.gallery !== null && blog.gallery.length > 0" class="gallery">
+      <button type="button" class="close large-view-btn" (click)="largeView()">
+        <div aria-hidden="true" class="large-view icon">
+        </div>
+      </button>
+      <button
+        type="button"
+        class="close grid-view-btn"
+        aria-label="Close"
+        (click)="gridView()">
+        <div aria-hidden="true" class="icon grid-view">
+        </div>
+      </button>
+      <div [ngClass]="switchView">
+        <div *ngFor="let image of blog.gallery">
+          <img [src]="image" alt="...Loading">
+        </div>
+      </div>
+    </div>
+    <youtube-player
+      *ngIf="id"
+      [videoId]="id"
+      (ready)="savePlayer($event)">
+    </youtube-player>
+  </div>
+  <!-- modal footer -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c()">Close</button>
+  </div>
+</ng-template>
+
+<app-edit-blog
+  (close)="closePopUp($event)"
+  *ngIf="showPopUp"
+  [blog]="blog">
+</app-edit-blog>
+
