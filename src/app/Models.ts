@@ -1,4 +1,4 @@
-// // import{ AuthenticationService } from '../authentication.service';
+// import{ AuthenticationService } from '../authentication.service';
 
 export class User {
   id: String;
@@ -12,7 +12,7 @@ export class User {
   updated_at: { type: Date };
   deleted_at: { type: Date };
   deleted: { type: Boolean, default: false};
-  // blogs: Array<Object>;
+  blogs: Array<Object>;
   // constructor (_AuthenticationService: AuthenticationService) {
   //   this.blogs = _AuthenticationService.getBlogs();
   // }
@@ -30,76 +30,69 @@ export class TokenPayload {
   last_name: String;
 }
 
-// export class Photos {
-//   id: String;
-//   url: URL;
-//   created_at: Date;
-//   updated_at: Date;
-//   deleted_at: Date;
-// }
+export class Photos {
+  id: String;
+  url: URL;
+  // created_at: Date;
+  // updated_at: Date;
+  // deleted_at: Date;
+}
 
-// export class Likes {
-//   id: String;
-//   blog: Blog;
-//   users: Array<User>;
-//   created_at: Date;
-//   updated_at: Date;
-// }
+export class Likes {
+  id: String;
+  blog: Blog;
+  users: Array<User>;
+  created_at: Date;
+  updated_at: Date;
+}
 
-// export class Comments {
-//   id: String;
-//   blog: Blog;
-//   content: String;
-//   user: User;
-//   created_at: Date;
-//   updated_at: Date;
-// }
+export class Comments {
+  id: String;
+  blog: Blog;
+  content: String;
+  user: User;
+  created_at: Date;
+  updated_at: Date;
+}
 
-// export class Description {
-//   id: String;
-//   blog: Blog;
-//   created_at: Date;
-//   updated_at: Date;
-//   deleted_at: Date;
-// }
+export class Description {
+  id: String;
+  blog: Blog;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date;
+}
 
-// export class BlogType {
-//   id: String;
-//   class: String;
-//   title: String;
-// }
+export class BlogType {
+  id: String;
+  class: String;
+  title: String;
+}
 
-// export class Theme {
-//   title: String;
-//   style: String;
-//   prefix: String;
-//   created_at: Date ;
-//   updated_at: Date;
-//   deleted_at: Date;
-// }
-
-// export class Blog {
-//   user: User;
-//   photos: Array<Photos>;
-//   likes: Array<Likes>;
-//   description: Description;
-//   url: String;
-//   comments: Array<Comments>;
-//   theme: Theme;
-//   type: BlogType;
-// }
+export class Theme {
+  title: String;
+  themeDescription: String;
+  // prefix: String;
+  // created_at: Date ;
+  // updated_at: Date;
+  // deleted_at: Date;
+}
 
 export class Blog {
-  public description: string;
-  public url: string = '';
-  public contentUrlArr: Array<any>;
-  public theme: string;
-  public gallery: Array<String>;
+  user: User;
+  photos: Array<Photos>;
+  likes: Array<Likes>;
+  description: String;
+  url: String;
+  comments: Array<Comments>;
+  theme: Theme;
+  type: BlogType;
+}
 
-  constructor(description: string, url: string, contentUrlArr: Array<any>, theme: string) {
-    this.description = description;
-    this.url = url;
-    this.contentUrlArr = contentUrlArr;
-    this.theme = theme || '';
-  }
+export class NewBlog {
+  photos: Array<String>;
+  description: String;
+  url: String;
+  theme: String;
+  type: String;
 }

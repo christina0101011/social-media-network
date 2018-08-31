@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Blog } from './Models';
+import { Blog, NewBlog } from './Models';
 import { Observable } from 'rxjs';
 
 const url = 'http://localhost:3000';
@@ -17,8 +17,8 @@ export class BlogsService {
       return this.http.get('/api/blogs');
     }
 
-  postBlog(blog: Blog) {
-    return this.http.post<Blog>(url + '/api/blog', blog).subscribe(blog => this.blogEvent.emit(blog));
+  postBlog(blog: NewBlog) {
+    return this.http.post<NewBlog>(url + '/api/blog', blog).subscribe( () => this.blogEvent.emit());
   }
 
   deleteBlog(_id) {
@@ -33,6 +33,10 @@ export class BlogsService {
         gallery: blog.contentUrlArr || [],
         theme: blog.theme
       });
+   }
+
+   getTheme() {
+    return this.http.get('/api/blog/theme');
    }
 
 }

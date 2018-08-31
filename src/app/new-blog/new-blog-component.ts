@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router'; 
 import { BlogsService } from '../blogs.service';
-import { Blog } from '../Models';
+import { NewBlog, Photos, Theme, Blog } from '../Models';
 
 @Component({
   selector: 'app-new-blog',
@@ -13,17 +13,27 @@ import { Blog } from '../Models';
 export class NewBlogComponent {
 
 dropClass: string = 'no-active';
-themes: Array<string> = ['Wish', 'Contribution', 'Vibe', 'Dream Box'];
+themes: Array<Theme> = [];
+// themes: Array<any> = [];
+// themeDescription: Array<any> = [];
 description: string = '';
 url: string = '';
 theme: string;
-contentUrlArr: Array<string> = [];
+photosPreview: Array<string> = [];
+
 
 @Input('blog') blog: Blog;
 @Input() uploadBtn; //style classes for upload component
 @Output() reloadPage = new EventEmitter();
 
   constructor(private modalService: NgbModal, private _blogsService: BlogsService, private router: Router) {}
+
+  //getting array of themes
+  getTheme(){
+    this._blogsService.getTheme().subscribe(res => {
+      this.themes.push(...res);
+    })
+  }
 
   uploadPermition(){
     if (this.theme && this.theme !== 'Choose your theme'
@@ -41,10 +51,10 @@ contentUrlArr: Array<string> = [];
 
   // deleting photos from  preview
   deletePhoto(url: string) { 
-    let index = this.contentUrlArr.indexOf(url);
-    this.contentUrlArr.splice(index, 1);
+    let index = this.photosPreview.indexOf(url);
+    this.photosPreview.splice(index, 1);
 
-    if (this.contentUrlArr.length === 0) {
+    if (this.photosPreview.length === 0) {
       this.dropClass = 'no-active';
     } else {
       this.dropClass = 'dropped';
@@ -58,7 +68,7 @@ contentUrlArr: Array<string> = [];
         let reader = new FileReader();
 
         reader.onload = (e: any) => {
-          this.contentUrlArr.push(e.target.result);
+          this.photosPreview.push(e.target.result);
           this.dropClass = 'dropped';
         }
 
@@ -87,22 +97,30 @@ contentUrlArr: Array<string> = [];
 
   // newPost odject
   uploadContent(callback) {
-    let blog = new Blog(this.description, this.url, this.contentUrlArr, this.theme);
+    //creating blog
+    console.log(this.theme);
+    let blog = new NewBlog();
+    blog.photos = this.photosPreview;
+    blog.description = this.description;
+    blog.url = this.url;
+    blog.theme = this.theme;
 
-    // this.reloadPage.emit(new Blog(this.description || '', this.url || '', this.contentUrlArr || [], this.theme || ''));
     this._blogsService.postBlog(blog);
+    
     // console.log(blog);
+
+    //clearing inputs after uploading
     this.description = '';
     this.url = '';
-    this.contentUrlArr = [];
+    this.photosPreview = [];
     this.theme = '';
 
+    //change drop aria style after uploading
     this.dropClass = 'no-active';
 
     this.router.navigate(['/blogs']);
 
     callback();
-    // });
   }
 
   ngOnInit() {
@@ -110,7 +128,9 @@ contentUrlArr: Array<string> = [];
       this.uploadBtn = 'upload-component';
     } else {
       this.uploadBtn = 'blog-component';
-    }
+    };
+    // console.log(333, this.photosPreview);
+    this.getTheme();
   };
   
 }

@@ -63,9 +63,10 @@ export class BlogComponent implements OnInit {
 
 
   ngOnInit() {
-    if (typeof this.blog.gallery !== null || []) {
-      if (Array.isArray(this.blog.gallery)) {
-        this.headerClass = (this.blog.gallery.length === 1) ? 'header-image' : 'header-text';
+    // console.log(this.blog);
+    if (typeof this.blog.photos !== null || []) {
+      if (Array.isArray(this.blog.photos)) {
+        this.headerClass = (this.blog.photos.length === 1) ? 'header-image' : 'header-text';
       }
     }
 
@@ -76,6 +77,6 @@ export class BlogComponent implements OnInit {
     if (this.blog.url && this.youTube === 12) {
       this.id = this.blog.url.slice(-11);
     }////////
-    // console.log(5, this.blog)
+    // console.log(5, this.blog.theme.title)
   };
 }

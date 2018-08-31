@@ -48,6 +48,10 @@ router.delete('/api/blog/:id', ctrlBlogs.deleteBlog);
 //Update Blog
 router.put('/api/blog/:id', ctrlBlogs.updateBlog);
 
+//THEME
+//get themes
+router.get('/api/blog/theme', ctrlBlogs.getTheme);
+
 
 
 

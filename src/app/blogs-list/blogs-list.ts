@@ -42,7 +42,8 @@ import { Router } from '@angular/router';
     ngOnInit() {
       if (!this.blogs.length){
         this.loadBlogs();
-        this._blogsService.blogEvent.subscribe(blog => {
+        // console.log(this.blogs);
+        this._blogsService.blogEvent.subscribe(() => {
           return this.loadBlogs();
         });
       }
