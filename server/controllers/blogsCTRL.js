@@ -8,9 +8,7 @@ const Likes = require('../models/Likes');
 const Photos = require('../models/Photos');
 const Theme = require('../models/Theme');
 const User = require('../models/User');
-// const Blog = require('../models/Blog-model'); //deprecated
-// const Blog, User, Photos, Theme, Likes, BlogType, Description, Comments = require('../models/models')
-// const User = mongoose.model('User');
+const srvUpload = require('../uploading-files.service');
 
 const themes = [
   {_id: '41224d776a326fb40f000001', title: 'Wish', themeDescription: 'made a'},
@@ -62,7 +60,6 @@ module.exports.newBlog = (req, res) => {
 
 console.log(req.body);
   const blog = new Blog();
-
   // blog.user = req.payload._id;
   // blog.photos = req.body.photosPreview || [];
   // blog.likes = req.payload._id;
