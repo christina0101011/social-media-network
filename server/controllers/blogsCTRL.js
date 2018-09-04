@@ -32,6 +32,10 @@ module.exports.blogsList = (req, res, next) => {
             fullTheme = theme;
           }
         });
+        // console.log(222222222, blog);
+        // blog.photos = srvUpload.getFile((res)=>{
+        //   console.log(res, 'photos')
+        // })
         return {
           _id: blog._id,
           photos: blog.photos,
@@ -61,14 +65,14 @@ module.exports.newBlog = (req, res) => {
 console.log(req.body);
   const blog = new Blog();
   // blog.user = req.payload._id;
-  // blog.photos = req.body.photosPreview || [];
+  blog.photos = req.body.photos;
+  // console.log('photos: ', blog.photos)
   // blog.likes = req.payload._id;
   // blog.comments = req.payload._id;
   blog.description = req.body.description;
   blog.url = req.body.url;
   blog.theme = req.body.theme;
   // blog.type = req.blogType;
-console.log(req.body)
   blog.save((err) => {
     if (err) {
       console.log({ success: false, message: err });

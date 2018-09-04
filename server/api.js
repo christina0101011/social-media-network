@@ -53,7 +53,7 @@ router.put('/api/blog/:id', ctrlBlogs.updateBlog);
 router.get('/api/blog/theme', ctrlBlogs.getTheme);
 
 // Files
-router.post('/api/files', auth, srvUpload.files);
+router.post('/api/files', srvUpload.files);
 router.get('/api/file/:name', srvUpload.getFile);
 
 

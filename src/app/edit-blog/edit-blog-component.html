@@ -66,8 +66,8 @@
                   <div aria-hidden="true" class="close-icon"></div>
                 </button>
               </div>
-              <div *ngIf="blog.gallery.length > 0" class="gallery">
-                <div *ngFor="let image of blog.gallery">
+              <div *ngIf="blog.photos.length > 0" class="gallery">
+                <div *ngFor="let image of blog.photos">
                   <img [src]="image" alt="...Loading">
                   <button type="button" class="btn btn-danger" (click)="deletePhoto(item)">
                     <div aria-hidden="true" class="close-icon"></div>

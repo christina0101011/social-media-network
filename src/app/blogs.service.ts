@@ -11,11 +11,18 @@ const url = 'http://localhost:3000';
 export class BlogsService {
 
   blogEvent: EventEmitter<Blog> = new EventEmitter();
-
+  private token: string;
   constructor(
     private http: HttpClient,
     private auth: AuthenticationService
   ) {
+  }
+
+  private getToken(): string {
+    if (!this.token) {
+      this.token = localStorage.getItem('mean-token');
+    }
+    return this.token;
   }
 
   getBlogs(): Observable<any> {
@@ -29,9 +36,14 @@ export class BlogsService {
   uploadFiles(formData): Observable <any> {
     return this.http.post('/api/files', formData, {
       headers: {
-        Authorization: `Bearer ${this.auth.isLoggedIn()}`
+        Authorization: `Bearer ${this.getToken()}`
       }
     }).pipe(map(data => data));
+  }
+
+  makeImgLink(img: String) {
+    const windLoc = window.location;
+    return windLoc.protocol + '//' + windLoc.hostname + ':' + windLoc.port + '/api/file/' + img;
   }
 
   deleteBlog(_id) {
@@ -41,9 +53,9 @@ export class BlogsService {
   updateBlog(_id, blog) {
     return this.http.put(url + '/api/blog/' + _id,
       {
-        description: blog.description || '',
-        url: blog.url || '',
-        gallery: blog.contentUrlArr || [],
+        description: blog.description,
+        url: blog.url,
+        photos: blog.photos,
         theme: blog.theme
       });
    }

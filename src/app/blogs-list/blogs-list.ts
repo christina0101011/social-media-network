@@ -30,11 +30,18 @@ import { Router } from '@angular/router';
 
       loadBlogs(){
         this._blogsService.getBlogs().subscribe(blogs => {
-          blogs.forEach(blog => this.blogs.push(blog));
+          blogs.forEach(blog => {
+              const arr = [];
+            blog.photos.map(img => {
+              arr.push(this._blogsService.makeImgLink(img));
+            });
+            blog.photos = arr;
+            this.blogs.push(blog);
+          });
           if (this.blogs.length) {
             this.router.navigate(['/blogs']);
           } else {
-          this.router.navigate(['/initial']);
+            this.router.navigate(['/initial']);
           }
         })
       }

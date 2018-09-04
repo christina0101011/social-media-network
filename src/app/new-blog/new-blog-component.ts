@@ -15,8 +15,6 @@ export class NewBlogComponent {
 
 dropClass: string = 'no-active';
 themes: Array<Theme> = [];
-// themes: Array<any> = [];
-// themeDescription: Array<any> = [];
 description: string = '';
 url: string = '';
 theme: string;
@@ -94,11 +92,8 @@ photos: Photos = new Photos;
 
   // imagesInput;
   imagesInput(event: any) {
-    // console.log(event.target.files, 111111111111);
-    // this.contentProccessing(event.target);
+    this.contentProccessing(event.target);
     this.files = event.target.files;
-    // console.log(7, this.photosPreview);
-    // console.log(8, this.files);
   }
 
   // drag event
@@ -111,33 +106,28 @@ photos: Photos = new Photos;
   drop(event: any) {
     event.stopPropagation();
     event.preventDefault();
-    // this.contentProccessing (event.dataTransfer)
+    this.contentProccessing (event.dataTransfer)
   }
 
   // newPost odject
   uploadContent(callback) {
     let blog = new NewBlog();
-    // console.log(22, this.files);
+    blog.description = this.description;
+    blog.url = this.url;
+    blog.theme = this.theme;
+
     if (this.files.length > 0) {
       const formData = new FormData();
       for (const key in this.files) {
-        if (this.files[key]) {
+        if (this.files[key] && this.files[key].type === 'image/jpeg') {
           formData.append('file', this.files[key], this.files[key].name);
-          // console.log(22, this.files[0].name);
         }
       }
+      // console.log(this.files);
       blog.photos = this.files;
-      blog.description = this.description;
-      blog.url = this.url;
-      blog.theme = this.theme;
-     
       this._blogsService.uploadFiles(formData).subscribe(img => {
-        console.log(11, img);
-        blog.photos.imgs = img;
-        // blog.description = this.description;
-        // blog.url = this.url;
-        // blog.theme = this.theme;
-        console.log(888, this.blog.photos)
+        // console.log('img', img);
+        blog.photos = img;
         return this._blogsService.postBlog(blog)
         // .subscribe(() => {
         //   this.reloadPage.emit();
@@ -145,7 +135,7 @@ photos: Photos = new Photos;
         // });
       });
     } else {
-      this._blogsService.postBlog(blog)
+      this._blogsService.postBlog(blog);
       // .subscribe(() => {
       //   this.reloadPage.emit();
       //   callback();

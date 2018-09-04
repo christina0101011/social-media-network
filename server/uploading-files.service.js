@@ -5,7 +5,7 @@ const User = require('./models/User');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null,  __dirname + './uploads')
+    cb(null,  __dirname + '/uploads')
   },
   filename: function (req, file, cb) {
     cb(null, generateFileName(file));
@@ -33,14 +33,12 @@ function uploadFiles(req, res) {
       req.files.forEach(file => {
         respArr.push(file.filename);
       });
-
       resolve(respArr);
     })
   });
 }
 
 module.exports.files = (req, res) => {
-  console.log(9, req)
   return uploadFiles(req, res).then(img => {
     res.send(img);
   }).catch(err => res.status(500).send({
@@ -50,7 +48,7 @@ module.exports.files = (req, res) => {
 
 module.exports.getFile = (req, res) => {
   var options = {
-    root: __dirname + './uploads/',
+    root: __dirname + '/uploads/',
     dotfiles: 'deny',
     headers: {
       'x-timestamp': Date.now(),
