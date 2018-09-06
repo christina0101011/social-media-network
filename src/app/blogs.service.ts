@@ -30,7 +30,7 @@ export class BlogsService {
     }
 
   postBlog(blog: NewBlog) {
-    return this.http.post<NewBlog>(url + '/api/blog', blog).subscribe( () => this.blogEvent.emit());
+    return this.http.post<NewBlog>(url + '/api/blog', blog).subscribe( () => {this.blogEvent.emit(blog)});
   }
 
   uploadFiles(formData): Observable <any> {
@@ -60,8 +60,8 @@ export class BlogsService {
       });
    }
 
-   getTheme() {
-    return this.http.get('/api/blog/theme');
-   }
+  getTheme() {
+  return this.http.get('/api/blog/theme');
+  }
 
 }
