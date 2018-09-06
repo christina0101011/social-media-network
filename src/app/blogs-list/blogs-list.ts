@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogsService } from '../blogs.service';
 import { Router } from '@angular/router';
+import { NewBlog } from '../Models';
 
 @Component({
   selector: 'app-blogs-list',
@@ -30,11 +31,15 @@ import { Router } from '@angular/router';
 
       loadBlogs(){
         this._blogsService.getBlogs().subscribe(blogs => {
-          blogs.forEach(blog => this.blogs.push(blog));
+          this.blogs = blogs.map(blog => {
+            blog.photos = blog.photos.map(img => this._blogsService.makeImgLink(img));
+              return blog;
+          });
+
           if (this.blogs.length) {
             this.router.navigate(['/blogs']);
           } else {
-          this.router.navigate(['/initial']);
+            this.router.navigate(['/initial']);
           }
         })
       }
@@ -42,7 +47,7 @@ import { Router } from '@angular/router';
     ngOnInit() {
       if (!this.blogs.length){
         this.loadBlogs();
-        // console.log(this.blogs);
+        // console.log(2, this.blogs);
         this._blogsService.blogEvent.subscribe(() => {
           return this.loadBlogs();
         });

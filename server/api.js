@@ -10,6 +10,7 @@ const auth = jwt({
 const ctrlBlogs = require('./controllers/blogsCTRL');
 const ctrlProfile = require('./controllers/profile');
 const ctrlAuth = require('./controllers/authentication');
+const srvUpload = require('./uploading-files.service');
 
 const router = express.Router(); /** Initializing Routes instance **/
 
@@ -48,11 +49,12 @@ router.delete('/api/blog/:id', ctrlBlogs.deleteBlog);
 //Update Blog
 router.put('/api/blog/:id', ctrlBlogs.updateBlog);
 
-//THEME
-//get themes
+//Get themes
 router.get('/api/blog/theme', ctrlBlogs.getTheme);
 
-
+// Files
+router.post('/api/files', srvUpload.files);
+router.get('/api/file/:name', srvUpload.getFile);
 
 
 module.exports = router;

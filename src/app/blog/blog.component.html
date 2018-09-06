@@ -85,19 +85,19 @@
         <div class="image-wrapper">
           <ul class="image-list">
             <li class="w2-col">
-              <img src="{{blog.photos[0]}}" alt="...Loading">
+              <img [src]="blog.photos[0]" alt="...Loading">
             </li>
             <li class="w2-col">
-              <img src="{{blog.photos[1]}}" alt="...Loading">
+              <img [src]="blog.photos[1]" alt="...Loading">
             </li>
-            <li  *ngIf="blog.gallery[2]" class="w3-col">
-              <img src="{{blog.photos[2]}}" alt="...Loading">
+            <li *ngIf="blog.photos[2]" class="w3-col">
+              <img [src]="blog.photos[2]" alt="...Loading">
             </li>
-            <li  *ngIf="blog.gallery[3]" class="w3-col">
-              <img src="{{blog.photos[3]}}" alt="...Loading">
+            <li *ngIf="blog.photos[3]" class="w3-col">
+              <img [src]="blog.photos[3]" alt="...Loading">
             </li>
-            <li  *ngIf="blog.gallery[4]" class="w3-col">
-              <img src="{{blog.photos[4]}}" alt="...Loading">
+            <li *ngIf="blog.photos[4]" class="w3-col">
+              <img [src]="blog.photos[4]" alt="...Loading">
               <a
                 href="#"
                 class="cover-link"

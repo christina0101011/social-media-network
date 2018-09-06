@@ -77,6 +77,6 @@ export class BlogComponent implements OnInit {
     if (this.blog.url && this.youTube === 12) {
       this.id = this.blog.url.slice(-11);
     }////////
-    // console.log(5, this.blog.theme.title)
+    // console.log(5, this.blog)
   };
 }

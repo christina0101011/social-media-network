@@ -7,8 +7,7 @@ module.exports = Blog = mongoose.model('Blog', new Schema({
     ref: 'User'
   },
   photos: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Photos'
+    type: String
   }],
   likes: [{
     type: Schema.Types.ObjectId,

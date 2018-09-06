@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router'; 
 import { BlogsService } from '../blogs.service';
 import { NewBlog, Photos, Theme, Blog } from '../Models';
+import { shouldCallLifecycleInitHook } from '@angular/core/src/view';
 
 @Component({
   selector: 'app-new-blog',
@@ -14,19 +15,23 @@ export class NewBlogComponent {
 
 dropClass: string = 'no-active';
 themes: Array<Theme> = [];
-// themes: Array<any> = [];
-// themeDescription: Array<any> = [];
 description: string = '';
 url: string = '';
 theme: string;
 photosPreview: Array<string> = [];
+files = [];
+photos: Photos = new Photos;
 
 
 @Input('blog') blog: Blog;
 @Input() uploadBtn; //style classes for upload component
 @Output() reloadPage = new EventEmitter();
 
-  constructor(private modalService: NgbModal, private _blogsService: BlogsService, private router: Router) {}
+  constructor(
+    private modalService: NgbModal, 
+    private _blogsService: BlogsService, 
+    private router: Router
+  ) {}
 
   //getting array of themes
   getTheme(){
@@ -77,9 +82,18 @@ photosPreview: Array<string> = [];
     }
   }
 
+  // operates input or dropped files
+  // onFileChange(event) {
+  //   this.photosPreview = event.target.files;
+  //   this.files = event.target.files;
+  //   console.log(7, this.photosPreview);
+  //   console.log(8, this.files);
+  // }
+
   // imagesInput;
   imagesInput(event: any) {
     this.contentProccessing(event.target);
+    this.files = event.target.files;
   }
 
   // drag event
@@ -97,22 +111,42 @@ photosPreview: Array<string> = [];
 
   // newPost odject
   uploadContent(callback) {
-    //creating blog
-    console.log(this.theme);
     let blog = new NewBlog();
-    blog.photos = this.photosPreview;
     blog.description = this.description;
     blog.url = this.url;
     blog.theme = this.theme;
 
-    this._blogsService.postBlog(blog);
-    
-    // console.log(blog);
+    if (this.files.length > 0) {
+      const formData = new FormData();
+      for (const key in this.files) {
+        if (this.files[key] && this.files[key].type === 'image/jpeg') {
+          formData.append('file', this.files[key], this.files[key].name);
+        }
+      }
+      // console.log(this.files);
+      blog.photos = this.files;
+      this._blogsService.uploadFiles(formData).subscribe(img => {
+        // console.log('img', img);
+        blog.photos = img;
+        return this._blogsService.postBlog(blog)
+        // .subscribe(() => {
+        //   this.reloadPage.emit();
+          // callback();
+        // });
+      });
+    } else {
+      this._blogsService.postBlog(blog);
+      // .subscribe(() => {
+      //   this.reloadPage.emit();
+      //   callback();
+      // });
+    }
 
     //clearing inputs after uploading
     this.description = '';
     this.url = '';
     this.photosPreview = [];
+    this.files = [];
     this.theme = '';
 
     //change drop aria style after uploading
@@ -129,7 +163,6 @@ photosPreview: Array<string> = [];
     } else {
       this.uploadBtn = 'blog-component';
     };
-    // console.log(333, this.photosPreview);
     this.getTheme();
   };
   

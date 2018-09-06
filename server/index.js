@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+// const Schema = mongoose.Schema;
 const logger = require('morgan');
 const cors = require('cors');
 const passport = require('passport');
@@ -9,6 +9,7 @@ const router = require('./api');
 const cookieParser = require('cookie-parser');
 require('./db');
 require('./config/passport');
+require('./uploading-files.service');
 
 const port = process.env.PORT || 3000;
 const app = express();
