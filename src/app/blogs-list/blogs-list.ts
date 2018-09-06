@@ -30,25 +30,10 @@ import { NewBlog } from '../Models';
       blogs:Array<any> = [];
 
       loadBlogs(){
-        // console.log('initial blogs ', this.blogs);
         this._blogsService.getBlogs().subscribe(blogs => {
-          blogs.forEach(blog => {
-            const arr = [];
-            blog.photos.map(img => {
-              arr.push(this._blogsService.makeImgLink(img));
-            });
-            blog.photos = arr;
-
-            // this._blogsService.blogEvent.subscribe((newBlog) => {
-            //   console.log(1, newBlog)
-            //   return newBlog
-            // });
-
-            // if (NewBlog) {
-            //   this.blogs.push(NewBlog);
-            // } else {
-              this.blogs.push(blog);
-            // }
+          this.blogs = blogs.map(blog => {
+            blog.photos = blog.photos.map(img => this._blogsService.makeImgLink(img));
+              return blog;
           });
 
           if (this.blogs.length) {
@@ -59,26 +44,13 @@ import { NewBlog } from '../Models';
         })
       }
 
-      reloadPageOnNewBlog (blog) {
-        if (blog.photos) {
-          const arr = [];
-          blog.photos.map(img => {
-            arr.push(this._blogsService.makeImgLink(img));
-          });
-          blog.photos = arr;
-        }
-        this.blogs.push(blog);
-      }
-
     ngOnInit() {
       if (!this.blogs.length){
         this.loadBlogs();
-        // console.log(this.blogs);
-      };
-      this._blogsService.blogEvent.subscribe((blog) => {
-        // console.log(blog);
-        return this.reloadPageOnNewBlog(blog);
-        // return newBlog
-      });
+        // console.log(2, this.blogs);
+        this._blogsService.blogEvent.subscribe(() => {
+          return this.loadBlogs();
+        });
+      }
     }
   }
