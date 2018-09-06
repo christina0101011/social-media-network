@@ -1,0 +1,115 @@
+<div class="modal-window-pop-up" (click)="close.emit()">
+  <div class="modal-window-content" (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+      <h4 class="modal-title">Editing</h4>
+      <button type="button" class="close" (click)="close.emit()">
+        <div class="close-icon"></div>
+      </button>
+    </div>
+  
+    <div class="modal-body">
+        <div class="box">
+          <div class="box__input">
+            <div class="md-form">
+                    <!-- //textarea -->
+              <div class="post-description">
+                <div class="textarea-icon">
+                  <div class="pencil"></div>
+                </div>
+                <textarea
+                  id="textareaPrefix"
+                  [(ngModel)]="blog.description"
+                  class="form-control md-textarea"
+                  rows="2"
+                  [ngStyle]="{ 'border': (blog.description.length < 10 && blog.description.length > 0) ? '4px solid #ff7791' : '4px solid #dad8d8' }">
+                  {{ blog.description }}
+                </textarea>
+              </div>
+                    <!-- url input -->
+              <div class="url-input">
+                <label for="basic-url">
+                  <div class="url-icon"></div>
+                </label>
+                <div class="input-group mb-3 share-url">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">https://example.com/article/</span>
+                  </div>
+                  <input 
+                    type="text"
+                    [(ngModel)]="blog.url"
+                    class="form-control"
+                    id="basic-url"
+                    aria-describedby="basic-addon3"
+                    [ngStyle]="{ 'border': (blog.url && !blog.url.match('^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$')) ? '4px solid #ff7791' : '4px solid #dad8d8' }">
+                </div>
+              </div>
+            </div> 
+                  <!-- upload area -->
+            <div class="upload-area">
+              <div class="icon-area">
+                <div class="file-icon"></div>
+             </div>
+              <input
+                class="box__file"
+                type="file"
+                id="file"
+                name="photo"
+                multiple
+                (change)="imagesInput($event)"/>
+           </div>
+                  <!-- upload-preview -->
+            <div class="upload-preview">
+              <div *ngFor="let item of contentUrlArr">
+                <img [src]="item" alt="Loading...">
+                <button type="button" class="btn btn-danger" (click)="deletePhoto(item)">
+                  <div aria-hidden="true" class="close-icon"></div>
+                </button>
+              </div>
+              <div *ngIf="blog.gallery.length > 0" class="gallery">
+                <div *ngFor="let image of blog.gallery">
+                  <img [src]="image" alt="...Loading">
+                  <button type="button" class="btn btn-danger" (click)="deletePhoto(item)">
+                    <div aria-hidden="true" class="close-icon"></div>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <youtube-player
+            *ngIf="id"
+            [videoId]="id"
+            (ready)="savePlayer($event)"
+            class="youtube-player">
+           </youtube-player>
+         </div>
+       </div>
+    </div>
+
+    <!-- modal-footer -->
+    <div class="modal-footer">
+        <div class="icon-area">
+          <div class="theme-icon"></div>
+        </div>
+        <div class="input-group mb-3">
+              <!-- theme select -->
+          <select class="custom-select" id="inputGroupSelect02" [(ngModel)]="blog.theme">
+            <option selected>{{ blog.theme }}</option>
+            <option *ngFor="let theme of themes" [value]="theme">{{ theme }}</option>
+          </select>
+            <div class="input-group-append">
+              <label class="input-group-text">Options</label>
+            </div>
+        </div>
+          <!-- buttons -->
+        <div class="modal-btns">
+          <button type="button" class="btn btn-outline-dark" (click)="close.emit()">Close</button>
+          <button
+            class="box__button btn btn-outline-dark"
+            type="button"
+            (click)="updateBlog(blog._id, blog, close.emit())"
+            [disabled]="!uploadPermition()">Update
+         </button>
+      </div>
+    </div>
+  </div>
+</div>

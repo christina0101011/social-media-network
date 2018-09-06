@@ -2,9 +2,19 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.7.
 
+##Database 
+
+cd /Users/christina/Documents/mongodb-osx-x86_64-3.6.5/bin
+/Users/christina/Documents/mongodb-osx-x86_64-3.6.5/bin/mongod
+
+##Server
+
+cd /Users/christina/Documents/smn/server
+nodemon index
+
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve --proxy-config proxy.conf.json` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 

@@ -1,0 +1,9 @@
+<div class="blogs-container">
+  <app-blog
+    *ngFor="let blog of blogs.slice().reverse()"
+    [blog]="blog"
+    (reloadOnDeleteBlog)="reloadOnDelete($event)"
+    (reloadOnUpdateBlog)="reloadOnUpdate($event)">
+  </app-blog>
+</div>
+

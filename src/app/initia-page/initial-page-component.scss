@@ -12,26 +12,21 @@ $font-satisfy: Satisfy;
 $font-nanum-gothic: Nanum+Gothic;
 $font-raleway: Raleway;
 $colour-orange: #ff5e3a;
-$colour-grey: #8e92ad;
+$colour-grey: #9a9fbf;
 $colour-yellow: #ffc923;
 $colour-blue: #4f89fe;
 $colour-deep-grey: #4d4d4d;
-$colour-light-grey: rgb(218,216,216);
-//Styles
-
-.bg-light {
-  background-color: #c2bcf7!important;;
+// Style
+* {
+  font-family: $font-nanum-gothic;
 }
-// #plus {
-//   //  position: fixed;
-//  //  top: 0;
-//  //  right: 10px;
-//   width: 6vh;
-//    height: 6vh;
-//   margin: .5vh;
-//   cursor: pointer;
-//   background-image: url(../assets/add_new_plus.png);
-//   background-position: center;
-//   background-size: contain;
-//   background-repeat: no-repeat;
-// }
+
+div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  img {
+    height: 50vh;
+  }
+}

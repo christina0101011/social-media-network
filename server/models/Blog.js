@@ -19,8 +19,7 @@ module.exports = Blog = mongoose.model('Blog', new Schema({
     ref: 'Comments'
   }],
   description: {
-    type: Schema.Types.ObjectId,
-    ref: 'Description'
+    type: String
   },
   url: String,
   theme: {

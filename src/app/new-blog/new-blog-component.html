@@ -1,0 +1,110 @@
+<ng-template #createBlog let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Share your story</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <div aria-hidden="true" class="close-icon"></div>
+    </button>
+  </div>
+
+  <div class="modal-body">
+      <div class="box">
+        <div class="box__input">
+          <div class="md-form">
+                  <!-- //textarea -->
+            <div class="post-description">
+              <div class="textarea-icon">
+                <div class="pencil"></div>
+              </div>
+              <textarea
+                id="textareaPrefix"
+                [(ngModel)]="description"
+                placeholder="The story..."
+                class="form-control md-textarea"
+                rows="2"
+                [ngStyle]="{ 'border': (description.length < 10 && description.length > 0) ? '4px solid #ff7791' : '4px solid #dad8d8' }">
+              </textarea>
+            </div>
+                  <!-- url input -->
+            <div class="url-input">
+              <label for="basic-url">
+                <div class="url-icon"></div>
+              </label>
+              <div class="input-group mb-3 share-url">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon3">https://example.com/article/</span>
+                </div>
+                <input 
+                  type="text"
+                  [(ngModel)]="url"
+                  class="form-control"
+                  id="basic-url"
+                  aria-describedby="basic-addon3"
+                  [ngStyle]="{ 'border': (url && !url.match('^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$')) ? '4px solid #ff7791' : '4px solid #dad8d8' }">
+              </div>
+            </div>
+          </div> 
+                <!-- upload area -->
+          <div class="upload-area">
+            <input
+              class="box__file"
+              type="file"
+              id="file"
+              name="photo"
+              multiple
+              (change)="imagesInput($event)"/>
+            <div class="icon-area">
+              <div class="file-icon"></div>
+            </div>
+            <label
+              [ngClass]="dropClass"
+              (dragover)="dragEnter($event)"
+              (drop)="drop($event)"
+              for="file"
+              id="upload-img" >
+                <img
+                src="../../assets/upload-cloud.png" alt="Loading...">
+                <span class="box__dragndrop"> ...or drag it here</span>
+            </label>
+          </div>
+                <!-- upload-preview -->
+          <div class="upload-preview">
+            <div *ngFor="let item of photosPreview">
+              <img [src]="item" alt="Loading...">
+              <button type="button" class="btn btn-danger" (click)="deletePhoto(item)">
+                <div aria-hidden="true" class="close-icon"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  
+  <div class="modal-footer">
+      <div class="icon-area">
+        <div class="theme-icon"></div>
+      </div>
+      <div class="input-group mb-3">
+            <!-- theme select -->
+        <select class="custom-select" id="inputGroupSelect02" [(ngModel)]="theme">
+          <option selected>Choose your theme</option>
+          <option *ngFor="let theme of themes" [value]="theme._id">{{ theme.title }}</option>
+        </select>
+          <div class="input-group-append">
+            <label class="input-group-text">Options</label>
+          </div>
+      </div>
+        <!-- buttons -->
+      <div class="modal-btns">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+        <button
+        class="box__button btn btn-outline-dark"
+        type="button"
+        (click)="uploadContent(c)"
+        [disabled]="!uploadPermition()">Upload</button>
+      </div>
+  </div>
+</ng-template>
+
+<!-- modal window activation -->
+<div id="plus" (click)="openLg(createBlog)" [ngClass]="uploadBtn">
+</div>
