@@ -235,12 +235,15 @@ $colour-light-grey: rgb(218, 216, 216);
           height: 10px;
           font-size: 3em;
           line-height: 1vh;
-          right: 10px;
+          right: 30px;
           top: -5px;
           .user-menu-icon {
             background-image: url('data:image/svg+xml;utf8,<svg fill="#000" xmlns="http://www.w3.org/2000/svg" width="612" height="612" viewBox="0 0 612 612"><circle cx="69.5" cy="306" r="69.5"/><circle cx="306" cy="306" r="69.5"/><circle cx="542.5" cy="306" r="69.5"/></svg>');
             width: 20px;
             height: 30px;
+            border: 2px solid $colour-light-grey;
+            border-radius: 5px;
+            padding: 0 20px;
           }
         }
         .user-menu-btn:focus {
@@ -341,12 +344,15 @@ $colour-light-grey: rgb(218, 216, 216);
           line-height: 1vh;
           position: absolute;
           z-index: 3;
-          right: 30px;
+          right: 50px;
           top: 15px;
           .user-menu-icon {
             background-image: url('data:image/svg+xml;utf8,<svg fill="#000" xmlns="http://www.w3.org/2000/svg" width="612" height="612" viewBox="0 0 612 612"><circle cx="69.5" cy="306" r="69.5"/><circle cx="306" cy="306" r="69.5"/><circle cx="542.5" cy="306" r="69.5"/></svg>');
             width: 20px;
             height: 30px;
+            border: 2px solid $colour-light-grey;
+            border-radius: 5px;
+            padding: 0 20px;
           }
         }
         .user-menu-btn:focus {

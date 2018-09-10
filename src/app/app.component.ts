@@ -13,7 +13,7 @@ export class AppComponent {
   constructor (  private _blogsService: BlogsService, private router: Router, public auth: AuthenticationService ){}
 
   ngOnInit() {
-    if (this.auth.isLoggedIn){
+    if (this.auth.isLoggedIn()){
       this._blogsService.getBlogs().subscribe((res:Array<object>) => {
         if(res.length > 0) {
           this.router.navigate(['/blogs']);

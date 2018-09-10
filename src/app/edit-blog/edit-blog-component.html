@@ -60,15 +60,15 @@
            </div>
                   <!-- upload-preview -->
             <div class="upload-preview">
-              <div *ngFor="let item of contentUrlArr">
+              <!-- <div *ngFor="let item of photosPreview">
                 <img [src]="item" alt="Loading...">
                 <button type="button" class="btn btn-danger" (click)="deletePhoto(item)">
                   <div aria-hidden="true" class="close-icon"></div>
                 </button>
-              </div>
-              <div *ngIf="blog.photos.length > 0" class="gallery">
-                <div *ngFor="let image of blog.photos">
-                  <img [src]="image" alt="...Loading">
+              </div> -->
+              <div *ngIf="photosPreview.length > 0" class="gallery">
+                <div *ngFor="let image of photosPreview">
+                  <img [src]="serverUrl + image" alt="...Loading">
                   <button type="button" class="btn btn-danger" (click)="deletePhoto(item)">
                     <div aria-hidden="true" class="close-icon"></div>
                   </button>
@@ -93,8 +93,8 @@
         <div class="input-group mb-3">
               <!-- theme select -->
           <select class="custom-select" id="inputGroupSelect02" [(ngModel)]="blog.theme">
-            <option selected>{{ blog.theme }}</option>
-            <option *ngFor="let theme of themes" [value]="theme">{{ theme }}</option>
+            <option selected class="bold-text">{{ blog.theme.title }}</option>
+            <option *ngFor="let theme of themes" [value]="theme._id">{{ theme.title }}</option>
           </select>
             <div class="input-group-append">
               <label class="input-group-text">Options</label>

@@ -11,6 +11,7 @@ const url = 'http://localhost:3000';
 export class BlogsService {
 
   blogEvent: EventEmitter<Blog> = new EventEmitter();
+  updateBlogEvent: EventEmitter<Blog> = new EventEmitter();
   private token: string;
   constructor(
     private http: HttpClient,
@@ -30,7 +31,8 @@ export class BlogsService {
     }
 
   postBlog(blog: NewBlog) {
-    return this.http.post<NewBlog>(url + '/api/blog', blog).subscribe( () => {this.blogEvent.emit(blog)});
+    return this.http.post<NewBlog>(url + '/api/blog', blog)
+    .subscribe( () => { this.blogEvent.emit() } );
   }
 
   uploadFiles(formData): Observable <any> {
@@ -41,9 +43,9 @@ export class BlogsService {
     }).pipe(map(data => data));
   }
 
-  makeImgLink(img: String) {
+  makeImgLink() {
     const windLoc = window.location;
-    return windLoc.protocol + '//' + windLoc.hostname + ':' + windLoc.port + '/api/file/' + img;
+    return windLoc.protocol + '//' + windLoc.hostname + ':' + windLoc.port + '/api/file/';
   }
 
   deleteBlog(_id) {
@@ -51,13 +53,8 @@ export class BlogsService {
   }
 
   updateBlog(_id, blog) {
-    return this.http.put(url + '/api/blog/' + _id,
-      {
-        description: blog.description,
-        url: blog.url,
-        photos: blog.photos,
-        theme: blog.theme
-      });
+    return this.http.put(url + '/api/blog/' + _id, blog)
+    .subscribe( () => { this.updateBlogEvent.emit(blog) });
    }
 
   getTheme() {

@@ -25,6 +25,7 @@ const routes: Routes = [
   { path: 'blogs', component: BlogsListComponent, canActivate: [AuthGuardService] },
   { path: 'initial', component: InitialPageComponent, canActivate: [AuthGuardService] },
   { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: '', component: AppComponent },
   { path: '**', component: AppComponent }

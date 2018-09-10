@@ -105,17 +105,16 @@ module.exports.updateBlog = (req, res, next) => {
   Blog.findByIdAndUpdate(req.params.id,
     {description: req.body.description,
     url: req.body.url,
-    gallery: req.body.contentUrlArr,
+    photos: req.body.photos,
     theme: req.body.theme}, 
     (err, blog) => {
-
       console.log(err);
-      console.log(blog);
-
+      console.log('updateBlog: ', blog);
     if (err) {
       res.send(err);
       return next(err);
     } else {
+      console.log('req.body.photos: ', req.body.photos)
       res.send({ data : "Blog has been Updated..!!" });  
     }
   }

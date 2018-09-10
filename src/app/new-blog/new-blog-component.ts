@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router'; 
 import { BlogsService } from '../blogs.service';
 import { NewBlog, Photos, Theme, Blog } from '../Models';
-import { shouldCallLifecycleInitHook } from '@angular/core/src/view';
+// import { shouldCallLifecycleInitHook } from '@angular/core/src/view';
 
 @Component({
   selector: 'app-new-blog',
@@ -82,14 +82,6 @@ photos: Photos = new Photos;
     }
   }
 
-  // operates input or dropped files
-  // onFileChange(event) {
-  //   this.photosPreview = event.target.files;
-  //   this.files = event.target.files;
-  //   console.log(7, this.photosPreview);
-  //   console.log(8, this.files);
-  // }
-
   // imagesInput;
   imagesInput(event: any) {
     this.contentProccessing(event.target);
@@ -126,20 +118,11 @@ photos: Photos = new Photos;
       // console.log(this.files);
       blog.photos = this.files;
       this._blogsService.uploadFiles(formData).subscribe(img => {
-        // console.log('img', img);
         blog.photos = img;
         return this._blogsService.postBlog(blog)
-        // .subscribe(() => {
-        //   this.reloadPage.emit();
-          // callback();
-        // });
       });
     } else {
       this._blogsService.postBlog(blog);
-      // .subscribe(() => {
-      //   this.reloadPage.emit();
-      //   callback();
-      // });
     }
 
     //clearing inputs after uploading
