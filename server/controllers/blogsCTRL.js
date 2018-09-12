@@ -1,5 +1,5 @@
 const passport = require('passport/lib');
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const Blog = require('../models/Blog');
 const BlogType = require('../models/BlogType');
 const Comments = require('../models/Comments');
@@ -7,8 +7,9 @@ const Description = require('../models/Description');
 const Likes = require('../models/Likes');
 const Photos = require('../models/Photos');
 const Theme = require('../models/Theme');
-const User = require('../models/User');
+var User = mongoose.model('User');
 const srvUpload = require('../uploading-files.service');
+const profile = require('./profile');
 
 const themes = [
   {_id: '41224d776a326fb40f000001', title: 'Wish', themeDescription: 'made a'},
@@ -17,6 +18,8 @@ const themes = [
   {_id: '41224d776a326fb40f000004', title: 'Dream Box', themeDescription: 'updated'}
 ];
 
+
+
 // GET blogs listing
 module.exports.blogsList = (req, res, next) => {
   Blog.find({}, (err, blogs) => {
@@ -24,32 +27,37 @@ module.exports.blogsList = (req, res, next) => {
       console.log(err);
       res.send(err, { error: 'Fetching failed!' })
     } else {
-      // console.log(blogs);
       let blogsWithThemes = blogs.map(blog => {
-        let fullTheme = {};
-        themes.forEach((theme) => {
-          if (blog.theme == theme._id) {
-            fullTheme = theme;
-          }
-        });
-        // console.log(222222222, blog);
-        // blog.photos = srvUpload.getFile((res)=>{
-        //   console.log(res, 'photos')
-        // })
-        return {
-          _id: blog._id,
-          photos: blog.photos,
-          likes: blog.likes,
-          description: blog.description,
-          url: blog.url,
-          theme: fullTheme,
-          comments: blog.comments,
-          created_at: blog.created_at,
-          __v: blog.__v
-        };
+        return User
+        .findById(blog.user)
+        .exec().then(user => {
+            let fullTheme = {};
+            themes.forEach(theme => {
+              if (blog.theme == theme._id) {
+                fullTheme = theme;
+              }
+            });
+
+            return {
+              _id: blog._id,
+              photos: blog.photos,
+              user: user,
+              likes: blog.likes,
+              description: blog.description,
+              url: blog.url,
+              theme: fullTheme,
+              comments: blog.comments,
+              created_at: blog.created_at,
+              updated_at: blog.created_at,
+              __v: blog.__v
+            };
+  
+  
+        }).catch(err => res.status(400).json(err));
+
       });
+
       res.send(blogsWithThemes);
-      next();
     }
   });
 }
@@ -62,12 +70,9 @@ module.exports.newBlog = (req, res) => {
 {
   res.status(422).send({"Error: unprocessable entity" : err.message});
 }
-
-console.log(req.body);
   const blog = new Blog();
-  // blog.user = req.payload._id;
+  blog.user = req.payload._id;
   blog.photos = req.body.photos || [];
-  // console.log('photos: ', blog.photos)
   // blog.likes = req.payload._id;
   // blog.comments = req.payload._id;
   blog.description = req.body.description;
@@ -81,6 +86,7 @@ console.log(req.body);
       res.json({ success: false, message: err });
     } else {
       res.json({ success: true, message: 'blog created' });
+      // console.log('req', req.body);
     }
   });
 }
@@ -107,7 +113,9 @@ module.exports.updateBlog = (req, res, next) => {
     {description: req.body.description,
     url: req.body.url,
     photos: req.body.photos,
-    theme: req.body.theme}, 
+    theme: req.body.theme,
+    updated_at: req.body.updated_at
+  }, 
     (err, blog) => {
       console.log(err);
       console.log('updateBlog: ', blog);
@@ -115,7 +123,7 @@ module.exports.updateBlog = (req, res, next) => {
       res.send(err);
       return next(err);
     } else {
-      console.log('req.body.photos: ', req.body.photos)
+      // console.log('req.body.photos: ', req.body.photos)
       res.send({ data : "Blog has been Updated..!!" });  
     }
   }

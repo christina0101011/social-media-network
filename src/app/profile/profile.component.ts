@@ -79,7 +79,6 @@ export class ProfileComponent implements OnInit {
     }
   }
   
-
   deleteAccount(){
     this.auth.deleteAccount(this.details).subscribe(res => {
       this.auth.logout()

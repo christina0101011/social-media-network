@@ -38,16 +38,16 @@ router.post('/api/login', ctrlAuth.login);
 // BLOGS
 
 // GET blogs listing
-router.get('/api/blogs', ctrlBlogs.blogsList);
+router.get('/api/blogs', auth, ctrlBlogs.blogsList);
 
 // Post new blog
-router.post('/api/blog', ctrlBlogs.newBlog);
+router.post('/api/blog', auth, ctrlBlogs.newBlog);
 
 // Delete blog
-router.delete('/api/blog/:id', ctrlBlogs.deleteBlog);
+router.delete('/api/blog/:id', auth, ctrlBlogs.deleteBlog);
 
 //Update Blog
-router.put('/api/blog/:id', ctrlBlogs.updateBlog);
+router.put('/api/blog/:id', auth, ctrlBlogs.updateBlog);
 
 //Get themes
 router.get('/api/blog/theme', ctrlBlogs.getTheme);

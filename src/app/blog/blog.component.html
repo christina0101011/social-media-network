@@ -33,7 +33,7 @@
     <!-- header -->
     <header
       [ngClass]="headerClass"
-      [ngStyle]="{'background-image': (headerClass==='header-image') ? 'url(' + serverUrl + blog.photos[0] + ')' : null}">
+      [ngStyle]="{'background-image': headerClass==='header-image' ? 'url(' + serverUrl + blog.photos[0] + ')' : null}">
       <div class="avatar">
         <img src="../../assets/unnamed.jpg" alt="Loading...">
       </div>
@@ -162,7 +162,7 @@
   <div
     class="modal-header"
     [ngClass]="headerClass"
-    [ngStyle]="{'background-image': (blog.photos !== null && blog.photos.length < 2) ? 'url(' + blog.photos[0] + ')' : null}">
+    [ngStyle]="{'background-image': headerClass==='header-image' ? 'url(' + blog.photos[0] + ')' : null}">
     <div class="avatar">
       <img src="../../assets/unnamed.jpg" alt="Loading...">
     </div>

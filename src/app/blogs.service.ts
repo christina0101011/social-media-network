@@ -7,6 +7,10 @@ import { AuthenticationService } from './authentication.service';
 
 const url = 'http://localhost:3000';
 
+interface TokenResponse {
+  token: string;
+}
+
 @Injectable()
 export class BlogsService {
 
@@ -26,11 +30,25 @@ export class BlogsService {
   }
 
   getBlogs(): Observable<any> {
-      return this.http.get('/api/blogs');
+      return this.http.get('/api/blogs', { headers: { Authorization: `Bearer ${this.getToken()}` }}).pipe(
+        map((data: TokenResponse) => {
+          if (data.token) {
+            this.auth.saveToken(data.token);
+          }
+          return data;
+        })
+      );
     }
 
   postBlog(blog: NewBlog) {
-    return this.http.post<NewBlog>(url + '/api/blog', blog)
+    return this.http.post<NewBlog>(url + '/api/blog', blog, { headers: { Authorization: `Bearer ${this.getToken()}` }}).pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.auth.saveToken(data.token);
+        }
+        return data;
+      })
+    )
     .subscribe( () => { this.blogEvent.emit() } );
   }
 
@@ -48,11 +66,25 @@ export class BlogsService {
   }
 
   deleteBlog(_id) {
-    return this.http.delete(url + '/api/blog/' + _id);
+    return this.http.delete(url + '/api/blog/' + _id, { headers: { Authorization: `Bearer ${this.getToken()}` }}).pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.auth.saveToken(data.token);
+        }
+        return data;
+      })
+    );
   }
 
   updateBlog(_id, blog) {
-    return this.http.put(url + '/api/blog/' + _id, blog)
+    return this.http.put(url + '/api/blog/' + _id, blog, { headers: { Authorization: `Bearer ${this.getToken()}` }}).pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.auth.saveToken(data.token);
+        }
+        return data;
+      })
+    )
     .subscribe( () => { this.updateBlogEvent.emit(blog) });
    }
 
