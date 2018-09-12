@@ -28,5 +28,17 @@ module.exports = Blog = mongoose.model('Blog', new Schema({
   type: {
     type: Schema.Types.ObjectId,
     ref: 'BlogType'
+  },
+  created_at: {
+     type: Date, 
+     default: Date.now 
+  },
+  updated_at: {
+    type: Date, 
+    default: Date.now 
+  },
+  deleted_at: {
+    type: Date, 
+    default: Date.now 
   }
 }));

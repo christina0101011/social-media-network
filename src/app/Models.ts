@@ -87,6 +87,9 @@ export class Blog {
   comments: Array<Comments>;
   theme: Theme;
   type: BlogType;
+  created_at: Date ;
+  updated_at: Date;
+  deleted_at: Date;
 }
 
 export class NewBlog {

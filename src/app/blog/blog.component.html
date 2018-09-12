@@ -33,7 +33,7 @@
     <!-- header -->
     <header
       [ngClass]="headerClass"
-      [ngStyle]="{'background-image': (blog.photos && blog.photos !== null && blog.photos.length < 2) ? 'url(' + serverUrl + blog.photos[0] + ')' : null}">
+      [ngStyle]="{'background-image': (headerClass==='header-image') ? 'url(' + serverUrl + blog.photos[0] + ')' : null}">
       <div class="avatar">
         <img src="../../assets/unnamed.jpg" alt="Loading...">
       </div>
@@ -55,7 +55,7 @@
              </span>
            </span>
           </div>
-          <p class="date">{{ blog.date | date }}</p>
+          <p class="date">{{ blog.created_at | date }}</p>
         </div>
       </div>
       <div class="user-menu">
@@ -214,9 +214,11 @@
         <div aria-hidden="true" class="icon grid-view">
         </div>
       </button>
-      <div [ngClass]="switchView">
-        <div *ngFor="let image of blog.photos">
-          <img [src]="serverUrl + image" alt="...Loading">
+      <div *ngIf="blog.photos !== null">
+        <div [ngClass]="switchView">
+          <div *ngFor="let image of blog.photos">
+            <img [src]="serverUrl + image" alt="...Loading">
+          </div>
         </div>
       </div>
     </div>

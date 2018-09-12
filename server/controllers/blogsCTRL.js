@@ -44,6 +44,7 @@ module.exports.blogsList = (req, res, next) => {
           url: blog.url,
           theme: fullTheme,
           comments: blog.comments,
+          created_at: blog.created_at,
           __v: blog.__v
         };
       });
@@ -65,7 +66,7 @@ module.exports.newBlog = (req, res) => {
 console.log(req.body);
   const blog = new Blog();
   // blog.user = req.payload._id;
-  blog.photos = req.body.photos;
+  blog.photos = req.body.photos || [];
   // console.log('photos: ', blog.photos)
   // blog.likes = req.payload._id;
   // blog.comments = req.payload._id;

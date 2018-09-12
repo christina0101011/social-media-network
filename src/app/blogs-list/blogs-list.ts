@@ -21,19 +21,19 @@ import { Router } from '@angular/router';
       this.loadBlogs();
     }
 
-      loadBlogs(){
-        this._blogsService.getBlogs().subscribe(blogs => {
-          this.blogs = blogs.map(blog => {
-              return blog;
-          });
-          // console.log(2, this.blogs);
-          if (this.blogs.length) {
-            this.router.navigate(['/blogs']);
-          } else {
-            this.router.navigate(['/initial']);
-          }
-        })
-      }
+    loadBlogs(){
+      this._blogsService.getBlogs().subscribe(blogs => {
+        this.blogs = blogs.map(blog => {
+            return blog;
+        });
+        // console.log(2, this.blogs);
+        if (this.blogs.length) {
+          this.router.navigate(['/blogs']);
+        } else {
+          this.router.navigate(['/initial']);
+        }
+      })
+    }
 
     ngOnInit() {
       if (!this.blogs.length){

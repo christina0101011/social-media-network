@@ -16,8 +16,7 @@ export class BlogsService {
   constructor(
     private http: HttpClient,
     private auth: AuthenticationService
-  ) {
-  }
+  ) { }
 
   private getToken(): string {
     if (!this.token) {
