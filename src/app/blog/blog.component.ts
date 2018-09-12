@@ -12,15 +12,17 @@ export class BlogComponent implements OnInit {
 
   @Input('blog') blog: Blog;
   @Output() reloadOnDeleteBlog = new EventEmitter();
-  @Output() reloadOnUpdateBlog = new EventEmitter();
+  // @Output() reloadOnUpdateBlog = new EventEmitter();
 
   headerClass: string = 'header-text';
   showMenu: boolean = false;
   switchView: string = 'modal-images-grid';
   showPopUp: boolean = false;
-
+ 
   constructor(private modalService: NgbModal, private _blogsService: BlogsService) {
   }
+
+  serverUrl = this._blogsService.makeImgLink();
 
   closePopUp() {
     this.showPopUp = !this.showPopUp;
@@ -30,9 +32,8 @@ export class BlogComponent implements OnInit {
     this._blogsService.deleteBlog(_id)
       .subscribe(res => {
         console.log(res);
+        this.reloadOnDeleteBlog.emit(_id);
       }, error => console.log(error));
-
-    this.reloadOnDeleteBlog.emit(_id);
   }
 
   largeView(event: any) {

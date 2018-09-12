@@ -44,6 +44,7 @@ module.exports.blogsList = (req, res, next) => {
           url: blog.url,
           theme: fullTheme,
           comments: blog.comments,
+          created_at: blog.created_at,
           __v: blog.__v
         };
       });
@@ -65,7 +66,7 @@ module.exports.newBlog = (req, res) => {
 console.log(req.body);
   const blog = new Blog();
   // blog.user = req.payload._id;
-  blog.photos = req.body.photos;
+  blog.photos = req.body.photos || [];
   // console.log('photos: ', blog.photos)
   // blog.likes = req.payload._id;
   // blog.comments = req.payload._id;
@@ -105,17 +106,16 @@ module.exports.updateBlog = (req, res, next) => {
   Blog.findByIdAndUpdate(req.params.id,
     {description: req.body.description,
     url: req.body.url,
-    gallery: req.body.contentUrlArr,
+    photos: req.body.photos,
     theme: req.body.theme}, 
     (err, blog) => {
-
       console.log(err);
-      console.log(blog);
-
+      console.log('updateBlog: ', blog);
     if (err) {
       res.send(err);
       return next(err);
     } else {
+      console.log('req.body.photos: ', req.body.photos)
       res.send({ data : "Blog has been Updated..!!" });  
     }
   }

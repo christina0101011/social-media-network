@@ -33,7 +33,7 @@
     <!-- header -->
     <header
       [ngClass]="headerClass"
-      [ngStyle]="{'background-image': (blog.photos && blog.photos !== null && blog.photos.length < 2) ? 'url(' + blog.photos[0] + ')' : null}">
+      [ngStyle]="{'background-image': (headerClass==='header-image') ? 'url(' + serverUrl + blog.photos[0] + ')' : null}">
       <div class="avatar">
         <img src="../../assets/unnamed.jpg" alt="Loading...">
       </div>
@@ -55,7 +55,7 @@
              </span>
            </span>
           </div>
-          <p class="date">{{ blog.date | date }}</p>
+          <p class="date">{{ blog.created_at | date }}</p>
         </div>
       </div>
       <div class="user-menu">
@@ -85,19 +85,19 @@
         <div class="image-wrapper">
           <ul class="image-list">
             <li class="w2-col">
-              <img [src]="blog.photos[0]" alt="...Loading">
+              <img [src]="serverUrl + blog.photos[0]" alt="...Loading">
             </li>
             <li class="w2-col">
-              <img [src]="blog.photos[1]" alt="...Loading">
+              <img [src]="serverUrl + blog.photos[1]" alt="...Loading">
             </li>
             <li *ngIf="blog.photos[2]" class="w3-col">
-              <img [src]="blog.photos[2]" alt="...Loading">
+              <img [src]="serverUrl + blog.photos[2]" alt="...Loading">
             </li>
             <li *ngIf="blog.photos[3]" class="w3-col">
-              <img [src]="blog.photos[3]" alt="...Loading">
+              <img [src]="serverUrl + blog.photos[3]" alt="...Loading">
             </li>
             <li *ngIf="blog.photos[4]" class="w3-col">
-              <img [src]="blog.photos[4]" alt="...Loading">
+              <img [src]="serverUrl + blog.photos[4]" alt="...Loading">
               <a
                 href="#"
                 class="cover-link"
@@ -214,9 +214,11 @@
         <div aria-hidden="true" class="icon grid-view">
         </div>
       </button>
-      <div [ngClass]="switchView">
-        <div *ngFor="let image of blog.photos">
-          <img [src]="image" alt="...Loading">
+      <div *ngIf="blog.photos !== null">
+        <div [ngClass]="switchView">
+          <div *ngFor="let image of blog.photos">
+            <img [src]="serverUrl + image" alt="...Loading">
+          </div>
         </div>
       </div>
     </div>
