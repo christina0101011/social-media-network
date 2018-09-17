@@ -35,12 +35,12 @@
       [ngClass]="headerClass"
       [ngStyle]="{'background-image': headerClass==='header-image' ? 'url(' + serverUrl + blog.photos[0] + ')' : null}">
       <div class="avatar">
-        <img src="../../assets/unnamed.jpg" alt="Loading...">
+        <img [src]="serverUrl + userDetails?.avatar" alt="Loading...">
       </div>
       <div class="name-action">
         <div class="blog-info">
           <div class="blog-details">
-            <div class="user-name">Greg Mills
+            <div class="user-name">{{ fullName }}
               <div class="online-status">
               </div>
             </div>
@@ -58,7 +58,7 @@
           <p class="date">{{ blog.created_at | date }}</p>
         </div>
       </div>
-      <div class="user-menu">
+      <div class="user-menu" *ngIf="this.userDetails?._id === this.blog.user._id">
         <button type="button" class="close icon user-menu-btn">
           <div aria-hidden="true" class="user-menu-icon icon" (click)="showMenu = !showMenu"></div>
         </button>
@@ -81,7 +81,7 @@
          *ngIf="blog.url != null && !id"
          class="url">{{ blog.url }}
       </a>
-      <div *ngIf="blog.photos !== null && blog.photos.length > 1">
+      <div *ngIf="blog.photos !== null && blog.photos.length > 1" (click)="openLg(fullBlog)">
         <div class="image-wrapper">
           <ul class="image-list">
             <li class="w2-col">
@@ -169,7 +169,7 @@
     <div class="name-action">
       <div class="blog-info">
         <div class="blog-details">
-          <div class="user-name">Greg Mills
+          <div class="user-name">{{ blog.user.first_name }} {{ blog.user.last_name }}
             <div class="online-status">
             </div>
           </div>
@@ -184,7 +184,7 @@
            </span>
          </span>
         </div>
-        <p class="date">{{ blog.date | date }}</p>
+        <p class="date">{{ blog.created_at | date }}</p>
       </div>
     </div>
     <button type="button" class="close" aria-label="Close" (click)="c('Cross click')">
@@ -239,4 +239,3 @@
   *ngIf="showPopUp"
   [blog]="blog">
 </app-edit-blog>
-

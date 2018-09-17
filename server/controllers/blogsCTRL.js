@@ -18,48 +18,57 @@ const themes = [
   {_id: '41224d776a326fb40f000004', title: 'Dream Box', themeDescription: 'updated'}
 ];
 
-
-
 // GET blogs listing
 module.exports.blogsList = (req, res, next) => {
-  Blog.find({}, (err, blogs) => {
-    if (err) {
-      console.log(err);
-      res.send(err, { error: 'Fetching failed!' })
-    } else {
-      let blogsWithThemes = blogs.map(blog => {
-        return User
-        .findById(blog.user)
-        .exec().then(user => {
-            let fullTheme = {};
-            themes.forEach(theme => {
-              if (blog.theme == theme._id) {
-                fullTheme = theme;
-              }
-            });
+  let blogsArr = [];
+  Blog.find({})
+  .exec()
 
-            return {
-              _id: blog._id,
-              photos: blog.photos,
-              user: user,
-              likes: blog.likes,
-              description: blog.description,
-              url: blog.url,
-              theme: fullTheme,
-              comments: blog.comments,
-              created_at: blog.created_at,
-              updated_at: blog.created_at,
-              __v: blog.__v
-            };
-  
-  
-        }).catch(err => res.status(400).json(err));
-
+  .then(blogs => {
+    return blogs.map(blog => {
+      let fullTheme = {};
+      themes.forEach(theme => {
+        if (blog.theme == theme._id) {
+          fullTheme = theme;
+        }
       });
+      return {
+        _id: blog._id,
+        photos: blog.photos,
+        user: blog.user,
+        likes: blog.likes,
+        description: blog.description,
+        url: blog.url,
+        theme: fullTheme,
+        comments: blog.comments,
+        created_at: blog.created_at,
+        updated_at: blog.created_at,
+        __v: blog.__v
+      }
+    });
+  })
 
-      res.send(blogsWithThemes);
-    }
-  });
+  .then( blogs => {
+    blogsArr = blogs;
+    let usersArr = [];
+    blogs.forEach(blog => {
+      usersArr.push(blog.user);
+    });
+    return User.find({_id: {$in: usersArr }}).exec();
+  })
+
+  .then(usersArr => {
+    blogsArr = blogsArr.map(blog => {
+      usersArr.forEach(user => {
+        if (user._id + '' == blog.user) {
+          blog.user = user;
+        }
+      });
+      return blog;
+    });
+    res.send(blogsArr);
+  })
+  .catch(err => res.send(err));
 }
 
 // Post new blog

@@ -33,6 +33,7 @@
           *ngIf="details.last_name === ''">This field shouldn't be blank
         </small>
       </div>
+
       <div class="form-group">
         <label>Email address {{ details.email }}</label>
         <input 
@@ -63,6 +64,27 @@
 
     <!-- password -->
     <div class="password col-md-6">
+        <div class="row">
+          <div class="image-uploading">
+            <label>Update profile image</label>
+            <br>
+            <input
+            class="box__file col-8"
+            type="file"
+            id="file"
+            name="photo"
+            (change)="imagesInput($event)"/>
+            <br><br>
+            <button 
+            type="submit" 
+            class="btn btn-primary" 
+            (click)="updateAvatar()">Update avatar
+            </button> 
+            <!-- <br><br>  -->
+          </div>
+        <img class="avatar" [src]="serverUrl + details.avatar" alt="Loading">
+      </div>
+      <br><br>
       <label>Current password</label>
       <input
         type="password" 

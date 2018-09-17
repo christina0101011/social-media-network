@@ -61,3 +61,16 @@ a {
 .success-input {
   box-shadow: 0 0 0 0.2rem rgba(0,204,102,.25);
 }
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 1px solid black;
+  object-fit: cover;
+  margin: 10px;
+}
+
+.image-uploading {
+  padding: 12px;
+}

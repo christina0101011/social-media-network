@@ -56,5 +56,8 @@ router.get('/api/blog/theme', ctrlBlogs.getTheme);
 router.post('/api/files', srvUpload.files);
 router.get('/api/file/:name', srvUpload.getFile);
 
+//avatar
+router.post('/api/avatar', auth, srvUpload.avatar);
+
 
 module.exports = router;

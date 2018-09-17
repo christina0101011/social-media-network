@@ -1,7 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BlogsService } from '../blogs.service';
-import { Blog } from '../Models';
+import { Blog, User } from '../Models';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-blog',
@@ -18,9 +19,20 @@ export class BlogComponent implements OnInit {
   showMenu: boolean = false;
   switchView: string = 'modal-images-grid';
   showPopUp: boolean = false;
+  userDetails: any;
+  fullName: any;
  
-  constructor(private modalService: NgbModal, private _blogsService: BlogsService) {
-  }
+  constructor(
+    private modalService: NgbModal, 
+    private _blogsService: BlogsService,
+    private auth: AuthenticationService
+    ) {}
+
+  usersFullName() {
+    let first_name = this.blog.user.first_name[0].toUpperCase() + this.blog.user.first_name.slice(1);
+    let last_name = this.blog.user.last_name[0].toUpperCase() + this.blog.user.last_name.slice(1);
+    return first_name + ' ' + last_name
+  };
 
   serverUrl = this._blogsService.makeImgLink();
 
@@ -64,7 +76,6 @@ export class BlogComponent implements OnInit {
 
 
   ngOnInit() {
-    // console.log(this.blog);
     if (typeof this.blog.photos !== null || []) {
       if (Array.isArray(this.blog.photos)) {
         this.headerClass = (this.blog.photos.length === 1) ? 'header-image' : 'header-text';
@@ -78,6 +89,19 @@ export class BlogComponent implements OnInit {
     if (this.blog.url && this.youTube === 12) {
       this.id = this.blog.url.slice(-11);
     }////////
-    // console.log(5, this.blog)
+
+    // this.userDetails = this.auth.profile()
+    this.auth.profile().subscribe(user => {
+      this.fullName = this.usersFullName();
+      if (user._id === this.blog.user._id){
+        this.userDetails = user;
+        // console.log(5111, this.userDetails)
+      }
+    })
+
+    // this.userDetails = this.auth.getUserDetails();
+    
+    // console.log(5000, this.userDetails)
+    // console.log(5777, this.blog)
   };
 }

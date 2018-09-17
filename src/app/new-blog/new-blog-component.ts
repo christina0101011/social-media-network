@@ -25,7 +25,7 @@ photos: Photos = new Photos;
 
 @Input('blog') blog: Blog;
 @Input() uploadBtn; //style classes for upload component
-@Output() reloadPage = new EventEmitter();
+// @Output() reloadPage = new EventEmitter();
 
   constructor(
     private modalService: NgbModal, 
@@ -123,6 +123,7 @@ photos: Photos = new Photos;
       });
     } else {
       this._blogsService.postBlog(blog);
+      // console.log(999, blog)
     }
 
     //clearing inputs after uploading
