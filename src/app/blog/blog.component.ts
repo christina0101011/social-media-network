@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BlogsService } from '../blogs.service';
-import { Blog, User } from '../Models';
+import { Blog } from '../Models';
 import { AuthenticationService } from '../authentication.service';
 
 @Component({
@@ -13,7 +13,6 @@ export class BlogComponent implements OnInit {
 
   @Input('blog') blog: Blog;
   @Output() reloadOnDeleteBlog = new EventEmitter();
-  // @Output() reloadOnUpdateBlog = new EventEmitter();
 
   headerClass: string = 'header-text';
   showMenu: boolean = false;
@@ -21,6 +20,9 @@ export class BlogComponent implements OnInit {
   showPopUp: boolean = false;
   userDetails: any;
   fullName: any;
+  serverUrl = this._blogsService.makeImgLink();
+  newComment:string;
+  openComments: boolean = false;
  
   constructor(
     private modalService: NgbModal, 
@@ -34,7 +36,23 @@ export class BlogComponent implements OnInit {
     return first_name + ' ' + last_name
   };
 
-  serverUrl = this._blogsService.makeImgLink();
+  submitCommentOnEnterKey(event){
+    if (event.keyCode === 13) {
+     console.log(this.newComment);
+     this.newComment = '';
+      this.openComments=!this.openComments
+    };
+  };
+
+  submitComment() {
+    console.log(this.newComment);
+    this.newComment = '';
+    this.openComments=!this.openComments;
+  }
+
+  openLg(id) {
+    this.modalService.open(id, { size: 'lg' });
+  }
 
   closePopUp() {
     this.showPopUp = !this.showPopUp;
@@ -54,10 +72,6 @@ export class BlogComponent implements OnInit {
 
   gridView(event: any) {
     this.switchView = 'modal-images-grid';
-  }
-
-  openLg(id) {
-    this.modalService.open(id, {size: 'lg'});
   }
 
 //you tube player
@@ -90,7 +104,6 @@ export class BlogComponent implements OnInit {
       this.id = this.blog.url.slice(-11);
     }////////
 
-    // this.userDetails = this.auth.profile()
     this.auth.profile().subscribe(user => {
       this.fullName = this.usersFullName();
       if (user._id === this.blog.user._id){
@@ -99,9 +112,8 @@ export class BlogComponent implements OnInit {
       }
     })
 
-    // this.userDetails = this.auth.getUserDetails();
-    
-    // console.log(5000, this.userDetails)
+    this.fullName = this.usersFullName();
+
     // console.log(5777, this.blog)
   };
 }

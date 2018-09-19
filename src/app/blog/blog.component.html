@@ -18,8 +18,22 @@
           </div>
         </li>
         <li class="circle-menu">
-          <div class="comment">
+          <div class="comment" (click)="openComments=!openComments">
             <span class="circle-menu-info">Comment</span>
+          </div>
+          <div class="new-comment" *ngIf="openComments">
+              <textarea 
+              rows="3"
+              placeholder="comment"
+              class="text-comment"
+              (keyup)="submitCommentOnEnterKey($event)"
+              [(ngModel)]="newComment">
+            </textarea>
+             <div 
+              aria-hidden="true" 
+              class="send-icon" 
+              (click)="submitComment($event)">
+            </div>
           </div>
         </li>
         <li class="circle-menu">
@@ -35,7 +49,7 @@
       [ngClass]="headerClass"
       [ngStyle]="{'background-image': headerClass==='header-image' ? 'url(' + serverUrl + blog.photos[0] + ')' : null}">
       <div class="avatar">
-        <img [src]="serverUrl + userDetails?.avatar" alt="Loading...">
+        <img [src]="serverUrl + blog.user.avatar" alt="Loading...">
       </div>
       <div class="name-action">
         <div class="blog-info">
