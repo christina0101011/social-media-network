@@ -51,6 +51,7 @@ export class Comments {
   blog: Blog;
   content: String;
   user: User;
+  user_detail: Object;
   created_at: Date;
   updated_at: Date;
 }

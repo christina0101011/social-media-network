@@ -21,11 +21,12 @@ const themes = [
 // GET blogs listing
 module.exports.blogsList = (req, res, next) => {
   let blogsArr = [];
+  let commentsArr = [];
+
   Blog.find({})
   .exec()
   .then(blogs => {
     return blogs.map(blog => {
-
       let fullTheme = {};
       themes.forEach(theme => {
         if (blog.theme == theme._id) {
@@ -37,7 +38,6 @@ module.exports.blogsList = (req, res, next) => {
         _id: blog._id,
         photos: blog.photos,
         user: blog.user,
-        likes: blog.likes,
         description: blog.description,
         url: blog.url,
         theme: fullTheme,
@@ -80,17 +80,50 @@ module.exports.blogsList = (req, res, next) => {
     return Comments.find({blog: {$in: blogsIdArr }}).exec();
   })
 
-    .then (comments => {
-      blogsArr = blogsArr.map(blog => {
-        blog.comments = [];
-        comments.forEach(comment => {
-          if (comment.blog + '' == blog._id) {
-            blog.comments.push(comment);
-          }
-        });
+  .then(comments => {
+    commentsArr = comments;
+    let commentators = []
 
-        return blog;
+    commentsArr.forEach(comment => {
+      commentators.push(comment.user)
+    })
+
+    return User.find({_id: {$in: commentators}}).exec();
+  })
+
+  .then(commentsUsersArr => {
+    commentsArr = commentsArr.map(comment => {
+      let user_detail = {};
+
+      commentsUsersArr.forEach(commentUser => {
+        if (comment.user + '' == commentUser._id + ''){
+          user_detail = commentUser;
+        }
+      })
+
+      return {
+        _id: comment._id,
+        blog: comment.blog,
+        content: comment.content,
+        user: comment.user,
+        created_at: comment.created_at,
+        avatar: user_detail.avatar,
+        first_name: user_detail.first_name,
+        last_name: user_detail.last_name
+      };
+    })
+    // console.log(commentsArr);
+
+    blogsArr = blogsArr.map(blog => {
+      blog.comments = [];
+      commentsArr.forEach(comment => {
+        if (comment.blog + '' == blog._id) {
+          blog.comments.push(comment);
+        }
       });
+
+      return blog;
+    });
 
     res.send(blogsArr);
   })

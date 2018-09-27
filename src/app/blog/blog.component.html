@@ -140,24 +140,25 @@
     <footer>
       <div class="show-comments" *ngIf="showComments" >
         <div *ngFor="let comment of blog.comments">
+          
         <div class="full-comment">
-          <div class="avatar">
-              <img [src]="serverUrl + blog.user.avatar" alt="Loading...">
+
+            <div class="avatar">
+              <img [src]="serverUrl + comment.avatar" alt="Loading...">
             </div>
-            <!-- <div class="name-action"> -->
-              <!-- <div class="blog-info"> -->
-                <div class="blog-details">
-                  <div class="user-name">{{ fullName }}
-                    <div class="online-status">
-                    </div>
+            
+            <div class="blog-details">
+              <div class="blog-info">
+                <div class="user-name">{{ comment.first_name + ' ' + comment.last_name }}
+                  <div class="online-status">
                   </div>
-                <!-- </div> -->
+                </div>
                 <p class="date">{{ comment.created_at | date }}</p>
               </div>
-            <!-- </div> -->
               <div class="comment-full-text">
                 {{comment.content}}
-             </div>
+               </div>
+            </div>
           </div>
         </div>
       </div>

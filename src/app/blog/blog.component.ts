@@ -24,7 +24,7 @@ export class BlogComponent implements OnInit {
   newComment: string;
   comment: Array<string> = [];
   openComments: boolean = false;
-  showComments: boolean = false;
+  showComments: boolean = true; // change show to hide
  
   constructor(
     private modalService: NgbModal, 
