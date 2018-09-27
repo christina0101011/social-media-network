@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Blog, NewBlog } from './Models';
+import { Blog, NewBlog, Comments} from './Models';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators/map';
 import { AuthenticationService } from './authentication.service';
@@ -92,4 +92,16 @@ export class BlogsService {
   return this.http.get('/api/blog/theme');
   }
 
+  postComment(comment, _id) {
+    return this.http.post(url + '/api/comment/' + _id, comment, 
+    { headers: { Authorization: `Bearer ${this.getToken()}` }}).pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.auth.saveToken(data.token);
+        }
+        return data;
+      })
+    )
+    .subscribe( () => { this.blogEvent.emit() } );
+  }
 }

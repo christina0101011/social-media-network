@@ -32,7 +32,7 @@
              <div 
               aria-hidden="true" 
               class="send-icon" 
-              (click)="submitComment($event)">
+              (click)="submitComment(blog._id)">
             </div>
           </div>
         </li>
@@ -59,7 +59,7 @@
               </div>
             </div>
             <span>{{blog.theme.themeDescription}}
-              <span class="blog-theme">{{blog.theme.title | lowercase }}
+              <span class="blog-theme">{{ blog.theme.title | lowercase }}
              </span>
            </span>
             <span *ngIf="blog.photos !== null && blog.photos.length > 1"> uploaded
@@ -138,14 +138,38 @@
 
     <!-- footer -->
     <footer>
+      <div class="show-comments" *ngIf="showComments" >
+        <div *ngFor="let comment of blog.comments">
+        <div class="full-comment">
+          <div class="avatar">
+              <img [src]="serverUrl + blog.user.avatar" alt="Loading...">
+            </div>
+            <!-- <div class="name-action"> -->
+              <!-- <div class="blog-info"> -->
+                <div class="blog-details">
+                  <div class="user-name">{{ fullName }}
+                    <div class="online-status">
+                    </div>
+                  </div>
+                <!-- </div> -->
+                <p class="date">{{ comment.created_at | date }}</p>
+              </div>
+            <!-- </div> -->
+              <div class="comment-full-text">
+                {{comment.content}}
+             </div>
+          </div>
+        </div>
+      </div>
+
       <div class="users-likes">
         <div class="likes">
           <div class="likes-icon"></div>
           <span class="users-counter">25</span>
         </div>
-        <div class="comments">
+        <div class="comments" (click)="showComments=!showComments">
           <div class="comments-icon"></div>
-          <span class="users-counter">15</span>
+          <span class="users-counter">{{blog.comments.length}}</span>
         </div>
         <div class="share">
           <div class="share-icon"></div>

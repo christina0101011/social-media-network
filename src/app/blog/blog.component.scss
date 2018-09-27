@@ -512,6 +512,85 @@ $colour-light-grey: rgb(218, 216, 216);
       align-items: center;
       flex-wrap: wrap;
       width: 100%;
+
+
+      .show-comments {
+        width: 100%;
+        // max-height: 250px;
+        height: 250px;
+        background-color: rgb(252, 255, 192);
+        overflow-y: scroll;
+        overflow-x: hidden;
+        .full-comment {
+          display: flex;
+          width: 100%;
+          padding: 5px;
+          .avatar {
+            // position: absolute;
+            display: inline-block;
+            // bottom: 0;
+            // left: 0;
+            // right: 0;
+            // padding: 0 10px 15px 15px;
+            // margin-right: 10px;
+            width: 30px;
+            img {
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+          }
+          .name-action {
+            flex-grow: 1;
+            // display: flex;
+            // justify-content: space-between;
+            // flex-wrap: wrap;
+            // width: 80%;
+            // position: absolute;
+            // bottom: 0;
+            // left: 60px;
+            // right: 0;
+            // .blog-info {
+              // display: flex;
+              // flex-wrap: wrap;
+              // padding-left: 10px;
+              .blog-details {
+                // width: 100%;
+                display: flex;
+                // flex-grow: 1;
+                .user-name {
+                  font-weight: bold;
+                  color: $colour-deep-grey;
+                  display: inline-block;
+                  .online-status {
+                    margin-bottom: -5px;
+                    background-position: center;
+                    display: inline-block;
+                    width: 15px;
+                    height: 15px;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-image: url('data:image/svg+xml;utf8,<svg fill="#4482fe" xmlns="http://www.w3.org/2000/svg" width="706" height="706" viewBox="0 0 705.8 705.8"><path d="M504.5 75.5c-10-10-26.2-10-36.2 0L161.6 382.2 43.7 264.3c-10-10-26.2-10-36.2 0 -10 10-10 26.2 0 36.2l136 136c10 10 26.2 10 36.2 0L504.5 111.7C514.5 101.7 514.5 85.5 504.5 75.5z"/></svg>')
+                  }
+                }
+                .date {
+                  width: 100%;
+                  font-size: .8em;
+                  margin: 0!important;
+                }
+              }
+            }
+            .comment-full-text {
+              max-height: 50px;
+              // overflow-y: scroll;
+              // overflow-x: hidden;
+            }
+          }
+        }
+      // }
+
+
       .users-likes {
         display: flex;
         align-items: center;

@@ -79,6 +79,7 @@ export class Theme {
 }
 
 export class Blog {
+  _id: String;
   user: User;
   photos: Array<Photos>;
   likes: Array<Likes>;

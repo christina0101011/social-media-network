@@ -7,7 +7,7 @@ const Description = require('../models/Description');
 const Likes = require('../models/Likes');
 const Photos = require('../models/Photos');
 const Theme = require('../models/Theme');
-var User = mongoose.model('User');
+const User = mongoose.model('User');
 const srvUpload = require('../uploading-files.service');
 const profile = require('./profile');
 
@@ -23,15 +23,16 @@ module.exports.blogsList = (req, res, next) => {
   let blogsArr = [];
   Blog.find({})
   .exec()
-
   .then(blogs => {
     return blogs.map(blog => {
+
       let fullTheme = {};
       themes.forEach(theme => {
         if (blog.theme == theme._id) {
           fullTheme = theme;
         }
       });
+
       return {
         _id: blog._id,
         photos: blog.photos,
@@ -40,7 +41,6 @@ module.exports.blogsList = (req, res, next) => {
         description: blog.description,
         url: blog.url,
         theme: fullTheme,
-        comments: blog.comments,
         created_at: blog.created_at,
         updated_at: blog.created_at,
         __v: blog.__v
@@ -66,9 +66,55 @@ module.exports.blogsList = (req, res, next) => {
       });
       return blog;
     });
+
+    return blogsArr
+  })
+
+  .then (blogsArr => {
+    // console.log(blogsArr);
+    let blogsIdArr = [];
+    blogsArr.forEach(blog => {
+      blogsIdArr.push(blog._id);
+    });
+
+    return Comments.find({blog: {$in: blogsIdArr }}).exec();
+  })
+
+    .then (comments => {
+      blogsArr = blogsArr.map(blog => {
+        blog.comments = [];
+        comments.forEach(comment => {
+          if (comment.blog + '' == blog._id) {
+            blog.comments.push(comment);
+          }
+        });
+
+        return blog;
+      });
+
     res.send(blogsArr);
   })
+
   .catch(err => res.send(err));
+};
+
+// new comment
+module.exports.postComment = (req, res) => {
+  const comment = new Comments();
+  comment.blog = req.params._id;
+  comment.content = req.body[0];
+  comment.user = req.payload._id;
+
+  comment.save((err) => {
+    if (err) {
+      console.log({ success: false, message: err });
+      res.status(500).send({ "Error" : err.message });
+      res.json({ success: false, message: err });
+    } else {
+      res.json({ success: true, message: 'new comment posted' });
+      console.log('new comment posted');
+    }
+  });
 }
 
 // Post new blog
@@ -82,12 +128,11 @@ module.exports.newBlog = (req, res) => {
   const blog = new Blog();
   blog.user = req.payload._id;
   blog.photos = req.body.photos || [];
-  // blog.likes = req.payload._id;
-  // blog.comments = req.payload._id;
   blog.description = req.body.description;
   blog.url = req.body.url;
   blog.theme = req.body.theme;
   // blog.type = req.blogType;
+  console.log('commment', blog.comments)
   blog.save((err) => {
     if (err) {
       console.log({ success: false, message: err });
@@ -100,6 +145,7 @@ module.exports.newBlog = (req, res) => {
   });
 }
 
+// themes
 module.exports.getTheme = (req, res) => {
   res.send(themes);
 }

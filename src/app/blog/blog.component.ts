@@ -21,8 +21,10 @@ export class BlogComponent implements OnInit {
   userDetails: any;
   fullName: any;
   serverUrl = this._blogsService.makeImgLink();
-  newComment:string;
+  newComment: string;
+  comment: Array<string> = [];
   openComments: boolean = false;
+  showComments: boolean = false;
  
   constructor(
     private modalService: NgbModal, 
@@ -45,9 +47,14 @@ export class BlogComponent implements OnInit {
   };
 
   submitComment() {
-    console.log(this.newComment);
-    this.newComment = '';
-    this.openComments=!this.openComments;
+    // console.log(this.newComment);
+    if (this.newComment){
+      this.comment.push(this.newComment);
+      this._blogsService.postComment(this.comment, this.blog._id);
+      this.newComment = '';
+      this.comment = [];
+      this.openComments=!this.openComments;
+    }
   }
 
   openLg(id) {
@@ -114,6 +121,6 @@ export class BlogComponent implements OnInit {
 
     this.fullName = this.usersFullName();
 
-    // console.log(5777, this.blog)
+    console.log(5777, this.blog)
   };
 }

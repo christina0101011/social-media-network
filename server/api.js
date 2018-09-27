@@ -59,5 +59,7 @@ router.get('/api/file/:name', srvUpload.getFile);
 //avatar
 router.post('/api/avatar', auth, srvUpload.avatar);
 
+// comments
+router.post('/api/comment/:_id', auth, ctrlBlogs.postComment);
 
 module.exports = router;
