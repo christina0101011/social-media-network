@@ -25,6 +25,13 @@ $colour-light-grey: rgb(218, 216, 216);
   position: relative;
 }
 
+*:focus {
+  outline: 0!important;
+}
+::placeholder {
+  color: $colour-grey;
+}
+
 // blogs styles
 .blog-wraper {
   display: inline-block;
@@ -189,6 +196,7 @@ $colour-light-grey: rgb(218, 216, 216);
           width: 30px;
           height: 30px;
           border-radius: 50%;
+          object-fit: cover;
         }
       }
       .name-action {
@@ -294,6 +302,7 @@ $colour-light-grey: rgb(218, 216, 216);
           width: 30px;
           height: 30px;
           border-radius: 50%;
+          object-fit: cover;
         }
       }
       .name-action {
@@ -503,6 +512,70 @@ $colour-light-grey: rgb(218, 216, 216);
       align-items: center;
       flex-wrap: wrap;
       width: 100%;
+
+
+      .show-comments {
+        width: 100%;
+        height: 250px;
+        background-color: rgb(252, 255, 192);
+        overflow-y: scroll;
+        overflow-x: hidden;
+        .full-comment {
+          display: flex;
+          width: 100%;
+          padding: 5px;
+          flex-wrap: wrap;
+
+          .avatar {
+            display: inline-block;
+            width: 40px;
+            img {
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+          }
+
+          .blog-details {
+            flex-wrap: wrap;
+            width: 90%;
+            display: flex;
+            .blog-info {
+            width: 100%;
+            flex-wrap: wrap;
+            // flex-grow: 1;
+            .user-name {
+              font-weight: bold;
+              color: $colour-deep-grey;
+              display: inline-block;
+              .online-status {
+                margin-bottom: -5px;
+                background-position: center;
+                display: inline-block;
+                width: 15px;
+                height: 15px;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-image: url('data:image/svg+xml;utf8,<svg fill="#4482fe" xmlns="http://www.w3.org/2000/svg" width="706" height="706" viewBox="0 0 705.8 705.8"><path d="M504.5 75.5c-10-10-26.2-10-36.2 0L161.6 382.2 43.7 264.3c-10-10-26.2-10-36.2 0 -10 10-10 26.2 0 36.2l136 136c10 10 26.2 10 36.2 0L504.5 111.7C514.5 101.7 514.5 85.5 504.5 75.5z"/></svg>')
+              }
+            }
+            .date {
+              display: inline-block;
+              font-size: .8em;
+              color: darkgreen;
+            }
+          }
+            .comment-full-text {
+              width: 100%;
+              max-height: 50px;
+              overflow-y: auto;
+            }
+          }
+        }
+      }
+
+
       .users-likes {
         display: flex;
         align-items: center;
@@ -787,6 +860,35 @@ $colour-light-grey: rgb(218, 216, 216);
   }
 }
 
+/////////// window for comments
+.new-comment {
+  clip-path: polygon(0% 0%, 90% 0, 90% 31%, 99% 50%, 90% 67%, 90% 100%, 0 100%);
+  background-color: #ebe8fc;
+  position: absolute;
+  z-index: 2;
+  width: 400px;
+  right: 40px;
+  top: -20px;
+  .text-comment {
+    margin: 10px;
+    width: 300px;
+    border: 0;
+    resize: none;
+    background-color: #ebe8fc;
+  }
+  .send-icon {
+    background-position: center;
+    width: 20px;
+    height: 20px;
+    top: -20px;
+    display: inline-block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="#4d4d4d" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.6 51.6"><path d="M51.4 0.9c-0.3-0.3-0.7-0.4-1.1-0.2L0.6 23.5c-0.4 0.2-0.6 0.6-0.6 1s0.4 0.8 0.8 0.9l22.3 3.7 2.5 21c0.1 0.4 0.4 0.8 0.8 0.9 0.1 0 0.1 0 0.2 0 0.4 0 0.7-0.2 0.9-0.6l24-48.4C51.7 1.7 51.6 1.2 51.4 0.9z"/></svg>')
+  }
+}//////////////////////
+
+
 // ng classes to switch views (large-grid)
 .large-view {
   background-image: url('data:image/svg+xml;utf8,<svg fill="#000" xmlns="http://www.w3.org/2000/svg" width="706" height="706" viewBox="0 0 705.8 705.8"><path d="M433.1 5.4C429.5 1.8 425.2 0 420.3 0H18.3C13.3 0 9 1.8 5.4 5.4 1.8 9 0 13.3 0 18.3v402c0 4.9 1.8 9.2 5.4 12.8 3.6 3.6 7.9 5.4 12.9 5.4h402c4.9 0 9.2-1.8 12.8-5.4 3.6-3.6 5.4-7.9 5.4-12.8V18.3C438.5 13.3 436.7 9 433.1 5.4z"/></svg>');
@@ -824,3 +926,42 @@ $colour-light-grey: rgb(218, 216, 216);
 .show-modal {
   display: block;
 }
+
+// .ce {
+//   border: 1px dotted gray;
+// }
+// .comment{
+//   width: 100px;
+//   height: 30px;
+//   border: 1px solid red;
+//   background: #ccc;
+//   position: relative;
+//   &:before,
+//   &:after{
+//     position: absolute;
+//     content: '';
+//     display: block;
+//     border-width: 10px 20px;
+//     border-style: solid;
+    
+//     left: 100%;
+//     top: 50%;
+//   }
+//   &:before{
+//     margin-top: -10px;
+//     left: calc(100% + 1px);
+//     border-color: transparent transparent transparent red;
+//   }
+//   &:after{
+//     margin-top: -10px;
+//     border-color: transparent transparent transparent #ccc;
+//   }
+// }
+
+
+// <div class='ce' contenteditable="true">
+// This text is <b>editable</b>.
+// </div>
+// <div class="comment">
+//   adsf asd asd
+// </div>

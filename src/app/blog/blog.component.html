@@ -18,8 +18,22 @@
           </div>
         </li>
         <li class="circle-menu">
-          <div class="comment">
+          <div class="comment" (click)="openComments=!openComments">
             <span class="circle-menu-info">Comment</span>
+          </div>
+          <div class="new-comment" *ngIf="openComments">
+              <textarea 
+              rows="3"
+              placeholder="comment"
+              class="text-comment"
+              (keyup)="submitCommentOnEnterKey($event)"
+              [(ngModel)]="newComment">
+            </textarea>
+             <div 
+              aria-hidden="true" 
+              class="send-icon" 
+              (click)="submitComment(blog._id)">
+            </div>
           </div>
         </li>
         <li class="circle-menu">
@@ -33,19 +47,19 @@
     <!-- header -->
     <header
       [ngClass]="headerClass"
-      [ngStyle]="{'background-image': (headerClass==='header-image') ? 'url(' + serverUrl + blog.photos[0] + ')' : null}">
+      [ngStyle]="{'background-image': headerClass==='header-image' ? 'url(' + serverUrl + blog.photos[0] + ')' : null}">
       <div class="avatar">
-        <img src="../../assets/unnamed.jpg" alt="Loading...">
+        <img [src]="serverUrl + blog.user.avatar" alt="Loading...">
       </div>
       <div class="name-action">
         <div class="blog-info">
           <div class="blog-details">
-            <div class="user-name">Greg Mills
+            <div class="user-name">{{ fullName }}
               <div class="online-status">
               </div>
             </div>
             <span>{{blog.theme.themeDescription}}
-              <span class="blog-theme">{{blog.theme.title | lowercase }}
+              <span class="blog-theme">{{ blog.theme.title | lowercase }}
              </span>
            </span>
             <span *ngIf="blog.photos !== null && blog.photos.length > 1"> uploaded
@@ -58,7 +72,7 @@
           <p class="date">{{ blog.created_at | date }}</p>
         </div>
       </div>
-      <div class="user-menu">
+      <div class="user-menu" *ngIf="this.userDetails?._id === this.blog.user._id">
         <button type="button" class="close icon user-menu-btn">
           <div aria-hidden="true" class="user-menu-icon icon" (click)="showMenu = !showMenu"></div>
         </button>
@@ -81,7 +95,7 @@
          *ngIf="blog.url != null && !id"
          class="url">{{ blog.url }}
       </a>
-      <div *ngIf="blog.photos !== null && blog.photos.length > 1">
+      <div *ngIf="blog.photos !== null && blog.photos.length > 1" (click)="openLg(fullBlog)">
         <div class="image-wrapper">
           <ul class="image-list">
             <li class="w2-col">
@@ -124,14 +138,39 @@
 
     <!-- footer -->
     <footer>
+      <div class="show-comments" *ngIf="showComments" >
+        <div *ngFor="let comment of blog.comments">
+          
+        <div class="full-comment">
+
+            <div class="avatar">
+              <img [src]="serverUrl + comment.avatar" alt="Loading...">
+            </div>
+            
+            <div class="blog-details">
+              <div class="blog-info">
+                <div class="user-name">{{ comment.first_name + ' ' + comment.last_name }}
+                  <div class="online-status">
+                  </div>
+                </div>
+                <p class="date">{{ comment.created_at | date }}</p>
+              </div>
+              <div class="comment-full-text">
+                {{comment.content}}
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="users-likes">
         <div class="likes">
           <div class="likes-icon"></div>
           <span class="users-counter">25</span>
         </div>
-        <div class="comments">
+        <div class="comments" (click)="showComments=!showComments">
           <div class="comments-icon"></div>
-          <span class="users-counter">15</span>
+          <span class="users-counter">{{blog.comments.length}}</span>
         </div>
         <div class="share">
           <div class="share-icon"></div>
@@ -162,14 +201,14 @@
   <div
     class="modal-header"
     [ngClass]="headerClass"
-    [ngStyle]="{'background-image': (blog.photos !== null && blog.photos.length < 2) ? 'url(' + blog.photos[0] + ')' : null}">
+    [ngStyle]="{'background-image': headerClass==='header-image' ? 'url(' + blog.photos[0] + ')' : null}">
     <div class="avatar">
       <img src="../../assets/unnamed.jpg" alt="Loading...">
     </div>
     <div class="name-action">
       <div class="blog-info">
         <div class="blog-details">
-          <div class="user-name">Greg Mills
+          <div class="user-name">{{ blog.user.first_name }} {{ blog.user.last_name }}
             <div class="online-status">
             </div>
           </div>
@@ -184,7 +223,7 @@
            </span>
          </span>
         </div>
-        <p class="date">{{ blog.date | date }}</p>
+        <p class="date">{{ blog.created_at | date }}</p>
       </div>
     </div>
     <button type="button" class="close" aria-label="Close" (click)="c('Cross click')">
@@ -239,4 +278,3 @@
   *ngIf="showPopUp"
   [blog]="blog">
 </app-edit-blog>
-

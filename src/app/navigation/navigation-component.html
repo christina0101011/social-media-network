@@ -14,7 +14,7 @@
       <div class="collapse navbar-collapse justify-content-between" id="navbarTogglerDemo03">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item active" *ngIf="auth.isLoggedIn()">
-            <a class="nav-link" routerLink="/blogs">Blog<span class="sr-only">(current)</span></a>
+            <a class="nav-link nav-link-blog" routerLink="/blogs">Blog<span class="sr-only">(current)</span></a>
          </li>
          <li>
             <app-new-blog [uploadBtn]="'header'">
@@ -29,7 +29,7 @@
             <a class="nav-link" routerLink="/register">Register</a>
           </li>
           <li class="nav-item" *ngIf="auth.isLoggedIn()">
-            <a class="nav-link" routerLink="/profile">{{ auth.getUserDetails()?.name }}</a>
+            <a class="nav-link" routerLink="/profile">{{ auth.getUserDetails()?.name | uppercase }}</a>
           </li>
           <li class="nav-item" *ngIf="auth.isLoggedIn()">
             <a class="nav-link" (click)="auth.logout()">Logout</a>

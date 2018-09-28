@@ -1,5 +1,5 @@
 const passport = require('passport/lib');
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const Blog = require('../models/Blog');
 const BlogType = require('../models/BlogType');
 const Comments = require('../models/Comments');
@@ -7,8 +7,9 @@ const Description = require('../models/Description');
 const Likes = require('../models/Likes');
 const Photos = require('../models/Photos');
 const Theme = require('../models/Theme');
-const User = require('../models/User');
+const User = mongoose.model('User');
 const srvUpload = require('../uploading-files.service');
+const profile = require('./profile');
 
 const themes = [
   {_id: '41224d776a326fb40f000001', title: 'Wish', themeDescription: 'made a'},
@@ -19,37 +20,132 @@ const themes = [
 
 // GET blogs listing
 module.exports.blogsList = (req, res, next) => {
-  Blog.find({}, (err, blogs) => {
-    if (err) {
-      console.log(err);
-      res.send(err, { error: 'Fetching failed!' })
-    } else {
-      // console.log(blogs);
-      let blogsWithThemes = blogs.map(blog => {
-        let fullTheme = {};
-        themes.forEach((theme) => {
-          if (blog.theme == theme._id) {
-            fullTheme = theme;
-          }
-        });
-        // console.log(222222222, blog);
-        // blog.photos = srvUpload.getFile((res)=>{
-        //   console.log(res, 'photos')
-        // })
-        return {
-          _id: blog._id,
-          photos: blog.photos,
-          likes: blog.likes,
-          description: blog.description,
-          url: blog.url,
-          theme: fullTheme,
-          comments: blog.comments,
-          created_at: blog.created_at,
-          __v: blog.__v
-        };
+  let blogsArr = [];
+  let commentsArr = [];
+
+  Blog.find({})
+  .exec()
+  .then(blogs => {
+    return blogs.map(blog => {
+      let fullTheme = {};
+      themes.forEach(theme => {
+        if (blog.theme == theme._id) {
+          fullTheme = theme;
+        }
       });
-      res.send(blogsWithThemes);
-      next();
+
+      return {
+        _id: blog._id,
+        photos: blog.photos,
+        user: blog.user,
+        description: blog.description,
+        url: blog.url,
+        theme: fullTheme,
+        created_at: blog.created_at,
+        updated_at: blog.created_at,
+        __v: blog.__v
+      }
+    });
+  })
+
+  .then( blogs => {
+    blogsArr = blogs;
+    let usersArr = [];
+    blogs.forEach(blog => {
+      usersArr.push(blog.user);
+    });
+    return User.find({_id: {$in: usersArr }}).exec();
+  })
+
+  .then(usersArr => {
+    blogsArr = blogsArr.map(blog => {
+      usersArr.forEach(user => {
+        if (user._id + '' == blog.user) {
+          blog.user = user;
+        }
+      });
+      return blog;
+    });
+
+    return blogsArr
+  })
+
+  .then (blogsArr => {
+    // console.log(blogsArr);
+    let blogsIdArr = [];
+    blogsArr.forEach(blog => {
+      blogsIdArr.push(blog._id);
+    });
+
+    return Comments.find({blog: {$in: blogsIdArr }}).exec();
+  })
+
+  .then(comments => {
+    commentsArr = comments;
+    let commentators = []
+
+    commentsArr.forEach(comment => {
+      commentators.push(comment.user)
+    })
+
+    return User.find({_id: {$in: commentators}}).exec();
+  })
+
+  .then(commentsUsersArr => {
+    commentsArr = commentsArr.map(comment => {
+      let user_detail = {};
+
+      commentsUsersArr.forEach(commentUser => {
+        if (comment.user + '' == commentUser._id + ''){
+          user_detail = commentUser;
+        }
+      })
+
+      return {
+        _id: comment._id,
+        blog: comment.blog,
+        content: comment.content,
+        user: comment.user,
+        created_at: comment.created_at,
+        avatar: user_detail.avatar,
+        first_name: user_detail.first_name,
+        last_name: user_detail.last_name
+      };
+    })
+    // console.log(commentsArr);
+
+    blogsArr = blogsArr.map(blog => {
+      blog.comments = [];
+      commentsArr.forEach(comment => {
+        if (comment.blog + '' == blog._id) {
+          blog.comments.push(comment);
+        }
+      });
+
+      return blog;
+    });
+
+    res.send(blogsArr);
+  })
+
+  .catch(err => res.send(err));
+};
+
+// new comment
+module.exports.postComment = (req, res) => {
+  const comment = new Comments();
+  comment.blog = req.params._id;
+  comment.content = req.body[0];
+  comment.user = req.payload._id;
+
+  comment.save((err) => {
+    if (err) {
+      console.log({ success: false, message: err });
+      res.status(500).send({ "Error" : err.message });
+      res.json({ success: false, message: err });
+    } else {
+      res.json({ success: true, message: 'new comment posted' });
+      console.log('new comment posted');
     }
   });
 }
@@ -62,18 +158,14 @@ module.exports.newBlog = (req, res) => {
 {
   res.status(422).send({"Error: unprocessable entity" : err.message});
 }
-
-console.log(req.body);
   const blog = new Blog();
-  // blog.user = req.payload._id;
+  blog.user = req.payload._id;
   blog.photos = req.body.photos || [];
-  // console.log('photos: ', blog.photos)
-  // blog.likes = req.payload._id;
-  // blog.comments = req.payload._id;
   blog.description = req.body.description;
   blog.url = req.body.url;
   blog.theme = req.body.theme;
   // blog.type = req.blogType;
+  console.log('commment', blog.comments)
   blog.save((err) => {
     if (err) {
       console.log({ success: false, message: err });
@@ -81,10 +173,12 @@ console.log(req.body);
       res.json({ success: false, message: err });
     } else {
       res.json({ success: true, message: 'blog created' });
+      // console.log('req', req.body);
     }
   });
 }
 
+// themes
 module.exports.getTheme = (req, res) => {
   res.send(themes);
 }
@@ -107,7 +201,9 @@ module.exports.updateBlog = (req, res, next) => {
     {description: req.body.description,
     url: req.body.url,
     photos: req.body.photos,
-    theme: req.body.theme}, 
+    theme: req.body.theme,
+    updated_at: req.body.updated_at
+  }, 
     (err, blog) => {
       console.log(err);
       console.log('updateBlog: ', blog);
@@ -115,7 +211,7 @@ module.exports.updateBlog = (req, res, next) => {
       res.send(err);
       return next(err);
     } else {
-      console.log('req.body.photos: ', req.body.photos)
+      // console.log('req.body.photos: ', req.body.photos)
       res.send({ data : "Blog has been Updated..!!" });  
     }
   }

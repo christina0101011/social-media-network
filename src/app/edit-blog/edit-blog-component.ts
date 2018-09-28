@@ -124,7 +124,7 @@ serverUrl = this._blogsService.makeImgLink();
 
     this.photosPreview.push(...this.blog.photos);
 
-    console.log(88, this.photosPreview,
-                55, this.blog.photos);
+    // console.log(88, this.photosPreview,
+    //             55, this.blog.photos);
   };
 }

@@ -1,7 +1,8 @@
 const multer = require('multer');
 const Photos = require('./models/Photos');
 const Blog = require('./models/Blog');
-const User = require('./models/User');
+const mongoose = require('mongoose');
+const User = mongoose.model('User');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -41,6 +42,23 @@ function uploadFiles(req, res) {
 module.exports.files = (req, res) => {
   return uploadFiles(req, res).then(img => {
     res.send(img);
+  }).catch(err => res.status(500).send({
+    error: err
+  }));
+}
+
+module.exports.avatar = (req, res) => {
+  return uploadFiles(req, res).then(img => {
+    User.update(
+      {_id : req.payload._id},
+      {avatar: img[0]},
+      (err, user) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(img);
+      }
+    });
   }).catch(err => res.status(500).send({
     error: err
   }));

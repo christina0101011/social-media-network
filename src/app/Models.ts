@@ -51,6 +51,7 @@ export class Comments {
   blog: Blog;
   content: String;
   user: User;
+  user_detail: Object;
   created_at: Date;
   updated_at: Date;
 }
@@ -79,6 +80,7 @@ export class Theme {
 }
 
 export class Blog {
+  _id: String;
   user: User;
   photos: Array<Photos>;
   likes: Array<Likes>;

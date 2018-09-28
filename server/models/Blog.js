@@ -13,10 +13,10 @@ module.exports = Blog = mongoose.model('Blog', new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Likes'
   }],
-  comments: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Comments'
-  }],
+  // comments: [{
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Comments'
+  // }],
   description: {
     type: String
   },

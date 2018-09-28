@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { Router } from '@angular/router';
-// import { TokenPayload, Photos, Likes, Comments, Description, BlogType, Theme, Blog, Passwords } from './Models';
 import { TokenPayload, Blog, Passwords } from './Models';
 import { User } from './Models';
 
@@ -20,7 +19,7 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  private saveToken(token: string): void {
+  public saveToken(token: string): void {
     localStorage.setItem('mean-token', token);
     this.token = token;
   }
@@ -88,6 +87,17 @@ export class AuthenticationService {
 
   public updateUser(user: User): Observable<any> {
     return this.http.put('/api/update', user, { headers: { Authorization: `Bearer ${this.getToken()}` } }).pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.saveToken(data.token);
+        }
+        return data;
+      })
+    );
+  }
+
+  public updateAvatar(formData): Observable<any> {
+    return this.http.post('/api/avatar', formData, { headers: { Authorization: `Bearer ${this.getToken()}` } }).pipe(
       map((data: TokenResponse) => {
         if (data.token) {
           this.saveToken(data.token);
