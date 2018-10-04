@@ -62,4 +62,7 @@ router.post('/api/avatar', auth, srvUpload.avatar);
 // comments
 router.post('/api/comment/:_id', auth, ctrlBlogs.postComment);
 
+//likes
+router.get('/api/likes/:_id', auth, ctrlBlogs.updateLike);
+
 module.exports = router;

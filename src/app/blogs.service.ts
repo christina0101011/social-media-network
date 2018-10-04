@@ -104,4 +104,17 @@ export class BlogsService {
     )
     .subscribe( () => { this.blogEvent.emit() } );
   }
+
+  updateLike(_id) {
+    return this.http.get(url + '/api/likes/' + _id, 
+    { headers: { Authorization: `Bearer ${this.getToken()}` }}).pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.auth.saveToken(data.token);
+        }
+        return data;
+      })
+    )
+    .subscribe( () => { this.blogEvent.emit() } );
+  }
 }

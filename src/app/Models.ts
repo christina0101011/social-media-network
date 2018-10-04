@@ -13,9 +13,6 @@ export class User {
   deleted_at: { type: Date };
   deleted: { type: Boolean, default: false};
   blogs: Array<Object>;
-  // constructor (_AuthenticationService: AuthenticationService) {
-  //   this.blogs = _AuthenticationService.getBlogs();
-  // }
 }
 
 export class Passwords {
@@ -33,18 +30,13 @@ export class TokenPayload {
 export class Photos {
   id: String;
   url: URL;
-  // created_at: Date;
-  // updated_at: Date;
-  // deleted_at: Date;
 }
 
-export class Likes {
-  id: String;
-  blog: Blog;
-  users: Array<User>;
-  created_at: Date;
-  updated_at: Date;
-}
+// export class Likes {
+//   id: String;
+//   blog: Blog;
+//   users: Array<User>;
+// }
 
 export class Comments {
   id: String;
@@ -73,17 +65,13 @@ export class BlogType {
 export class Theme {
   title: String;
   themeDescription: String;
-  // prefix: String;
-  // created_at: Date ;
-  // updated_at: Date;
-  // deleted_at: Date;
 }
 
 export class Blog {
   _id: String;
   user: User;
   photos: Array<Photos>;
-  likes: Array<Likes>;
+  likes: any;
   description: String;
   url: String;
   comments: Array<Comments>;

@@ -22,6 +22,7 @@ const themes = [
 module.exports.blogsList = (req, res, next) => {
   let blogsArr = [];
   let commentsArr = [];
+  let likesWithUserDetails = [];
 
   Blog.find({})
   .exec()
@@ -37,6 +38,7 @@ module.exports.blogsList = (req, res, next) => {
       return {
         _id: blog._id,
         photos: blog.photos,
+        likes: blog.likes,
         user: blog.user,
         description: blog.description,
         url: blog.url,
@@ -71,7 +73,6 @@ module.exports.blogsList = (req, res, next) => {
   })
 
   .then (blogsArr => {
-    // console.log(blogsArr);
     let blogsIdArr = [];
     blogsArr.forEach(blog => {
       blogsIdArr.push(blog._id);
@@ -82,8 +83,7 @@ module.exports.blogsList = (req, res, next) => {
 
   .then(comments => {
     commentsArr = comments;
-    let commentators = []
-
+    let commentators = [];
     commentsArr.forEach(comment => {
       commentators.push(comment.user)
     })
@@ -94,7 +94,6 @@ module.exports.blogsList = (req, res, next) => {
   .then(commentsUsersArr => {
     commentsArr = commentsArr.map(comment => {
       let user_detail = {};
-
       commentsUsersArr.forEach(commentUser => {
         if (comment.user + '' == commentUser._id + ''){
           user_detail = commentUser;
@@ -111,8 +110,7 @@ module.exports.blogsList = (req, res, next) => {
         first_name: user_detail.first_name,
         last_name: user_detail.last_name
       };
-    })
-    // console.log(commentsArr);
+    });
 
     blogsArr = blogsArr.map(blog => {
       blog.comments = [];
@@ -121,12 +119,42 @@ module.exports.blogsList = (req, res, next) => {
           blog.comments.push(comment);
         }
       });
-
       return blog;
     });
-
-    res.send(blogsArr);
+    return blogsArr;
   })
+
+  .then(blogsArr => {
+    let likesArr = [];
+    blogsArr.forEach(blog => {
+      likesArr.push(...blog.likes)
+    })
+    return User.find({_id: {$in: likesArr}}).exec()
+  })
+
+.then(likesUsers => {
+  blogsArr = blogsArr.map(blog => {
+    let likesWithUsers = [];
+    
+    blog.likes.map(like => {
+      likesUsers.forEach(user => {
+        if (like + '' == user._id) {
+          likesWithUsers.push({
+                  _id: user._id,
+                  first_name: user.first_name,
+                  last_name: user.last_name,
+                  avatar: user.avatar
+                });
+        }
+      });
+    });
+
+    blog.likes = likesWithUsers;
+    return blog;
+  });
+  
+  res.send(blogsArr)
+})
 
   .catch(err => res.send(err));
 };
@@ -148,6 +176,20 @@ module.exports.postComment = (req, res) => {
       console.log('new comment posted');
     }
   });
+};
+
+module.exports.updateLike = (req, res) => {
+  Blog.findById(req.params._id).exec()
+  .then(blog => {
+    // console.log(blog);
+    blog.likes.push(req.payload._id);
+    return Blog.update({_id: req.params._id}, blog).exec()
+  })
+  .then(blog => {
+    // console.log('blog: ', blog)
+    res.send({ data : "Likes has been Updated..!!" }) }
+  )
+  .catch(err => res.send(err));
 }
 
 // Post new blog

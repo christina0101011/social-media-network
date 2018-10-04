@@ -26,7 +26,7 @@
               rows="3"
               placeholder="comment"
               class="text-comment"
-              (keyup)="submitCommentOnEnterKey($event)"
+              (keyup)="submitCommentOnEnterKey($event, blog._id)"
               [(ngModel)]="newComment">
             </textarea>
              <div 
@@ -48,13 +48,13 @@
     <header
       [ngClass]="headerClass"
       [ngStyle]="{'background-image': headerClass==='header-image' ? 'url(' + serverUrl + blog.photos[0] + ')' : null}">
-      <div class="avatar">
+      <div class="avatar" *ngIf="blog.user.avatar">
         <img [src]="serverUrl + blog.user.avatar" alt="Loading...">
       </div>
       <div class="name-action">
         <div class="blog-info">
           <div class="blog-details">
-            <div class="user-name">{{ fullName }}
+            <div class="user-name">{{ usersFullName(blog.user.first_name, blog.user.last_name) }}
               <div class="online-status">
               </div>
             </div>
@@ -149,7 +149,7 @@
             
             <div class="blog-details">
               <div class="blog-info">
-                <div class="user-name">{{ comment.first_name + ' ' + comment.last_name }}
+                <div class="user-name">{{ usersFullName( comment.first_name, comment.last_name ) }}
                   <div class="online-status">
                   </div>
                 </div>
@@ -165,8 +165,8 @@
 
       <div class="users-likes">
         <div class="likes">
-          <div class="likes-icon"></div>
-          <span class="users-counter">25</span>
+          <div class="likes-icon" (click)="likeIt(blog._id)"></div>
+          <span class="users-counter">{{blog.likes.length}}</span>
         </div>
         <div class="comments" (click)="showComments=!showComments">
           <div class="comments-icon"></div>
@@ -176,16 +176,14 @@
           <div class="share-icon"></div>
           <span class="users-counter">5</span>
         </div>
-        <div class="users-wrapper">
-          <div class="users-who-liked-blog"><img src="" alt=""></div>
-          <div class="users-who-liked-blog"><img src="" alt=""></div>
-          <div class="users-who-liked-blog"><img src="" alt=""></div>
-          <div class="users-who-liked-blog"><img src="" alt=""></div>
-          <div class="users-who-liked-blog"><img src="" alt=""></div>
-          <div class="more-users-who-liked-blog">
-            Kate, Igor and 12 other <br> people liked it
+        <div *ngIf="blog.likes">
+          <div class="users-wrapper">
+            <img *ngFor="let image of blog.likes.slice().reverse().slice(0, 4)" class="users-who-liked-blog" [src]="serverUrl + image.avatar" alt="Loading">
           </div>
-        </div>
+       </div>
+          <div class="more-users-who-liked-blog">
+             {{ blog.likes.slice().reverse()[0].first_name }}, {{ blog.likes.slice().reverse()[1].first_name }} and {{blog.likes.length}} other <br> people liked it
+          </div>
       </div>
       <h2
         *ngIf="blog.theme"

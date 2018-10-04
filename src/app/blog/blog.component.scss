@@ -517,8 +517,8 @@ $colour-light-grey: rgb(218, 216, 216);
       .show-comments {
         width: 100%;
         height: 250px;
-        background-color: rgb(252, 255, 192);
-        overflow-y: scroll;
+        background-color: rgb(250, 252, 229);
+        overflow-y: auto;
         overflow-x: hidden;
         .full-comment {
           display: flex;
@@ -546,9 +546,10 @@ $colour-light-grey: rgb(218, 216, 216);
             flex-wrap: wrap;
             // flex-grow: 1;
             .user-name {
-              font-weight: bold;
-              color: $colour-deep-grey;
+              font-weight: 1000;
               display: inline-block;
+              font-size: 1.1em;
+              color: rgb(156, 52, 201);
               .online-status {
                 margin-bottom: -5px;
                 background-position: center;
@@ -563,7 +564,9 @@ $colour-light-grey: rgb(218, 216, 216);
             .date {
               display: inline-block;
               font-size: .8em;
-              color: darkgreen;
+              color: rgb(165, 91, 226);
+              margin-bottom: 0;
+              font-weight: 700;
             }
           }
             .comment-full-text {

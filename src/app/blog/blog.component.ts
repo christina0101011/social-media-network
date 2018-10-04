@@ -19,35 +19,36 @@ export class BlogComponent implements OnInit {
   switchView: string = 'modal-images-grid';
   showPopUp: boolean = false;
   userDetails: any;
-  fullName: any;
   serverUrl = this._blogsService.makeImgLink();
   newComment: string;
   comment: Array<string> = [];
   openComments: boolean = false;
-  showComments: boolean = true; // change show to hide
+  showComments: boolean = false; // change show to hide
  
   constructor(
     private modalService: NgbModal, 
     private _blogsService: BlogsService,
     private auth: AuthenticationService
-    ) {}
+  ) {}
 
-  usersFullName() {
-    let first_name = this.blog.user.first_name[0].toUpperCase() + this.blog.user.first_name.slice(1);
-    let last_name = this.blog.user.last_name[0].toUpperCase() + this.blog.user.last_name.slice(1);
-    return first_name + ' ' + last_name
+  usersFullName(first_name, last_name) {
+    let first_n = first_name[0].toUpperCase() + first_name.slice(1);
+    let last_n = last_name[0].toUpperCase() + last_name.slice(1);
+    let fullName = first_n + ' ' + last_n;
+    return fullName
   };
 
   submitCommentOnEnterKey(event){
-    if (event.keyCode === 13) {
-     console.log(this.newComment);
-     this.newComment = '';
-      this.openComments=!this.openComments
+    if (event.keyCode === 13 && this.newComment) {
+    this.comment.push(this.newComment);
+    this._blogsService.postComment(this.comment, this.blog._id);
+    this.newComment = '';
+    this.comment = [];
+    this.openComments=!this.openComments
     };
   };
 
   submitComment() {
-    // console.log(this.newComment);
     if (this.newComment){
       this.comment.push(this.newComment);
       this._blogsService.postComment(this.comment, this.blog._id);
@@ -55,7 +56,16 @@ export class BlogComponent implements OnInit {
       this.comment = [];
       this.openComments=!this.openComments;
     }
-  }
+  };
+
+  likeIt(_id) {
+    // console.log(_id);
+    // this.blog.likes.map(like => {
+    //   if (like !== this.userDetails._id) {
+        this._blogsService.updateLike(_id);
+    //   }
+    // })
+  };
 
   openLg(id) {
     this.modalService.open(id, { size: 'lg' });
@@ -112,14 +122,11 @@ export class BlogComponent implements OnInit {
     }////////
 
     this.auth.profile().subscribe(user => {
-      this.fullName = this.usersFullName();
       if (user._id === this.blog.user._id){
         this.userDetails = user;
         // console.log(5111, this.userDetails)
       }
-    })
-
-    this.fullName = this.usersFullName();
+    });
 
     console.log(5777, this.blog)
   };
