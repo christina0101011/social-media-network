@@ -1,7 +1,7 @@
 // import{ AuthenticationService } from '../authentication.service';
 
 export class User {
-  id: String;
+  _id: String;
   first_name: String;
   last_name: String;
   email: String;

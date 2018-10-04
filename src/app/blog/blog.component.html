@@ -181,9 +181,9 @@
             <img *ngFor="let image of blog.likes.slice().reverse().slice(0, 4)" class="users-who-liked-blog" [src]="serverUrl + image.avatar" alt="Loading">
           </div>
        </div>
-          <div class="more-users-who-liked-blog">
-             {{ blog.likes.slice().reverse()[0].first_name }}, {{ blog.likes.slice().reverse()[1].first_name }} and {{blog.likes.length}} other <br> people liked it
-          </div>
+        <div class="more-users-who-liked-blog">
+            {{ blog.likes.slice().reverse()[0].first_name }}, {{ blog.likes.slice().reverse()[1].first_name }} and {{blog.likes.length}} other <br> people liked it
+        </div>
       </div>
       <h2
         *ngIf="blog.theme"
@@ -201,12 +201,12 @@
     [ngClass]="headerClass"
     [ngStyle]="{'background-image': headerClass==='header-image' ? 'url(' + blog.photos[0] + ')' : null}">
     <div class="avatar">
-      <img src="../../assets/unnamed.jpg" alt="Loading...">
+      <img [src]="serverUrl + blog.user.avatar" alt="Loading...">
     </div>
     <div class="name-action">
       <div class="blog-info">
         <div class="blog-details">
-          <div class="user-name">{{ blog.user.first_name }} {{ blog.user.last_name }}
+          <div class="user-name">{{ usersFullName(blog.user.first_name, blog.user.last_name) }}
             <div class="online-status">
             </div>
           </div>

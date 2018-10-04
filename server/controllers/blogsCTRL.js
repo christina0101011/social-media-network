@@ -22,7 +22,6 @@ const themes = [
 module.exports.blogsList = (req, res, next) => {
   let blogsArr = [];
   let commentsArr = [];
-  let likesWithUserDetails = [];
 
   Blog.find({})
   .exec()
@@ -173,7 +172,7 @@ module.exports.postComment = (req, res) => {
       res.json({ success: false, message: err });
     } else {
       res.json({ success: true, message: 'new comment posted' });
-      console.log('new comment posted');
+      // console.log('new comment posted');
     }
   });
 };
@@ -181,12 +180,10 @@ module.exports.postComment = (req, res) => {
 module.exports.updateLike = (req, res) => {
   Blog.findById(req.params._id).exec()
   .then(blog => {
-    // console.log(blog);
     blog.likes.push(req.payload._id);
     return Blog.update({_id: req.params._id}, blog).exec()
   })
   .then(blog => {
-    // console.log('blog: ', blog)
     res.send({ data : "Likes has been Updated..!!" }) }
   )
   .catch(err => res.send(err));
@@ -206,8 +203,6 @@ module.exports.newBlog = (req, res) => {
   blog.description = req.body.description;
   blog.url = req.body.url;
   blog.theme = req.body.theme;
-  // blog.type = req.blogType;
-  console.log('commment', blog.comments)
   blog.save((err) => {
     if (err) {
       console.log({ success: false, message: err });
@@ -215,7 +210,6 @@ module.exports.newBlog = (req, res) => {
       res.json({ success: false, message: err });
     } else {
       res.json({ success: true, message: 'blog created' });
-      // console.log('req', req.body);
     }
   });
 }
@@ -253,10 +247,7 @@ module.exports.updateBlog = (req, res, next) => {
       res.send(err);
       return next(err);
     } else {
-      // console.log('req.body.photos: ', req.body.photos)
       res.send({ data : "Blog has been Updated..!!" });  
     }
-  }
-);
-// console.log(req.params.id)
+  });
 }

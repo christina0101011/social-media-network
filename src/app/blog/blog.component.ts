@@ -38,6 +38,7 @@ export class BlogComponent implements OnInit {
     return fullName
   };
 
+  // add comment to a blog post
   submitCommentOnEnterKey(event){
     if (event.keyCode === 13 && this.newComment) {
     this.comment.push(this.newComment);
@@ -56,21 +57,23 @@ export class BlogComponent implements OnInit {
       this.comment = [];
       this.openComments=!this.openComments;
     }
-  };
+  };////////
 
+  // add like to a blog post
   likeIt(_id) {
-    // console.log(_id);
-    // this.blog.likes.map(like => {
-    //   if (like !== this.userDetails._id) {
+    this.blog.likes.map(like => {
+      if (like !== this.userDetails._id) {
         this._blogsService.updateLike(_id);
-    //   }
-    // })
+      }
+    })
   };
 
+   // open modal window
   openLg(id) {
     this.modalService.open(id, { size: 'lg' });
   }
 
+  // close modal window
   closePopUp() {
     this.showPopUp = !this.showPopUp;
   }
@@ -83,13 +86,14 @@ export class BlogComponent implements OnInit {
       }, error => console.log(error));
   }
 
+  //full story switch views
   largeView(event: any) {
     this.switchView = 'modal-images-large';
   }
 
   gridView(event: any) {
     this.switchView = 'modal-images-grid';
-  }
+  }/////
 
 //you tube player
   player: YT.Player;
@@ -124,10 +128,9 @@ export class BlogComponent implements OnInit {
     this.auth.profile().subscribe(user => {
       if (user._id === this.blog.user._id){
         this.userDetails = user;
-        // console.log(5111, this.userDetails)
       }
     });
 
-    console.log(5777, this.blog)
+    // console.log(5777, this.blog)
   };
 }

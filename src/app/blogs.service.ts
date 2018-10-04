@@ -89,7 +89,7 @@ export class BlogsService {
    }
 
   getTheme() {
-  return this.http.get('/api/blog/theme');
+    return this.http.get('/api/blog/theme');
   }
 
   postComment(comment, _id) {
