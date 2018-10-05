@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-// const Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 const logger = require('morgan');
 const cors = require('cors');
 const passport = require('passport');
@@ -12,6 +12,7 @@ require('./config/passport');
 require('./uploading-files.service');
 
 const port = process.env.PORT || 3000;
+console.log(port);
 const app = express();
 
 app.use(logger('dev'));

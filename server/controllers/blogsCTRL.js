@@ -22,6 +22,7 @@ const themes = [
 module.exports.blogsList = (req, res, next) => {
   let blogsArr = [];
   let commentsArr = [];
+  console.log('test test test');
 
   Blog.find({})
   .exec()
