@@ -35,7 +35,7 @@ photos: Photos = new Photos;
 
   //getting array of themes
   getTheme(){
-    this._blogsService.getTheme().subscribe(res => {
+    this._blogsService.getTheme().subscribe((res: Array<Theme>) => {
       this.themes.push(...res);
     })
   }

@@ -3,7 +3,7 @@
     <div class="main-menu">
       <ul class="menu-items">
         <li class="circle-menu">
-          <div class="love-it">
+          <div class="love-it" (click)="likeIt(blog._id)">
             <span class="circle-menu-info">Love it</span>
           </div>
         </li>
@@ -54,11 +54,11 @@
       <div class="name-action">
         <div class="blog-info">
           <div class="blog-details">
-            <div class="user-name">{{ usersFullName(blog.user.first_name, blog.user.last_name) }}
+            <div class="user-name" *ngIf="blog.user">{{ usersFullName(blog.user.first_name, blog.user.last_name) }}
               <div class="online-status">
               </div>
             </div>
-            <span>{{blog.theme.themeDescription}}
+            <span *ngIf="blog.theme">{{blog.theme.themeDescription}}
               <span class="blog-theme">{{ blog.theme.title | lowercase }}
              </span>
            </span>
@@ -69,7 +69,7 @@
              </span>
            </span>
           </div>
-          <p class="date">{{ blog.created_at | date }}</p>
+          <p *ngIf="blog.created_at" class="date">{{ blog.created_at | date }}</p>
         </div>
       </div>
       <div class="user-menu" *ngIf="this.userDetails?._id === this.blog.user._id">
@@ -115,7 +115,8 @@
               <a
                 href="#"
                 class="cover-link"
-                *ngIf="blog.photos !== null && blog.photos.length > 5">+{{blog.photos.length-5}}
+                *ngIf="blog.photos !== null && blog.photos.length > 5">
+                +{{blog.photos.length-5}}
               </a>
             </li>
           </ul>
@@ -166,23 +167,27 @@
       <div class="users-likes">
         <div class="likes">
           <div class="likes-icon" (click)="likeIt(blog._id)"></div>
-          <span class="users-counter">{{blog.likes.length}}</span>
+          <span *ngIf="blog.likes.length" class="users-counter">{{blog.likes.length}}</span>
         </div>
         <div class="comments" (click)="showComments=!showComments">
           <div class="comments-icon"></div>
-          <span class="users-counter">{{blog.comments.length}}</span>
+          <span *ngIf="blog.comments" class="users-counter">{{blog.comments.length}}</span>
         </div>
         <div class="share">
           <div class="share-icon"></div>
           <span class="users-counter">5</span>
         </div>
-        <div *ngIf="blog.likes">
+        <div *ngIf="blog.likes.length">
           <div class="users-wrapper">
             <img *ngFor="let image of blog.likes.slice().reverse().slice(0, 4)" class="users-who-liked-blog" [src]="serverUrl + image.avatar" alt="Loading">
           </div>
        </div>
-        <div class="more-users-who-liked-blog">
-            {{ blog.likes.slice().reverse()[0].first_name }}, {{ blog.likes.slice().reverse()[1].first_name }} and {{blog.likes.length}} other <br> people liked it
+        <div class="more-users-who-liked-blog" *ngIf="blog.likes.length">
+          <span *ngFor="let like of blog.likes.slice().reverse().slice(0, 2)">
+            {{ like.first_name }},
+          </span>
+          <span *ngIf="blog.likes.length > 2"> and {{ blog.likes.length - 2 }} other <br> people </span>
+          <span>liked it</span>
         </div>
       </div>
       <h2
@@ -200,7 +205,7 @@
     class="modal-header"
     [ngClass]="headerClass"
     [ngStyle]="{'background-image': headerClass==='header-image' ? 'url(' + blog.photos[0] + ')' : null}">
-    <div class="avatar">
+    <div class="avatar" *ngIf="blog.user.avatar">
       <img [src]="serverUrl + blog.user.avatar" alt="Loading...">
     </div>
     <div class="name-action">

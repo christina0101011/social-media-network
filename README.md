@@ -9,7 +9,7 @@ cd /Users/developer/Documents/mongodb-osx-x86_64-4.0.2/bin
 
 ##Server
 
-cd /Users/developer/Downloads/untitled\ folder/social-media-network/server
+cd /Users/developer/Documents/social-media-network-master/social-media-network/server
 nodemon index
 
 ## Development server

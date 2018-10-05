@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogsService } from '../blogs.service';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-blogs-list',
@@ -10,7 +11,13 @@ import { Router } from '@angular/router';
 
   export class BlogsListComponent implements OnInit {
     
-    constructor(private _blogsService: BlogsService, private router: Router) { }
+    constructor(
+      private _blogsService: BlogsService,
+      private auth: AuthenticationService, 
+      private router: Router
+    ) { }
+
+    userDetails: any;
     blogs:Array<any> = [];
   
     reloadOnDelete(_id){
@@ -24,8 +31,9 @@ import { Router } from '@angular/router';
     loadBlogs(){
       this._blogsService.getBlogs().subscribe(blogs => {
         this.blogs = blogs.map(blog => {
-            return blog;
+          return blog;
         });
+
         // console.log(2, this.blogs);
         if (this.blogs.length) {
           this.router.navigate(['/blogs']);
@@ -46,6 +54,12 @@ import { Router } from '@angular/router';
         this._blogsService.updateBlogEvent.subscribe(() => {
           return this.loadBlogs();
         });
-      }
+      };
+
+      this.auth.profile().subscribe(user => {
+          this.userDetails = user;
+          // console.log(this.userDetails)
+      });
+
     }
   }

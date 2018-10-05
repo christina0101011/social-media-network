@@ -12,13 +12,13 @@ import { AuthenticationService } from '../authentication.service';
 export class BlogComponent implements OnInit {
 
   @Input('blog') blog: Blog;
+  @Input() userDetails: any;
   @Output() reloadOnDeleteBlog = new EventEmitter();
 
   headerClass: string = 'header-text';
   showMenu: boolean = false;
   switchView: string = 'modal-images-grid';
   showPopUp: boolean = false;
-  userDetails: any;
   serverUrl = this._blogsService.makeImgLink();
   newComment: string;
   comment: Array<string> = [];
@@ -61,11 +61,19 @@ export class BlogComponent implements OnInit {
 
   // add like to a blog post
   likeIt(_id) {
-    this.blog.likes.map(like => {
-      if (like !== this.userDetails._id) {
+    if (this.blog.likes.length) {
+      let alreadyLiked;
+      this.blog.likes.map(like => {
+        if (like._id === this.userDetails._id) {
+          alreadyLiked = true;
+        }
+      });
+      if (!alreadyLiked) {
         this._blogsService.updateLike(_id);
       }
-    })
+    } else {
+      this._blogsService.updateLike(_id);
+    }
   };
 
    // open modal window
@@ -81,7 +89,6 @@ export class BlogComponent implements OnInit {
   deleteBLog(_id) {
     this._blogsService.deleteBlog(_id)
       .subscribe(res => {
-        console.log(res);
         this.reloadOnDeleteBlog.emit(_id);
       }, error => console.log(error));
   }
@@ -107,10 +114,11 @@ export class BlogComponent implements OnInit {
 
   onStateChange(event) {
     this.ytEvent = event.data;
-  }////////
+  }
 
 
   ngOnInit() {
+    // console.log(this.blog);
     if (typeof this.blog.photos !== null || []) {
       if (Array.isArray(this.blog.photos)) {
         this.headerClass = (this.blog.photos.length === 1) ? 'header-image' : 'header-text';
@@ -125,12 +133,5 @@ export class BlogComponent implements OnInit {
       this.id = this.blog.url.slice(-11);
     }////////
 
-    this.auth.profile().subscribe(user => {
-      if (user._id === this.blog.user._id){
-        this.userDetails = user;
-      }
-    });
-
-    // console.log(5777, this.blog)
   };
 }
