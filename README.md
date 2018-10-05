@@ -4,12 +4,12 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ##Database 
 
-cd /Users/christina/Documents/mongodb-osx-x86_64-3.6.5/bin
-/Users/christina/Documents/mongodb-osx-x86_64-3.6.5/bin/mongod
+cd /Users/developer/Documents/mongodb-osx-x86_64-4.0.2/bin
+/Users/developer/Documents/mongodb-osx-x86_64-4.0.2/bin/mongod
 
 ##Server
 
-cd /Users/christina/Documents/smn/server
+cd /Users/developer/Downloads/untitled\ folder/social-media-network/server
 nodemon index
 
 ## Development server

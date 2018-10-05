@@ -89,11 +89,24 @@ export class BlogsService {
    }
 
   getTheme() {
-  return this.http.get('/api/blog/theme');
+    return this.http.get('/api/blog/theme');
   }
 
   postComment(comment, _id) {
     return this.http.post(url + '/api/comment/' + _id, comment, 
+    { headers: { Authorization: `Bearer ${this.getToken()}` }}).pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.auth.saveToken(data.token);
+        }
+        return data;
+      })
+    )
+    .subscribe( () => { this.blogEvent.emit() } );
+  }
+
+  updateLike(_id) {
+    return this.http.get(url + '/api/likes/' + _id, 
     { headers: { Authorization: `Bearer ${this.getToken()}` }}).pipe(
       map((data: TokenResponse) => {
         if (data.token) {
