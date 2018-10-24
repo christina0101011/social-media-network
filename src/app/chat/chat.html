@@ -1,6 +1,5 @@
 <div class="chat-container">
   <div class="messages-window"></div>
-  <textarea class="message-input" rows="2" cols="38" #textbox (change)="message.message = textbox.value"></textarea>
-  
+  <textarea class="message-input" rows="2" cols="38" [(ngModel)]="ms"></textarea>
   <button class="message-btn btn-info" (click)="sendMsg()">Send Message</button>
 </div>

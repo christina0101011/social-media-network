@@ -14,8 +14,9 @@ export class ChatComponent {
 	userDetails: any;
 	message = {
 		 author: '',
-		 message: ''
+		 message: 'test'
 	 }
+	ms: string;
 
 	constructor(private auth: AuthenticationService, private chatService: ChatService) {
 		chatService.messages.subscribe(msg => {			
@@ -23,10 +24,12 @@ export class ChatComponent {
 		});
 	}
 
-  sendMsg(message) {
+  sendMsg() {
+		this.message.message = this.ms;
 		console.log('new message from client to websocket: ', this.message);
 		this.chatService.messages.next(this.message);
-		this.message.message = '';
+		// this.message.message = '';
+		this.ms = '';
 	}
 
 	ngOnInit() {
