@@ -7,8 +7,7 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const router = require('./api');
 const cookieParser = require('cookie-parser');
-const WebSocketServer = require('websocket').server;
-// const http = require('http');
+const enableWs = require('express-ws');
 require('./db');
 require('./config/passport');
 require('./uploading-files.service');
@@ -54,27 +53,47 @@ app.use((err, req, res, next) => {
   }
 });
 
-const server = app.listen(port, () => console.log('server started at port: ' + port));
+enableWs(app)
+
+app.ws('/echo', (ws, req) => {
+  console.log(111111161111111);
+    ws.on('message', msg => {
+      console.log(msg);
+        ws.send(msg)
+    })
+
+    ws.on('close', () => {
+        console.log('WebSocket was closed')
+    })
+})
+
+app.listen(port, () => console.log('server started at port: ' + port));
+
+
+
+// app.listen(80)
 
 // socket setup
 // create the server
-wsServer = new WebSocketServer({
-  httpServer: server
-});
+// wsServer = new WebSocketServer({
+//   httpServer: app
+// });
 
-// WebSocket server
-wsServer.on('request', function(request) {
- 
-  var connection = request.accept(null, request.origin);
-  console.log(2222);
-  // This is the most important callback, which handles all messages from users here.
-  connection.on('message', function(message) {
-    if (message.type === 'utf8') {
-      // process WebSocket message
-    }
-  });
+// // WebSocket server
+// wsServer.on('request', function(request) {
+//  console.log(888, request)
+//   var connection = request.accept(null, request.origin);
+  
+//   // This is the most important callback, which handles all messages from users here.
+//   connection.onConnect('connect', function(message) {
+//     console.log(55);
+//     if (message.type === 'utf8') {
+//       // process WebSocket message
+//       console.log(55);
+//     }
+//   });
 
-  connection.on('close', function(connection) {
-    // close user connection
-  });
-});
+//   connection.on('close', function(connection) {
+//     // close user connection
+//   });
+// });

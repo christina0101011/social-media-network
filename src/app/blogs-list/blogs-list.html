@@ -8,7 +8,7 @@
   </app-blog>
   <button class="btn-danger" (click)="chatOpen=!chatOpen">Chat</button>
   <div class="chat-container" *ngIf="chatOpen">
-  <app-chat></app-chat>
+  <app-chat [userDetails]="userDetails"></app-chat>
 </div>
 </div>
 
