@@ -7,6 +7,8 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const router = require('./api');
 const cookieParser = require('cookie-parser');
+const WebSocketServer = require('websocket').server;
+// const http = require('http');
 require('./db');
 require('./config/passport');
 require('./uploading-files.service');
@@ -52,4 +54,27 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(port, () => console.log('server started at port: ' + port));
+const server = app.listen(port, () => console.log('server started at port: ' + port));
+
+// socket setup
+// create the server
+wsServer = new WebSocketServer({
+  httpServer: server
+});
+
+// WebSocket server
+wsServer.on('request', function(request) {
+ 
+  var connection = request.accept(null, request.origin);
+  console.log(2222);
+  // This is the most important callback, which handles all messages from users here.
+  connection.on('message', function(message) {
+    if (message.type === 'utf8') {
+      // process WebSocket message
+    }
+  });
+
+  connection.on('close', function(connection) {
+    // close user connection
+  });
+});

@@ -40,6 +40,7 @@
     "passport-local": "^1.0.0",
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.2.2",
+    "socket.io": "^2.1.1",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

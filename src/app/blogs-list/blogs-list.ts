@@ -16,7 +16,7 @@ import { AuthenticationService } from '../authentication.service';
       private auth: AuthenticationService, 
       private router: Router
     ) { }
-
+    chatOpen:boolean = false;
     userDetails: any;
     blogs:Array<any> = [];
   
@@ -60,6 +60,6 @@ import { AuthenticationService } from '../authentication.service';
           this.userDetails = user;
           // console.log(this.userDetails)
       });
-
+      
     }
   }

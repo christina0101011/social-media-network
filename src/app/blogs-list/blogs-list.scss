@@ -9,3 +9,19 @@
     column-count: 1;
   }
 }
+.chat-container {
+  position: fixed;
+  z-index: 5;
+  bottom: 50px;
+  right: 0;
+}
+.btn-danger {
+  width: 100px;
+  position: fixed;
+  z-index: 5;
+  bottom: 15px;
+  right: 100px;
+}
+.btn-danger:focus{
+  box-shadow: 0 0 0 0.2rem white!important;
+}

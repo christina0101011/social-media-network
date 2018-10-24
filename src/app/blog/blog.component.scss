@@ -36,6 +36,7 @@ $colour-light-grey: rgb(218, 216, 216);
 .blog-wraper {
   display: inline-block;
   margin: 0;
+  min-width: 100%;
   .blog {
     display: flex;
     justify-content: space-between;
@@ -45,7 +46,7 @@ $colour-light-grey: rgb(218, 216, 216);
     font-family: $font-raleway;
     color: $colour-grey;
     position: relative;
-    width: 100%;
+    min-width: 100%;
     background-color: white;
 
     // main menu
@@ -285,7 +286,7 @@ $colour-light-grey: rgb(218, 216, 216);
 
     // image header
     .header-image {
-      width: 100%;
+      min-width: 100%;
       height: 50vh;
       background-size: cover;
       background-repeat: no-repeat;

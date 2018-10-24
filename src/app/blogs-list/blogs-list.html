@@ -6,5 +6,9 @@
     (reloadOnDeleteBlog)="reloadOnDelete($event)"
     (reloadOnUpdateBlog)="reloadOnUpdate($event)">
   </app-blog>
+  <button class="btn-danger" (click)="chatOpen=!chatOpen">Chat</button>
+  <div class="chat-container" *ngIf="chatOpen">
+  <app-chat></app-chat>
+</div>
 </div>
 

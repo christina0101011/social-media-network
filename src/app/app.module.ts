@@ -20,6 +20,7 @@ import { EditBlog } from './edit-blog/edit-blog-component';
 import { BlogsService } from './blogs.service';
 import { InitialPageComponent } from './initia-page/initial-page-component';
 import { NewBlogComponent } from './new-blog/new-blog-component';
+import { ChatComponent } from './chat/chat';
 
 const routes: Routes = [
   { path: 'blogs', component: BlogsListComponent, canActivate: [AuthGuardService] },
@@ -42,7 +43,8 @@ const routes: Routes = [
     NewBlogComponent,
     EditBlog,
     NavigationComponent,
-    InitialPageComponent
+    InitialPageComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
