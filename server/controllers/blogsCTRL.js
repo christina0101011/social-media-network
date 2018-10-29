@@ -1,12 +1,7 @@
 const passport = require('passport/lib');
 const mongoose = require('mongoose');
 const Blog = require('../models/Blog');
-const BlogType = require('../models/BlogType');
 const Comments = require('../models/Comments');
-const Description = require('../models/Description');
-const Likes = require('../models/Likes');
-const Photos = require('../models/Photos');
-const Theme = require('../models/Theme');
 const User = mongoose.model('User');
 const srvUpload = require('../uploading-files.service');
 const profile = require('./profile');
@@ -22,7 +17,6 @@ const themes = [
 module.exports.blogsList = (req, res, next) => {
   let blogsArr = [];
   let commentsArr = [];
-  // console.log('test test test');
 
   Blog.find({})
   .exec()

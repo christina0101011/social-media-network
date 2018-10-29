@@ -6,5 +6,7 @@ module.exports = {
   Likes: require('./Likes'),
   BlogType: require('./BlogType'),
   Description: require('./Description'),
-  Comments: require('./Comments')
+  Comments: require('./Comments'),
+  ChatConversation: require('./Chat-conversation'),
+  ChatMessage: require('./Chat-message')
 };

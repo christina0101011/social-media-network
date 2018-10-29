@@ -11,6 +11,7 @@ const enableWs = require('express-ws');
 require('./db');
 require('./config/passport');
 require('./uploading-files.service');
+const wsConnection = require('./controllers/user-activity');
 
 const port = process.env.PORT || 3000;
 console.log(port);
@@ -55,17 +56,6 @@ app.use((err, req, res, next) => {
 
 // sockets settings
 enableWs(app)
-
-
-app.ws('/echo', (ws, req) => {
-    ws.on('message', msg => { 
-      console.log(msg);
-        ws.send(msg)
-    })
-
-    ws.on('close', () => {
-        console.log('WebSocket was closed')
-    })
-})
+wsConnection.wsConnection(app)
 
 app.listen(port, () => console.log('server started at port: ' + port));

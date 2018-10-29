@@ -6,6 +6,7 @@ const CHAT_URL = 'ws://localhost:3000/echo';
 
 export interface Message {
 	author: string,
+	user: string,
 	message: string
 }
 
@@ -20,6 +21,7 @@ export class ChatService {
 				let data = JSON.parse(response.data);
 				return {
 					author: data.author,
+					user: data.user,
 					message: data.message
 				}
 			});

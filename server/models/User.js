@@ -41,6 +41,10 @@ const User = new mongoose.Schema({
   deleted: {
     type: Boolean,
     default: false
+  },
+  conversations: {
+    type: Schema.Types.ObjectId,
+    ref: 'ChatConversation'
   }
 });
 

@@ -14,6 +14,7 @@ export class ChatComponent {
 	userDetails: any;
 	message = {
 		 author: '',
+		 user: '',
 		 message: 'test'
 	 }
 	ms: string;
@@ -56,6 +57,7 @@ export class ChatComponent {
 		this.auth.profile().subscribe(user => {
 			this.userDetails = user;
 			this.message.author = this.usersFullName(this.userDetails);
+			this.message.user = user._id
 		});
   }
 }
