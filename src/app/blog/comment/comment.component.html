@@ -1,0 +1,14 @@
+<div class="new-comment">
+  <textarea 
+    rows="3"
+    placeholder="comment"
+    class="text-comment"
+    (keyup)="submitCommentOnEnterKey($event, blog_id)"
+    [(ngModel)]="newComment">
+  </textarea>
+  <div 
+    aria-hidden="true" 
+    class="send-icon" 
+    (click)="submitComment(blog_id)">
+  </div>
+</div>

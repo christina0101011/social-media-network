@@ -53,11 +53,12 @@ app.use((err, req, res, next) => {
   }
 });
 
+// sockets settings
 enableWs(app)
 
+
 app.ws('/echo', (ws, req) => {
-  console.log(111111161111111);
-    ws.on('message', msg => {
+    ws.on('message', msg => { 
       console.log(msg);
         ws.send(msg)
     })
@@ -68,32 +69,3 @@ app.ws('/echo', (ws, req) => {
 })
 
 app.listen(port, () => console.log('server started at port: ' + port));
-
-
-
-// app.listen(80)
-
-// socket setup
-// create the server
-// wsServer = new WebSocketServer({
-//   httpServer: app
-// });
-
-// // WebSocket server
-// wsServer.on('request', function(request) {
-//  console.log(888, request)
-//   var connection = request.accept(null, request.origin);
-  
-//   // This is the most important callback, which handles all messages from users here.
-//   connection.onConnect('connect', function(message) {
-//     console.log(55);
-//     if (message.type === 'utf8') {
-//       // process WebSocket message
-//       console.log(55);
-//     }
-//   });
-
-//   connection.on('close', function(connection) {
-//     // close user connection
-//   });
-// });

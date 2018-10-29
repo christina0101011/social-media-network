@@ -1,0 +1,43 @@
+.new-comment{
+  border: 1px solid rgb(139, 47, 214);
+  background: #ebe8fc;
+  position: relative;
+  &:before,
+  &:after{
+    position: absolute;
+    content: '';
+    display: block;
+    border-width: 10px 20px;
+    border-style: solid;
+    left: 100%;
+    top: 50%;
+  }
+  &:before{
+    margin-top: -10px;
+    left: calc(100% + 1px);
+    border-color: transparent transparent transparent rgb(139, 47, 214);
+  }
+  &:after{
+    margin-top: -10px;
+    border-color: transparent transparent transparent #ebe8fc;
+  }
+  .text-comment {
+    margin: 10px;
+    width: 300px;
+    border: 0;
+    resize: none;
+    background-color: #ebe8fc;
+    position: relative;
+  }
+  .send-icon {
+    background-position: center;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 30px;
+    display: inline-block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="#4d4d4d" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.6 51.6"><path d="M51.4 0.9c-0.3-0.3-0.7-0.4-1.1-0.2L0.6 23.5c-0.4 0.2-0.6 0.6-0.6 1s0.4 0.8 0.8 0.9l22.3 3.7 2.5 21c0.1 0.4 0.4 0.8 0.8 0.9 0.1 0 0.1 0 0.2 0 0.4 0 0.7-0.2 0.9-0.6l24-48.4C51.7 1.7 51.6 1.2 51.4 0.9z"/></svg>')
+  }
+}

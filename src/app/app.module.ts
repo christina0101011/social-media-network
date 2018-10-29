@@ -21,6 +21,7 @@ import { BlogsService } from './blogs.service';
 import { InitialPageComponent } from './initia-page/initial-page-component';
 import { NewBlogComponent } from './new-blog/new-blog-component';
 import { ChatComponent } from './chat/chat';
+import { CommentComponent } from './blog/comment/comment.component';
 
 const routes: Routes = [
   { path: 'blogs', component: BlogsListComponent, canActivate: [AuthGuardService] },
@@ -44,7 +45,8 @@ const routes: Routes = [
     EditBlog,
     NavigationComponent,
     InitialPageComponent,
-    ChatComponent
+    ChatComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,

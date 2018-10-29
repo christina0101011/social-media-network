@@ -1,5 +1,10 @@
 <div class="chat-container">
-  <div class="messages-window"></div>
-  <textarea class="message-input" rows="2" cols="38" [(ngModel)]="ms"></textarea>
-  <button class="message-btn btn-info" (click)="sendMsg()">Send Message</button>
+  <div class="messages-window">
+    <div class="message-details">
+      <p class="author">{{messageForDisplay?.author}}</p>
+      <p class="message">{{messageForDisplay?.message}}</p>
+    </div>
+  </div>
+  <textarea class="message-input" rows="2" cols="38" [(ngModel)]="ms" (keyup)="sendMsgOnEnterKey($event)"></textarea>
+  <button class="message-btn btn-info" (click)="sendMsg($event)">Send Message</button>
 </div>

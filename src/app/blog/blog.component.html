@@ -1,6 +1,8 @@
 <div class="blog-wraper">
   <div class="blog">
+
     <div class="main-menu">
+      
       <ul class="menu-items">
         <li class="circle-menu">
           <div class="love-it" (click)="likeIt(blog._id)">
@@ -21,21 +23,10 @@
           <div class="comment" (click)="openComments=!openComments">
             <span class="circle-menu-info">Comment</span>
           </div>
-          <div class="new-comment" *ngIf="openComments">
-              <textarea 
-              rows="3"
-              placeholder="comment"
-              class="text-comment"
-              (keyup)="submitCommentOnEnterKey($event, blog._id)"
-              [(ngModel)]="newComment">
-            </textarea>
-             <div 
-              aria-hidden="true" 
-              class="send-icon" 
-              (click)="submitComment(blog._id)">
-            </div>
-          </div>
+          <app-comment *ngIf="openComments" [blog_id]="blog._id">
+          </app-comment>
         </li>
+
         <li class="circle-menu">
           <div class="most-popular">
             <span class="circle-menu-info">Popular</span>
@@ -83,6 +74,7 @@
           <li>report</li>
         </ul>
       </div>
+
     </header>
 
     <!-- body -->
