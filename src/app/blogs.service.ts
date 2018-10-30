@@ -22,7 +22,7 @@ export class BlogsService {
     private auth: AuthenticationService
   ) { }
 
-  private getToken(): string {
+  public getToken(): string {
     if (!this.token) {
       this.token = localStorage.getItem('mean-token');
     }

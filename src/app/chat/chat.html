@@ -1,10 +1,23 @@
-<div class="chat-container">
-  <div class="messages-window">
-    <div class="message-details">
-      <p class="author">{{messageForDisplay?.author}}</p>
-      <p class="message">{{messageForDisplay?.message}}</p>
-    </div>
+<div class="chat">
+
+  <div class="wrapper-users-for-conversations">
+    <ul class="users-for-conversations" *ngFor="let user of usersAvailableUsers">
+      <li class="user">
+        <img class="user-avatar" [src]="serverUrl + user.avatar" alt="">
+        <p class="user-name">{{ usersFullName(user.first_name, user.last_name) }}</p>
+      </li>
+    </ul>
+    <input class="search" type="text" placeholder="search">
   </div>
-  <textarea class="message-input" rows="2" cols="38" [(ngModel)]="ms" (keyup)="sendMsgOnEnterKey($event)"></textarea>
-  <button class="message-btn btn-info" (click)="sendMsg($event)">Send Message</button>
+
+  <div class="chat-container">
+    <div class="messages-window">
+      <div class="message-details">
+        <p class="author">{{ usersFullName(userDetails.first_name, userDetails.last_name) }}</p>
+        <p class="message">{{messageForDisplay?.message}}</p>
+      </div>
+    </div>
+    <textarea class="message-input" rows="2" cols="38" [(ngModel)]="ms" (keyup)="sendMsgOnEnterKey($event)"></textarea>
+    <button class="message-btn btn-info" (click)="sendMsg($event)">Send Message</button>
+  </div>
 </div>

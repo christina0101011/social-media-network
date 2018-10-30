@@ -11,7 +11,7 @@ const enableWs = require('express-ws');
 require('./db');
 require('./config/passport');
 require('./uploading-files.service');
-const wsConnection = require('./controllers/user-activity');
+const wsConnection = require('./controllers/chatCTRL');
 
 const port = process.env.PORT || 3000;
 console.log(port);

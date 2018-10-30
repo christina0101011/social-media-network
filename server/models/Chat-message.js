@@ -3,8 +3,13 @@ const Schema = mongoose.Schema;
 
 module.exports = ChatMessage = mongoose.model('ChatMessage', new Schema({
   user: {
+    // type: Schema.Types.ObjectId,
+    // ref: 'User'
+    type: String
+  },
+  conversation: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'ChatConversation'
   },
   created_at: {
     type: Date,
