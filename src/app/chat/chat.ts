@@ -13,14 +13,19 @@ import { BlogsService } from '../blogs.service';
 
 export class ChatComponent {
 	userDetails: any;
+	sentTo: string;
+	sentFrom: string;
 	message = {
-		 author: '',
-		 user: '',
-		 message: 'test'
+		 sentTo: [],
+		 sentFrom: '',
+		 conversation: null,
+		 created_at: null,
+		 content: 'test'
 	 }
 	ms: string;
 	messageForDisplay: any;
 	usersAvailableUsers: any;
+	// conversationHistory: Array<any> = []
 
 	constructor(
 		private auth: AuthenticationService, 
@@ -28,8 +33,7 @@ export class ChatComponent {
 		private _blogsService: BlogsService) {
 		chatService.messages.subscribe(msg => {
 			this.messageForDisplay = msg;
-			console.log(8888, msg)
-      console.log("Response from websocket: " + JSON.stringify(msg));
+      console.log("Response from websocket: ", msg);
 		});
 	}
 
@@ -37,7 +41,8 @@ export class ChatComponent {
 
 	sendMsgOnEnterKey(event){
 		if (event.keyCode === 13 && this.ms) {
-			this.message.message = this.ms;
+			this.message.content = this.ms;
+			this.message.sentTo.push(this.sentTo);
 			console.log('new message from client to websocket: ', this.message);
 			this.chatService.messages.next(this.message);
 			this.ms = '';
@@ -46,7 +51,8 @@ export class ChatComponent {
 
   sendMsg() {
 		if (this.ms) {
-			this.message.message = this.ms;
+			this.message.content = this.ms;
+			this.message.sentTo.push(this.sentTo);
 			console.log('new message from client to websocket: ', this.message);
 			this.chatService.messages.next(this.message);
 			this.ms = '';
@@ -60,16 +66,26 @@ export class ChatComponent {
 		return fullName
 	};
 
+	chooseChatParticipant(_id){
+		this.sentTo = _id;
+    this.chatService.getConversation(_id).subscribe((conversationHistory: Array<any>) => {
+			if (conversationHistory.length !== 0){
+				console.log(conversationHistory)
+			} else {
+				console.log('conversationHistory not found')
+			}
+		})
+	}
+
 	ngOnInit() {
 		this.auth.profile().subscribe(user => {
 			this.userDetails = user;
-			// this.message.author = this.usersFullName(this.userDetails.first_name, this.userDetails.last_name);
-			this.message.user = user._id
+			// this.message.user = user._id;
+			this.message.sentFrom = user._id;
 		});
 
-	 this.chatService.getAvailableUsers().subscribe(users => {
-		this.usersAvailableUsers = users;
-		// console.log(999, this.usersAvailableUsers)
- 	});
+		this.chatService.getAvailableUsers().subscribe(users => {
+			this.usersAvailableUsers = users;
+		});
   }
 }

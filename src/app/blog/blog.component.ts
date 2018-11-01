@@ -20,8 +20,6 @@ export class BlogComponent implements OnInit {
   switchView: string = 'modal-images-grid';
   showPopUp: boolean = false;
   serverUrl = this._blogsService.makeImgLink();
-  // newComment: string;
-  // comment: Array<string> = [];
   openComments: boolean; // change show to hide comments input
   showComments: boolean = false; // change show to hide added comments
  
@@ -31,38 +29,12 @@ export class BlogComponent implements OnInit {
     private auth: AuthenticationService
   ) {}
 
-  // test(e){
-  //   e.stopPropagation()
-  //   console.log("test")
-  // }
-
   usersFullName(first_name, last_name) {
     let first_n = first_name[0].toUpperCase() + first_name.slice(1);
     let last_n = last_name[0].toUpperCase() + last_name.slice(1);
     let fullName = first_n + ' ' + last_n;
     return fullName
   };
-
-  // // add comment to a blog post
-  // submitCommentOnEnterKey(event){ 
-  //   if (event.keyCode === 13 && this.newComment) {
-  //   this.comment.push(this.newComment);
-  //   this._blogsService.postComment(this.comment, this.blog._id);
-  //   this.newComment = '';
-  //   this.comment = [];
-  //   this.openComments=!this.openComments
-  //   };
-  // };
-
-  // submitComment() {
-  //   if (this.newComment){
-  //     this.comment.push(this.newComment);
-  //     this._blogsService.postComment(this.comment, this.blog._id);
-  //     this.newComment = '';
-  //     this.comment = [];
-  //     this.openComments=!this.openComments;
-  //   }
-  // };////////
 
   // add like to a blog post
   likeIt(_id) {

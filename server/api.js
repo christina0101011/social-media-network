@@ -75,5 +75,15 @@ router.get('/api/likes/:_id', auth, ctrlBlogs.updateLike);
 // get all available users
 router.get('/api/users/all', auth, chatCTRL.getAvailableUsers)
 
+//////////////////
+// check existing conversation history and returns conversation history
+router.get('/api/conversation/:_id', auth, chatCTRL.getConversation)
+
+// // updates conversation history
+// router.put('/api/conversation/update', auth, chatCTRL.updateConversation)
+
+// start new conversation
+// router.post('/api/conversation/new/:_id', auth, chatCTRL.newConversation)
+///////////////////
 
 module.exports = router;

@@ -126,29 +126,29 @@ module.exports.blogsList = (req, res, next) => {
     return User.find({_id: {$in: likesArr}}).exec()
   })
 
-.then(likesUsers => {
-  blogsArr = blogsArr.map(blog => {
-    let likesWithUsers = [];
-    
-    blog.likes.map(like => {
-      likesUsers.forEach(user => {
-        if (like + '' == user._id) {
-          likesWithUsers.push({
-                  _id: user._id,
-                  first_name: user.first_name,
-                  last_name: user.last_name,
-                  avatar: user.avatar
-                });
-        }
+  .then(likesUsers => {
+    blogsArr = blogsArr.map(blog => {
+      let likesWithUsers = [];
+      
+      blog.likes.map(like => {
+        likesUsers.forEach(user => {
+          if (like + '' == user._id) {
+            likesWithUsers.push({
+                    _id: user._id,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    avatar: user.avatar
+                  });
+          }
+        });
       });
-    });
 
-    blog.likes = likesWithUsers;
-    return blog;
-  });
-  
-  res.send(blogsArr)
-})
+      blog.likes = likesWithUsers;
+      return blog;
+    });
+    
+    res.send(blogsArr)
+  })
 
   .catch(err => res.send(err));
 };

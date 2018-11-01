@@ -2,7 +2,7 @@
 
   <div class="wrapper-users-for-conversations">
     <ul class="users-for-conversations" *ngFor="let user of usersAvailableUsers">
-      <li class="user">
+      <li class="user" (click)="chooseChatParticipant(user._id)">
         <img class="user-avatar" [src]="serverUrl + user.avatar" alt="">
         <p class="user-name">{{ usersFullName(user.first_name, user.last_name) }}</p>
       </li>
@@ -12,9 +12,16 @@
 
   <div class="chat-container">
     <div class="messages-window">
+      <div class="participants-container" *ngIf="sentTo">
+        <p class="participants-info">Conversation with:</p>
+        <div class="participants">
+          <p class="participant">{{sentTo}}</p>
+       </div>
+     </div>
       <div class="message-details">
-        <p class="author">{{ usersFullName(userDetails.first_name, userDetails.last_name) }}</p>
-        <p class="message">{{messageForDisplay?.message}}</p>
+        <p class="author">{{ messageForDisplay?.sentFrom }}</p>
+        <p class="message">{{ messageForDisplay?.content }}</p>
+        <p class="message">{{ messageForDisplay?.created_at | date }}</p>
       </div>
     </div>
     <textarea class="message-input" rows="2" cols="38" [(ngModel)]="ms" (keyup)="sendMsgOnEnterKey($event)"></textarea>

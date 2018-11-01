@@ -16,7 +16,7 @@ import { AuthenticationService } from '../authentication.service';
       private auth: AuthenticationService, 
       private router: Router
     ) { }
-    chatOpen:boolean = false;
+    chatOpen:boolean = true;
     userDetails: any;
     blogs:Array<any> = [];
   

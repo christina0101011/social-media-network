@@ -10,9 +10,11 @@ const CHAT_URL = 'ws://localhost:3000/echo';
 const url = 'http://localhost:3000';
 
 export interface Message {
-	author: string,
-	user: string,
-	message: string
+	sentTo: any,
+	sentFrom: string,
+	conversation: string,
+	created_at: any,
+	content: string
 }
 
 interface TokenResponse {
@@ -34,9 +36,11 @@ export class ChatService {
 			.map((response: MessageEvent): Message => {
 				let data = JSON.parse(response.data);
 				return {
-					author: data.author,
-					user: data.user,
-					message: data.message
+					sentTo: data.sentTo,
+					sentFrom: data.sentFrom,
+					conversation: data.conversation,
+					created_at: data.created_at,
+					content: data.content
 				}
 			});
 	}
@@ -52,4 +56,36 @@ export class ChatService {
 		})
 	)
  }
+
+ //////////////////
+ getConversation(_id){
+	return this.http.get(url + '/api/conversation/' + _id,
+	{ headers: { Authorization: `Bearer ${this._BlogsService.getToken()}` }}).pipe(map(data => data))
+ }
+
+//  updateConversation(){
+// 	return this.http.put(url + '/api/conversation/update',
+// 	{ headers: { Authorization: `Bearer ${this._BlogsService.getToken()}` }}).pipe(
+// 		map((data: TokenResponse) => {
+// 			if (data.token) {
+// 				this.auth.saveToken(data.token);
+// 			}
+// 			return data;
+// 		})
+// 	)
+//  }
+
+ newConversation(_id){
+	return this.http.post(url + '/api/conversation/new/' + _id,
+	{ headers: { Authorization: `Bearer ${this._BlogsService.getToken()}` }}).pipe(
+		map((data: TokenResponse) => {
+			if (data.token) {
+				this.auth.saveToken(data.token);
+			}
+			return data;
+		})
+	)
+ }
+/////////////////////
+
 }

@@ -2,11 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 module.exports = ChatMessage = mongoose.model('ChatMessage', new Schema({
-  user: {
-    // type: Schema.Types.ObjectId,
-    // ref: 'User'
-    type: String
-  },
+  sentFrom: { 
+    type: Schema.Types.ObjectId, 
+    ref: 'User'},
+  sentTo: [{ 
+    type: Schema.Types.ObjectId, 
+    ref: 'User'}],
   conversation: {
     type: Schema.Types.ObjectId,
     ref: 'ChatConversation'
